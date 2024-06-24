@@ -5,8 +5,6 @@
 #ifndef LIGHTRAYENGINE_EDITORAPPLICATION_H
 #define LIGHTRAYENGINE_EDITORAPPLICATION_H
 
-#define GLFW_DLL
-
 #include <glew.h>
 #include <glfw3.h>
 

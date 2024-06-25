@@ -18,7 +18,8 @@ namespace LightRayEngine {
         glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
         glfwWindowHint(GLFW_MAXIMIZED, GLFW_TRUE);
 
-        if(!TryOpenWindow())
+        ivec2 glVersion{0, 0};
+        if(!TryOpenWindow(glVersion))
         {
             glfwTerminate();
             return false;
@@ -52,11 +53,12 @@ namespace LightRayEngine {
         glfwTerminate();
     }
 
-    bool EditorApplication::TryOpenWindow()
+    bool EditorApplication::TryOpenWindow(ivec2& outGlVersion)
     {
         for (const auto& glVersion : availableGLVersions) {
             if(TryOpenWindowWithGLVersion(glVersion))
             {
+                outGlVersion = glVersion;
                 return true;
             }
         }

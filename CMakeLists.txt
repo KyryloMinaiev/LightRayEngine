@@ -9,8 +9,12 @@ add_executable(LightRayEngine Sources/main.cpp
         Sources/Core/platform-defines.h
         Sources/Core/EditorLoop/EditorLoop.cpp
         Sources/Core/EditorLoop/EditorLoop.h
-        Sources/Core/EditorConfigurationSettings.cpp
-        Sources/Core/EditorConfigurationSettings.h)
+        Sources/Core/EditorConfigurationSettings/EditorConfigurationSettings.cpp
+        Sources/Core/EditorConfigurationSettings/EditorConfigurationSettings.h
+        Sources/Core/EditorConfigurationSettings/EditorConfigurationSettingsUtils.cpp
+        Sources/Core/EditorConfigurationSettings/EditorConfigurationSettingsUtils.h
+        Sources/Utils/FileUtils.cpp
+        Sources/Utils/FileUtils.h)
 
 IF (WIN32)
     target_include_directories(LightRayEngine PRIVATE Sources/ExternalTools/GLEW/include

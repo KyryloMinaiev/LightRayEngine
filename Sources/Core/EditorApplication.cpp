@@ -4,38 +4,17 @@
 
 #include "EditorApplication.h"
 
-#include <iostream>
+#include <iostream>s
 
 namespace LightRayEngine {
     bool EditorApplication::Open() {
-        if (!glfwInit())
-        {
-            return false;
-        }
-
-        glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-        glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
-        glfwWindowHint(GLFW_MAXIMIZED, GLFW_TRUE);
-
-        ivec2 glVersion{0, 0};
-        if(!TryOpenWindow(glVersion))
-        {
-            glfwTerminate();
-            return false;
-        }
-
-        glewInit();
-        std::cout << glGetString(GL_VERSION) << "\n";
-        std::cout << glGetString(GL_VENDOR) << "\n";
-        std::cout << glGetString(GL_RENDERER) << "\n";
-
-        glfwSwapInterval(1);
-
-        return true;
+        m_editorConfigurationSettings = TryOpenEditorConfiguration();
+        return InitializeGlfw(m_editorConfigurationSettings);
     }
 
-    void EditorApplication::Run() const {
+    void EditorApplication::Run() {
+        m_editorLoop = std::make_unique<EditorLoop>(m_editorConfigurationSettings);
+
         while (!glfwWindowShouldClose(m_mainWindow)) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
             glClearColor(1, 1, 1, 1);
@@ -78,5 +57,37 @@ namespace LightRayEngine {
         }
 
         return true;
+    }
+
+
+    bool EditorApplication::InitializeGlfw(const EditorConfigurationSettings &editorConfiguration) {
+        if (!glfwInit())
+        {
+            return false;
+        }
+
+        glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+        glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
+        glfwWindowHint(GLFW_MAXIMIZED, GLFW_TRUE);
+
+        ivec2 glVersion{0, 0};
+        if(!TryOpenWindow(glVersion))
+        {
+            glfwTerminate();
+            return false;
+        }
+
+        glewInit();
+        std::cout << glGetString(GL_VERSION) << "\n";
+        std::cout << glGetString(GL_VENDOR) << "\n";
+        std::cout << glGetString(GL_RENDERER) << "\n";
+
+        glfwSwapInterval(1);
+        return true;
+    }
+
+    EditorConfigurationSettings EditorApplication::TryOpenEditorConfiguration() {
+        return EditorConfigurationSettings();
     }
 } // LightRayEngine

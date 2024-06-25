@@ -24,7 +24,7 @@ namespace LightRayEngine {
             int y;
         };
 
-        bool TryOpenWindow();
+        bool TryOpenWindow(ivec2& outGlVersion);
         bool TryOpenWindowWithGLVersion(ivec2 version);
         void TryOpenEditorConfiguration();
 

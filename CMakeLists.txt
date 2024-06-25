@@ -18,7 +18,8 @@ add_executable(LightRayEngine Sources/main.cpp
 
 IF (WIN32)
     target_include_directories(LightRayEngine PRIVATE Sources/ExternalTools/GLEW/include
-            Sources/ExternalTools/GLFW/include)
+            Sources/ExternalTools/GLFW/include
+            Sources/ExternalTools/glm)
     target_link_directories(LightRayEngine PRIVATE Sources/ExternalTools/GLFW
             Sources/ExternalTools/GLEW)
 
@@ -33,6 +34,8 @@ IF (WIN32)
 ENDIF (WIN32)
 
 IF (APPLE)
+    target_include_directories(LightRayEngine Sources/ExternalTools/glm)
+
     FIND_PACKAGE(GLEW REQUIRED)
     link_directories(${GLEW_LIBRARY_DIRS})
     include_directories(${GLEW_INCLUDE_DIR})

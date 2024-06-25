@@ -6,6 +6,7 @@
 #define LIGHTRAYENGINE_FILEUTILS_H
 
 #include <string>
+#include <vector>
 
 class FileUtils {
     public:

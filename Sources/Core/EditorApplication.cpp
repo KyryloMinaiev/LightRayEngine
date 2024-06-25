@@ -4,7 +4,7 @@
 
 #include "EditorApplication.h"
 
-#include <iostream>s
+#include <iostream>
 
 namespace LightRayEngine {
     bool EditorApplication::Open() {

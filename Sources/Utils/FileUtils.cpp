@@ -5,7 +5,6 @@
 #include "FileUtils.h"
 #include <fstream>
 #include <sstream>
-#include <vector>
 
 bool FileUtils::TryLoadFile(const std::string &path, std::string &output) {
     std::ifstream inputFileStream;

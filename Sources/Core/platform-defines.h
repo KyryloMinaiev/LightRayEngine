@@ -11,7 +11,7 @@
 #endif
 
 #if defined(_WIN32)
-    #include <glew.h>
+    #include <GL/glew.h>
     #include <glfw3.h>
 #endif
 

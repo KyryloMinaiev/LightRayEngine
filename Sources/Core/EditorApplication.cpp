@@ -36,9 +36,10 @@ namespace LightRayEngine {
 
     void EditorApplication::Run() const {
         while (!glfwWindowShouldClose(m_mainWindow)) {
-            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
             glClearColor(1, 1, 1, 1);
             glClearDepth(0);
+            glClearStencil(0);
 
             glfwPollEvents();
             glfwSwapBuffers(m_mainWindow);

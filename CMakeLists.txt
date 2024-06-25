@@ -9,16 +9,16 @@ add_executable(LightRayEngine Sources/main.cpp
         Sources/Core/platform-defines.h)
 
 IF (WIN32)
-    target_include_directories(LightRayEngine PRIVATE Sources/ExternalTools/GLEW/includes
-            Sources/ExternalTools/GLFW/includes)
+    target_include_directories(LightRayEngine PRIVATE Sources/ExternalTools/GLEW/include
+            Sources/ExternalTools/GLFW/include)
+    target_link_directories(LightRayEngine PRIVATE Sources/ExternalTools/GLFW
+            Sources/ExternalTools/GLEW)
 
     find_library(GLEW_PATH glew32.lib PATHS Sources/ExternalTools/GLEW/lib/)
-    message(STATUS "GLEW_PATH: " ${GLEW_PATH})
-
     find_library(GLTW_PATH glfw3.lib PATHS Sources/ExternalTools/GLFW/lib/)
-    message(STATUS "GLTW_PATH: " ${GLTW_PATH})
+    find_library(OPENGL_PATH opengl32.lib PATHS Sources/ExternalTools/OpenGL/lib/)
 
-    target_link_libraries(LightRayEngine ${GLEW_PATH} ${GLTW_PATH})
+    target_link_libraries(LightRayEngine ${OPENGL_PATH} ${GLEW_PATH} ${GLTW_PATH})
 
     configure_file(Sources/ExternalTools/GLEW/dll/glew32.dll ${CMAKE_BINARY_DIR}/glew32.dll COPYONLY)
     configure_file(Sources/ExternalTools/GLFW/dll/glfw3.dll ${CMAKE_BINARY_DIR}/glfw3.dll COPYONLY)

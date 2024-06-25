@@ -5,11 +5,11 @@
 #ifndef LIGHTRAYENGINE_EDITORLOOP_H
 #define LIGHTRAYENGINE_EDITORLOOP_H
 
-#include "../EditorConfigurationSettings.h"
+#include "../EditorConfigurationSettings/EditorConfigurationSettings.h"
 
 class EditorLoop {
     public:
-        EditorLoop(const EditorConfigurationSettings& editorConfiguration);
+        explicit EditorLoop(const EditorConfigurationSettings& editorConfiguration);
         ~EditorLoop();
 
         void Update();

@@ -8,9 +8,7 @@ EditorLoop::EditorLoop(const EditorConfigurationSettings &editorConfiguration) {
 
 }
 
-EditorLoop::~EditorLoop() {
-
-}
+EditorLoop::~EditorLoop() = default;
 
 void EditorLoop::Update() {
 

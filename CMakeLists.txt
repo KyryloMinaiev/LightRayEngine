@@ -6,7 +6,11 @@ set(CMAKE_CXX_STANDARD 23)
 add_executable(LightRayEngine Sources/main.cpp
         Sources/Core/EditorApplication.cpp
         Sources/Core/EditorApplication.h
-        Sources/Core/platform-defines.h)
+        Sources/Core/platform-defines.h
+        Sources/Core/EditorLoop/EditorLoop.cpp
+        Sources/Core/EditorLoop/EditorLoop.h
+        Sources/Core/EditorConfigurationSettings.cpp
+        Sources/Core/EditorConfigurationSettings.h)
 
 IF (WIN32)
     target_include_directories(LightRayEngine PRIVATE Sources/ExternalTools/GLEW/include

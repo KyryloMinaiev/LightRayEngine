@@ -25,8 +25,8 @@ namespace LightRayEngine {
         };
 
         bool TryOpenWindow();
-
         bool TryOpenWindowWithGLVersion(ivec2 version);
+        void TryOpenEditorConfiguration();
 
         GLFWwindow *m_mainWindow;
         std::vector<ivec2> availableGLVersions =

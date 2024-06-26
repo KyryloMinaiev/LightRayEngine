@@ -10,7 +10,7 @@
 #include <memory>
 #include <vector>
 
-namespace LightRay{
+namespace LightRayEngine{
     enum class LogLevel{
         Message,
         Warning,

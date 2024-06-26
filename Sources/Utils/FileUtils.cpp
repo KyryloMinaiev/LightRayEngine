@@ -79,4 +79,18 @@ namespace LightRayEngine {
     float FileUtils::GetLastFileChangeTime(const std::string &path) {
         return 0;
     }
+
+    bool FileUtils::TryAppendFile(const std::string &path, const std::string &input) {
+        std::ofstream outputFileStream;
+        outputFileStream.open(path, std::ios::app);
+
+        if (!outputFileStream.is_open() || outputFileStream.fail()) {
+            return false;
+        }
+
+        outputFileStream << input;
+        outputFileStream.close();
+
+        return true;
+    }
 }

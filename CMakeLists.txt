@@ -3,9 +3,6 @@ project(LightRayEngine)
 
 set(CMAKE_CXX_STANDARD 23)
 
-add_subdirectory(Sources/Utils)
-add_subdirectory(Sources/ImGUI)
-
 add_executable(LightRayEngine Sources/main.cpp
         Sources/Core/EditorApplication.cpp
         Sources/Core/EditorApplication.h
@@ -51,7 +48,11 @@ IF (APPLE)
     set(OPENGL_PATH "")
 ENDIF (APPLE)
 
+add_subdirectory(Sources/Utils)
+add_subdirectory(Sources/LightRayLog)
+add_subdirectory(Sources/ImGUI)
 
 target_link_libraries(LightRayEngine PRIVATE ${OPENGL_PATH} ${GLEW_PATH} ${GLTW_PATH}
         light-ray-utils
-        imgui)
+        imgui
+        light-ray-log)

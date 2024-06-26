@@ -3,6 +3,7 @@
 //
 
 #include "EditorApplication.h"
+#include <FileUtils.h>
 
 #include <iostream>
 
@@ -32,7 +33,7 @@ namespace LightRayEngine {
         glfwTerminate();
     }
 
-    bool EditorApplication::TryOpenWindow(ivec2& outGlVersion)
+    bool EditorApplication::TryOpenWindow(glm::ivec2& outGlVersion)
     {
         for (const auto& glVersion : availableGLVersions) {
             if(TryOpenWindowWithGLVersion(glVersion))
@@ -45,7 +46,7 @@ namespace LightRayEngine {
         return false;
     }
 
-    bool EditorApplication::TryOpenWindowWithGLVersion(EditorApplication::ivec2 version) {
+    bool EditorApplication::TryOpenWindowWithGLVersion(glm::ivec2 version) {
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, version.x);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, version.y);
 
@@ -71,7 +72,7 @@ namespace LightRayEngine {
         glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
         glfwWindowHint(GLFW_MAXIMIZED, GLFW_TRUE);
 
-        ivec2 glVersion{0, 0};
+        glm::ivec2 glVersion{0, 0};
         if(!TryOpenWindow(glVersion))
         {
             glfwTerminate();
@@ -88,6 +89,11 @@ namespace LightRayEngine {
     }
 
     EditorConfigurationSettings EditorApplication::TryOpenEditorConfiguration() {
+        std::string editorConfiguration;
+        if(!FileUtils::TryLoadFile("editorConfig.config", editorConfiguration)){
+
+        }
+
         return EditorConfigurationSettings();
     }
 } // LightRayEngine

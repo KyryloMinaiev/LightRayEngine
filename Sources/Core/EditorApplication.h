@@ -8,6 +8,7 @@
 #include <vector>
 #include <memory>
 #include "platform-defines.h"
+#include <glm.hpp>
 
 #include "EditorConfigurationSettings/EditorConfigurationSettings.h"
 #include "EditorLoop/EditorLoop.h"
@@ -20,18 +21,13 @@ namespace LightRayEngine {
         void Run();
         ~EditorApplication();
     private:
-        struct ivec2 {
-            int x;
-            int y;
-        };
-
         bool InitializeGlfw(const EditorConfigurationSettings& editorConfiguration);
-        bool TryOpenWindow(ivec2& outGlVersion);
-        bool TryOpenWindowWithGLVersion(ivec2 version);
+        bool TryOpenWindow(glm::ivec2& outGlVersion);
+        bool TryOpenWindowWithGLVersion(glm::ivec2 version);
         EditorConfigurationSettings TryOpenEditorConfiguration();
 
         GLFWwindow *m_mainWindow;
-        std::vector<ivec2> availableGLVersions =
+        std::vector<glm::ivec2> availableGLVersions =
         {
             {4, 4},
             {4, 1},

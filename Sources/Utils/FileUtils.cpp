@@ -6,75 +6,77 @@
 #include <fstream>
 #include <sstream>
 
-bool FileUtils::TryLoadFile(const std::string &path, std::string &output) {
-    std::ifstream inputFileStream;
-    inputFileStream.open(path);
+namespace LightRayEngine {
+    bool FileUtils::TryLoadFile(const std::string &path, std::string &output) {
+        std::ifstream inputFileStream;
+        inputFileStream.open(path);
 
-    if(!inputFileStream.is_open() || inputFileStream.fail()){
-        return false;
+        if (!inputFileStream.is_open() || inputFileStream.fail()) {
+            return false;
+        }
+
+        std::stringstream buffer;
+        buffer << inputFileStream.rdbuf();
+        output = buffer.str();
+        inputFileStream.close();
+
+        return true;
     }
 
-    std::stringstream buffer;
-    buffer << inputFileStream.rdbuf();
-    output = buffer.str();
-    inputFileStream.close();
+    bool FileUtils::TryLoadFile(const std::string &path, std::vector<char> &output, int &dataLength) {
+        std::ifstream inputFileStream;
+        inputFileStream.open(path, std::ios::binary);
 
-    return true;
-}
+        if (!inputFileStream.is_open() || inputFileStream.fail()) {
+            return false;
+        }
 
-bool FileUtils::TryLoadFile(const std::string &path, std::vector<char>& output, int &dataLength) {
-    std::ifstream inputFileStream;
-    inputFileStream.open(path, std::ios::binary);
+        inputFileStream.seekg(0, std::ios::end);
+        dataLength = inputFileStream.tellg();
+        inputFileStream.seekg(0, std::ios::beg);
+        char *outputArray = new char[dataLength];
+        inputFileStream.read(outputArray, dataLength);
+        inputFileStream.close();
 
-    if(!inputFileStream.is_open() || inputFileStream.fail()){
-        return false;
+        output.clear();
+        for (int i = 0; i < dataLength; ++i) {
+            output.push_back(outputArray[i]);
+        }
+
+        delete[] outputArray;
+
+        return true;
     }
 
-    inputFileStream.seekg(0, std::ios::end);
-    dataLength = inputFileStream.tellg();
-    inputFileStream.seekg (0, std::ios::beg);
-    char* outputArray = new char[dataLength];
-    inputFileStream.read (outputArray, dataLength);
-    inputFileStream.close();
+    bool FileUtils::TrySaveFile(const std::string &path, const std::string &input) {
+        std::ofstream outputFileStream;
+        outputFileStream.open(path, std::ios::trunc);
 
-    output.clear();
-    for (int i = 0; i < dataLength; ++i) {
-        output.push_back(outputArray[i]);
+        if (!outputFileStream.is_open() || outputFileStream.fail()) {
+            return false;
+        }
+
+        outputFileStream << input;
+        outputFileStream.close();
+
+        return true;
     }
 
-    delete[] outputArray;
+    bool FileUtils::TrySaveFile(const std::string &path, const std::vector<char> &input, int dataLength) {
+        std::ofstream outputFileStream;
+        outputFileStream.open(path, std::ios::trunc);
 
-    return true;
-}
+        if (!outputFileStream.is_open() || outputFileStream.fail()) {
+            return false;
+        }
 
-bool FileUtils::TrySaveFile(const std::string &path, const std::string &input) {
-    std::ofstream outputFileStream;
-    outputFileStream.open(path, std::ios::trunc);
+        outputFileStream << input.data();
+        outputFileStream.close();
 
-    if(!outputFileStream.is_open() || outputFileStream.fail()){
-        return false;
+        return true;
     }
 
-    outputFileStream << input;
-    outputFileStream.close();
-
-    return true;
-}
-
-bool FileUtils::TrySaveFile(const std::string &path, const std::vector<char>& input, int dataLength) {
-    std::ofstream outputFileStream;
-    outputFileStream.open(path, std::ios::trunc);
-
-    if(!outputFileStream.is_open() || outputFileStream.fail()){
-        return false;
+    float FileUtils::GetLastFileChangeTime(const std::string &path) {
+        return 0;
     }
-
-    outputFileStream << input.data();
-    outputFileStream.close();
-
-    return true;
-}
-
-float FileUtils::GetLastFileChangeTime(const std::string &path) {
-    return 0;
 }

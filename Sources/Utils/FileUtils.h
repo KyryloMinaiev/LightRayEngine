@@ -19,6 +19,8 @@ namespace LightRayEngine {
 
         static bool TrySaveFile(const std::string &path, const std::vector<char> &input, int dataLength);
 
+        static bool TryAppendFile(const std::string &path, const std::string &input);
+
         static float GetLastFileChangeTime(const std::string &path);
     };
 }

@@ -6,9 +6,11 @@
 #include <FileUtils.h>
 
 #include <iostream>
+#include <LightRayLog.h>
 
 namespace LightRayEngine {
     bool EditorApplication::Open() {
+        m_consoleLog = std::make_unique<ConsoleLogImpl>();
         m_editorConfigurationSettings = TryOpenEditorConfiguration();
         return InitializeGlfw(m_editorConfigurationSettings);
     }
@@ -91,7 +93,7 @@ namespace LightRayEngine {
     EditorConfigurationSettings EditorApplication::TryOpenEditorConfiguration() {
         std::string editorConfiguration;
         if(!FileUtils::TryLoadFile("editorConfig.config", editorConfiguration)){
-
+            LightRayLog::Log("Editor configuration on path: {} is not present. Trying to generate new one: {}", "editorConfig.config",2);
         }
 
         return EditorConfigurationSettings();

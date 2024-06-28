@@ -3,9 +3,6 @@ project(LightRayEngine)
 
 set(CMAKE_CXX_STANDARD 23)
 
-add_subdirectory(Sources/Utils)
-add_subdirectory(Sources/ImGUI)
-
 add_executable(LightRayEngine Sources/main.cpp
         Sources/Core/EditorApplication.cpp
         Sources/Core/EditorApplication.h
@@ -15,7 +12,9 @@ add_executable(LightRayEngine Sources/main.cpp
         Sources/Core/EditorConfigurationSettings/EditorConfigurationSettings.cpp
         Sources/Core/EditorConfigurationSettings/EditorConfigurationSettings.h
         Sources/Core/EditorConfigurationSettings/EditorConfigurationSettingsUtils.cpp
-        Sources/Core/EditorConfigurationSettings/EditorConfigurationSettingsUtils.h)
+        Sources/Core/EditorConfigurationSettings/EditorConfigurationSettingsUtils.h
+        Sources/Core/EditorConfigurationSettings/ConsoleLogImpl.cpp
+        Sources/Core/EditorConfigurationSettings/ConsoleLogImpl.h)
 
 IF (WIN32)
     target_include_directories(LightRayEngine PRIVATE Sources/ExternalTools/GLEW/include
@@ -36,7 +35,8 @@ ENDIF (WIN32)
 
 IF (APPLE)
     target_include_directories(LightRayEngine PRIVATE Sources/ExternalTools/glm
-            Sources/ExternalTools/stb)
+            Sources/ExternalTools/stb
+            Sources/ExternalTools/glm)
 
     FIND_PACKAGE(GLEW REQUIRED)
     link_directories(${GLEW_LIBRARY_DIRS})
@@ -51,7 +51,11 @@ IF (APPLE)
     set(OPENGL_PATH "")
 ENDIF (APPLE)
 
+add_subdirectory(Sources/Utils)
+add_subdirectory(Sources/LightRayLog)
+add_subdirectory(Sources/ImGUI)
 
 target_link_libraries(LightRayEngine PRIVATE ${OPENGL_PATH} ${GLEW_PATH} ${GLTW_PATH}
         light-ray-utils
-        imgui)
+        imgui
+        light-ray-log)

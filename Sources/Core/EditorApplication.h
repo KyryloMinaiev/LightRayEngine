@@ -12,6 +12,7 @@
 
 #include "EditorConfigurationSettings/EditorConfigurationSettings.h"
 #include "EditorLoop/EditorLoop.h"
+#include "EditorConfigurationSettings/ConsoleLogImpl.h"
 
 namespace LightRayEngine {
 
@@ -37,6 +38,7 @@ namespace LightRayEngine {
 
         EditorConfigurationSettings m_editorConfigurationSettings;
         std::unique_ptr<EditorLoop> m_editorLoop = nullptr;
+        std::unique_ptr<ConsoleLogImpl> m_consoleLog;
     };
 
 } // LightRayEngine

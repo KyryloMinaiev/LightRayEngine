@@ -4,9 +4,6 @@
 
 #include "LightRayLog.h"
 
-#include <iomanip>
-#include <sstream>
-
 namespace LightRayEngine {
     std::unique_ptr<LightRayLog> LightRayLog::s_instance;
 
@@ -44,60 +41,28 @@ namespace LightRayEngine {
         log->m_subscribers.erase(it);
     }
 
-    template<typename T>
-    void LightRayLog::FormatString(std::ostringstream &os, const std::string &format, T value) {
-        size_t pos = format.find("{}");
-        if (pos != std::string::npos) {
-            os << format.substr(0, pos) << value;
-            FormatString(os, format.substr(pos + 2), "");
-        } else {
-            os << format;
-        }
+    void LightRayLog::Log(const std::string &message) {
+        GetOrCreateInstance()->LogInternal(LogLevel::Message, message);
     }
 
-    template<typename T, typename... Args>
-    void LightRayLog::FormatString(std::ostringstream &os, const std::string &format, T value, Args... args) {
-        size_t pos = format.find("{}");
-        if (pos != std::string::npos) {
-            os << format.substr(0, pos) << value;
-            FormatString(os, format.substr(pos + 2), args...);
-        } else {
-            os << format;
-        }
+    void LightRayLog::LogWarning(const std::string &message) {
+        GetOrCreateInstance()->LogInternal(LogLevel::Warning, message);
     }
 
-    template<typename... Args>
-    void LightRayLog::Log(const std::string &format, Args... args) {
-        GetOrCreateInstance()->LogInternal(LogLevel::Message, format, args...);
+    void LightRayLog::LogError(const std::string &message) {
+        GetOrCreateInstance()->LogInternal(LogLevel::Error, message);
     }
 
-    template<typename... Args>
-    void LightRayLog::LogWarning(const std::string &format, Args... args) {
-        GetOrCreateInstance()->LogInternal(LogLevel::Warning, format, args...);
+    void LightRayLog::LogException(const std::string &message) {
+        GetOrCreateInstance()->LogInternal(LogLevel::Exception, message);
     }
 
-    template<typename... Args>
-    void LightRayLog::LogError(const std::string &format, Args... args) {
-        GetOrCreateInstance()->LogInternal(LogLevel::Error, format, args...);
-    }
-
-    template<typename... Args>
-    void LightRayLog::LogException(const std::string &format, Args... args) {
-        GetOrCreateInstance()->LogInternal(LogLevel::Exception, format, args...);
-    }
-
-    template<typename... Args>
-    void LightRayLog::LogInternal(LogLevel logLevel, const std::string &format, Args... args) {
+    void LightRayLog::LogInternal(LogLevel logLevel, const std::string &message) {
         LogInfo logInfo;
-
         logInfo.logLevel = logLevel;
         std::time_t now = std::time(nullptr);
         logInfo.logTime = *std::localtime(&now);
-
-        std::ostringstream logMessage;
-        FormatString(logMessage, format, args...);
-        logInfo.log = logMessage.str();
-
+        logInfo.log = message;
         m_logsList.push_back(logInfo);
         UpdateSubscribers(logInfo);
     }

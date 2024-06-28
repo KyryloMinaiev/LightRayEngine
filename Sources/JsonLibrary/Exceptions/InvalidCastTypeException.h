@@ -2,8 +2,9 @@
 
 #include <exception>
 
-class InvalidCastTypeException : public std::exception
-{
-public:
-    InvalidCastTypeException() : exception("Invalid cast type!") {}
-};
+namespace JsonLibrary {
+    class InvalidCastTypeException : public std::exception {
+    public:
+        InvalidCastTypeException() : exception("Invalid cast type!") {}
+    };
+}

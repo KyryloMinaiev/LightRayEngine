@@ -34,7 +34,7 @@ namespace JsonLibrary {
 
     JsonArray::operator std::vector<int>() const {
         if (_vectorType != JsonType::JsonInt) {
-            throw InvalidCastTypeException();
+            throw InvalidCastTypeException(JsonType::JsonInt, _vectorType);
         }
 
         return {_array.begin(), _array.end()};
@@ -55,12 +55,12 @@ namespace JsonLibrary {
             return result;
         }
 
-        throw InvalidCastTypeException();
+        throw InvalidCastTypeException(JsonType::JsonFloat, _vectorType);
     }
 
     JsonArray::operator std::vector<std::string>() const {
         if (_vectorType != JsonType::JsonString) {
-            throw InvalidCastTypeException();
+            throw InvalidCastTypeException(JsonType::JsonString, _vectorType);
         }
 
         std::vector<std::string> returnVector;
@@ -74,7 +74,7 @@ namespace JsonLibrary {
 
     JsonArray::operator std::vector<bool>() const {
         if (_vectorType != JsonType::JsonBool) {
-            throw InvalidCastTypeException();
+            throw InvalidCastTypeException(JsonType::JsonBool, _vectorType);
         }
 
         return {_array.begin(), _array.end()};
@@ -82,7 +82,7 @@ namespace JsonLibrary {
 
     JsonArray::operator std::vector<JsonObject>() const {
         if (_vectorType != JsonType::JsonObject) {
-            throw InvalidCastTypeException();
+            throw InvalidCastTypeException(JsonType::JsonObject, _vectorType);
         }
 
         return {_array.begin(), _array.end()};

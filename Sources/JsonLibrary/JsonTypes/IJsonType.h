@@ -9,6 +9,6 @@ namespace JsonLibrary {
 
         virtual bool TryDecodeJsonType(const std::string &json, int startIndex, int &endIndex) = 0;
 
-        virtual std::string EncodeJsonType() const = 0;
+        [[nodiscard]] virtual std::string EncodeJsonType() const = 0;
     };
 }

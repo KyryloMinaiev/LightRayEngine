@@ -118,7 +118,7 @@ namespace JsonLibrary {
             return _boolValue;
         }
 
-        throw InvalidCastTypeException();
+        throw InvalidCastTypeException(JsonType::JsonBool, _jsonType);
     }
 
     BaseJsonType::operator int() const {
@@ -126,7 +126,7 @@ namespace JsonLibrary {
             return _intValue;
         }
 
-        throw InvalidCastTypeException();
+        throw InvalidCastTypeException(JsonType::JsonInt, _jsonType);
     }
 
     BaseJsonType::operator float() const {
@@ -138,7 +138,7 @@ namespace JsonLibrary {
             return _intValue;
         }
 
-        throw InvalidCastTypeException();
+        throw InvalidCastTypeException(JsonType::JsonFloat, _jsonType);
     }
 
     BaseJsonType::operator std::string &() {
@@ -146,7 +146,7 @@ namespace JsonLibrary {
             return _stringValue.GetStr();
         }
 
-        throw InvalidCastTypeException();
+        throw InvalidCastTypeException(JsonType::JsonString, _jsonType);
     }
 
     BaseJsonType::operator std::vector<bool>() const {
@@ -154,12 +154,12 @@ namespace JsonLibrary {
             return _jsonArrayValue;
         }
 
-        throw InvalidCastTypeException();
+        throw InvalidCastTypeException(JsonType::JsonArray, _jsonType);
     }
 
     void BaseJsonType::DecodeObject(JsonSerialized &json_serialized) {
         if (_jsonType != JsonType::JsonObject) {
-            throw InvalidCastTypeException();
+            throw InvalidCastTypeException(JsonType::JsonObject, _jsonType);
         }
 
         json_serialized.FromJson(_jsonObjectValue);
@@ -170,7 +170,7 @@ namespace JsonLibrary {
             return _jsonObjectValue;
         }
 
-        throw InvalidCastTypeException();
+        throw InvalidCastTypeException(JsonType::JsonObject, _jsonType);
     }
 
     BaseJsonType::operator std::vector<float>() const {
@@ -178,7 +178,7 @@ namespace JsonLibrary {
             return _jsonArrayValue;
         }
 
-        throw InvalidCastTypeException();
+        throw InvalidCastTypeException(JsonType::JsonArray, _jsonType);
     }
 
     BaseJsonType::operator std::vector<int>() const {
@@ -186,7 +186,7 @@ namespace JsonLibrary {
             return _jsonArrayValue;
         }
 
-        throw InvalidCastTypeException();
+        throw InvalidCastTypeException(JsonType::JsonArray, _jsonType);
     }
 
     BaseJsonType::operator std::vector<std::string>() const {
@@ -194,7 +194,7 @@ namespace JsonLibrary {
             return _jsonArrayValue;
         }
 
-        throw InvalidCastTypeException();
+        throw InvalidCastTypeException(JsonType::JsonArray, _jsonType);
     }
 
     BaseJsonType::operator std::vector<JsonObject>() const {
@@ -202,6 +202,6 @@ namespace JsonLibrary {
             return _jsonArrayValue;
         }
 
-        throw InvalidCastTypeException();
+        throw InvalidCastTypeException(JsonType::JsonArray, _jsonType);
     }
 }

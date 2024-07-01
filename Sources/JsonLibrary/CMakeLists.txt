@@ -10,6 +10,7 @@ add_library(json-library JsonLibrary.cpp
         JsonTypes/JsonInt.cpp
         JsonTypes/JsonObject.cpp
         JsonTypes/JsonObjectData.cpp
-        JsonTypes/JsonString.cpp)
+        JsonTypes/JsonString.cpp
+        Exceptions/JsonLibraryException.h)
 
 target_include_directories(json-library PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})

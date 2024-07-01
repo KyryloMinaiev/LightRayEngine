@@ -1,9 +1,11 @@
 ﻿#pragma once
-#include <exception>
+
+#include "JsonLibraryException.h"
+#include "../JsonTypes/JsonTypes.h"
 
 namespace JsonLibrary {
-    class EmptyTypeException : public std::exception {
+    class EmptyTypeException : public JsonLibraryException {
     public:
-        EmptyTypeException() : exception("Cannot encode empty json type!") {}
+        EmptyTypeException() : JsonLibraryException("Cannot encode empty json type!") {}
     };
 }

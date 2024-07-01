@@ -1,12 +1,14 @@
 ﻿#pragma once
-#include <exception>
-#include <string>
+
+#include "JsonLibraryException.h"
 
 namespace JsonLibrary {
-    class FileNotExistsException : public std::exception {
+    class FileNotExistsException : public JsonLibraryException {
     public:
-        FileNotExistsException(const std::string &filePath) : exception(
-                std::string("File does not exists at path: " + filePath).c_str()) {
+        explicit FileNotExistsException(const std::string &filePath) : JsonLibraryException(
+                std::string("File does not exists at path: " + filePath)) {
         }
+
+    private:
     };
 }

@@ -89,7 +89,7 @@ namespace JsonLibrary {
                       "Cannon decode JsonArray into non serialized class!");
 
         if (_jsonType != JsonType::JsonArray) {
-            throw InvalidCastTypeException();
+            throw InvalidCastTypeException(JsonType::JsonArray, _jsonType);
         }
 
         std::vector<JsonObject> json_objects = _jsonArrayValue;

@@ -1,9 +1,13 @@
 ﻿#pragma once
 
-#include <exception>
+#include "JsonLibraryException.h"
+#include "../JsonTypes/JsonTypes.h"
 
-class InvalidCastTypeException : public std::exception
-{
-public:
-    InvalidCastTypeException() : exception("Invalid cast type!") {}
-};
+namespace JsonLibrary {
+    class InvalidCastTypeException : public JsonLibraryException {
+    public:
+        InvalidCastTypeException(JsonType to, JsonType from) : JsonLibraryException(
+                std::string("Invalid cast type! From: " + toString(from) + ", to: " + toString(to))) {
+        }
+    };
+}

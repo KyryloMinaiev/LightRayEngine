@@ -1,11 +1,13 @@
 #pragma once
 
-class JsonObject;
+namespace JsonLibrary{
+    class JsonObject;
 
-class JsonSerialized
-{
-public:
-	virtual ~JsonSerialized() = default;
-	virtual void FromJson(JsonObject& jsonObject) = 0;
-	virtual void ToJson(JsonObject& jsonObject) const = 0;
-};
+    class JsonSerialized
+    {
+    public:
+        virtual ~JsonSerialized() = default;
+        virtual void FromJson(JsonObject& jsonObject) = 0;
+        virtual void ToJson(JsonObject& jsonObject) const = 0;
+    };
+}

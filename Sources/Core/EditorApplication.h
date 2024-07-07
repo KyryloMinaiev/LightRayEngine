@@ -12,7 +12,7 @@
 
 #include "EditorConfigurationSettings/EditorConfigurationSettings.h"
 #include "EditorLoop/EditorLoop.h"
-#include "EditorConfigurationSettings/ConsoleLogImpl.h"
+#include "ConsoleLogImpl.h"
 
 namespace LightRayEngine {
 

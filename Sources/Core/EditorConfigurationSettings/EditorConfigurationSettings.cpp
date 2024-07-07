@@ -6,4 +6,8 @@
 
 namespace LightRayEngine {
 
+    EditorConfigurationSettings::EditorConfigurationSettings(const EditorConfigurationSettings &other) = default;
+    EditorConfigurationSettings::EditorConfigurationSettings() = default;
+    EditorConfigurationSettings::EditorConfigurationSettings(const JsonLibrary::JsonObject &other) : JsonObject(other) {
+    }
 }

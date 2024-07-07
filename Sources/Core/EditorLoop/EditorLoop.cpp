@@ -5,7 +5,7 @@
 #include "EditorLoop.h"
 
 namespace LightRayEngine {
-    EditorLoop::EditorLoop(const EditorConfigurationSettings &editorConfiguration) {
+    EditorLoop::EditorLoop(const EditorConfigurationSettings* editorConfiguration) {
 
     }
 

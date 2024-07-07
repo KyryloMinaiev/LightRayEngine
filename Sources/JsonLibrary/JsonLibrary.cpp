@@ -49,6 +49,11 @@ namespace JsonLibrary {
         return result;
     }
 
+    std::string JsonLibrary::ToJson(const JsonObject &obj) {
+        std::string result = obj.EncodeJsonType();
+        return result;
+    }
+
     JsonObject JsonLibrary::ToJsonObject(const JsonSerialized &obj) {
         JsonObject jsonObject;
         obj.ToJson(jsonObject);
@@ -63,5 +68,12 @@ namespace JsonLibrary {
     void JsonLibrary::SaveAsJson(const std::string &path, const JsonObject &obj) {
         const std::string jsonString = obj.EncodeJsonType();
         FileUtils::WriteFile(path, jsonString);
+    }
+
+    JsonObject JsonLibrary::FromJsonString(std::string &json) {
+        JsonObject jsonObject;
+        json.erase(std::remove(json.begin(), json.end(), '\n'), json.end());
+        JsonDecoder::TryDecodeJson(json, jsonObject);
+        return jsonObject;
     }
 }

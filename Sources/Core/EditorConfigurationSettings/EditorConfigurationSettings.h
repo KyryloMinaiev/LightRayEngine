@@ -9,7 +9,11 @@
 
 namespace LightRayEngine {
     class EditorConfigurationSettings : public JsonLibrary::JsonObject{
+    public:
+        EditorConfigurationSettings(const EditorConfigurationSettings &other);
+        EditorConfigurationSettings(const JsonLibrary::JsonObject &other);
 
+        EditorConfigurationSettings();
     };
 }
 

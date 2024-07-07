@@ -10,7 +10,7 @@
 namespace LightRayEngine {
     class EditorLoop {
     public:
-        explicit EditorLoop(const EditorConfigurationSettings &editorConfiguration);
+        explicit EditorLoop(const EditorConfigurationSettings* editorConfiguration);
 
         ~EditorLoop();
 

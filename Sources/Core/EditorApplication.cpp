@@ -12,7 +12,7 @@ namespace LightRayEngine {
     bool EditorApplication::Open() {
         m_consoleLog = std::make_unique<ConsoleLogImpl>();
         m_editorConfigurationSettings = TryOpenEditorConfiguration();
-        return InitializeGlfw(m_editorConfigurationSettings);
+        return InitializeGlfw();
     }
 
     void EditorApplication::Run() {
@@ -31,6 +31,7 @@ namespace LightRayEngine {
 
     EditorApplication::~EditorApplication()
     {
+        EditorConfigurationSettingsUtils::SaveEditorConfigurationSettings();
         glfwDestroyWindow(m_mainWindow);
         glfwTerminate();
     }
@@ -63,7 +64,7 @@ namespace LightRayEngine {
     }
 
 
-    bool EditorApplication::InitializeGlfw(const EditorConfigurationSettings &editorConfiguration) {
+    bool EditorApplication::InitializeGlfw() {
         if (!glfwInit())
         {
             return false;
@@ -90,12 +91,7 @@ namespace LightRayEngine {
         return true;
     }
 
-    EditorConfigurationSettings EditorApplication::TryOpenEditorConfiguration() {
-        std::string editorConfiguration;
-        if(!FileUtils::TryLoadFile("editorConfig.config", editorConfiguration)){
-            LightRayLog::Log("Editor configuration on path: {} is not present. Trying to generate new one: {}", "editorConfig.config",2);
-        }
-
-        return EditorConfigurationSettings();
+    EditorConfigurationSettings* EditorApplication::TryOpenEditorConfiguration() {
+        return EditorConfigurationSettingsUtils::LoadOrCreateDefaultEditorConfig();
     }
 } // LightRayEngine

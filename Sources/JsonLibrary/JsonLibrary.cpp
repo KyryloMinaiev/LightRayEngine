@@ -1,5 +1,6 @@
 #include "JsonLibrary.h"
 
+#include <algorithm>
 #include "Utils/FileUtils.h"
 #include "JsonSerialized.h"
 #include "Utils/JsonDecoder.h"

@@ -3,10 +3,10 @@
 #include <memory>
 #include <string>
 
-class BaseJsonType;
-class JsonObject;
-
 namespace JsonLibrary {
+    class BaseJsonType;
+    class JsonObject;
+
     class JsonObjectData {
     public:
         JsonObjectData() = default;

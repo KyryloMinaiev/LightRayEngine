@@ -6,6 +6,7 @@
 #include "./../Utils/JsonLiteralsUtils.h"
 
 namespace JsonLibrary {
+    JsonArray::~JsonArray() = default;
     JsonArray::JsonArray() = default;
 
     JsonArray::JsonArray(const std::vector<int> &array) : _vectorType(JsonType::JsonInt) {

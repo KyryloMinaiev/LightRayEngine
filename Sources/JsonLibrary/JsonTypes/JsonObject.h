@@ -4,10 +4,10 @@
 #include "IJsonType.h"
 #include "JsonObjectData.h"
 
-class JsonSerialized;
-class JsonString;
-
 namespace JsonLibrary {
+    class JsonSerialized;
+    class JsonString;
+
     class JsonObject : public IJsonType {
     public:
         JsonObject(const JsonObject &other) : _data(other._data) {}

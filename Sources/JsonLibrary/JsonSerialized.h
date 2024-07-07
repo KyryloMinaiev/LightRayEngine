@@ -1,8 +1,8 @@
 #pragma once
 
-class JsonObject;
-
 namespace JsonLibrary{
+    class JsonObject;
+
     class JsonSerialized
     {
     public:

@@ -6,13 +6,14 @@
 #include "JsonTypes.h"
 #include "./../Exceptions/InvalidCastTypeException.h"
 
-class JsonSerialized;
-class JsonObject;
-class BaseJsonType;
-
 namespace JsonLibrary {
+    class JsonSerialized;
+    class JsonObject;
+    class BaseJsonType;
+
     class JsonArray : public IJsonType {
     public:
+        ~JsonArray();
         JsonArray();
 
         JsonArray(const std::vector<int> &array);

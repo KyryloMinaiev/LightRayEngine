@@ -7,9 +7,9 @@
 #include "JsonTypes/JsonObject.h"
 #include "JsonTypes/BaseJsonType.h"
 
-class JsonObject;
-
 namespace JsonLibrary {
+    class JsonObject;
+
     class JsonLibrary {
     public:
         static bool FromJsonString(std::string &json, JsonSerialized &obj);

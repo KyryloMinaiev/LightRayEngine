@@ -5,8 +5,10 @@
 #ifndef LIGHTRAYENGINE_EDITORCONFIGURATIONSETTINGS_H
 #define LIGHTRAYENGINE_EDITORCONFIGURATIONSETTINGS_H
 
+#include "JsonLibrary.h"
+
 namespace LightRayEngine {
-    class EditorConfigurationSettings {
+    class EditorConfigurationSettings : public JsonLibrary::JsonObject{
 
     };
 }

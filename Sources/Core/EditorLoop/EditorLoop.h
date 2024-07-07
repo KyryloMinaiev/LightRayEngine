@@ -7,13 +7,16 @@
 
 #include "../EditorConfigurationSettings/EditorConfigurationSettings.h"
 
-class EditorLoop {
+namespace LightRayEngine {
+    class EditorLoop {
     public:
-        explicit EditorLoop(const EditorConfigurationSettings& editorConfiguration);
+        explicit EditorLoop(const EditorConfigurationSettings &editorConfiguration);
+
         ~EditorLoop();
 
         void Update();
-};
+    };
+}
 
 
 #endif //LIGHTRAYENGINE_EDITORLOOP_H

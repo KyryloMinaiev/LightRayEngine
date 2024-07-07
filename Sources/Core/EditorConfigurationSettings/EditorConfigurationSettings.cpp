@@ -3,3 +3,7 @@
 //
 
 #include "EditorConfigurationSettings.h"
+
+namespace LightRayEngine {
+
+}

@@ -5,10 +5,11 @@
 #ifndef LIGHTRAYENGINE_EDITORCONFIGURATIONSETTINGSUTILS_H
 #define LIGHTRAYENGINE_EDITORCONFIGURATIONSETTINGSUTILS_H
 
+namespace LightRayEngine {
+    class EditorConfigurationSettingsUtils {
 
-class EditorConfigurationSettingsUtils {
-
-};
+    };
+}
 
 
 #endif //LIGHTRAYENGINE_EDITORCONFIGURATIONSETTINGSUTILS_H

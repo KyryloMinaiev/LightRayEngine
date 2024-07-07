@@ -15,7 +15,7 @@ namespace JsonLibrary {
             m_message = message;
         }
 
-        [[nodiscard]] const char *what() const _NOEXCEPT override {
+        [[nodiscard]] const char *what() const noexcept override {
             return m_message.c_str();
         }
 

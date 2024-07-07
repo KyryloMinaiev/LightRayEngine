@@ -8,7 +8,5 @@ namespace JsonLibrary {
         explicit FileNotExistsException(const std::string &filePath) : JsonLibraryException(
                 std::string("File does not exists at path: " + filePath)) {
         }
-
-    private:
     };
 }

@@ -3,6 +3,7 @@
 //
 
 #include "LightRayLog.h"
+#include <algorithm>
 
 namespace LightRayEngine {
     std::unique_ptr<LightRayLog> LightRayLog::s_instance;

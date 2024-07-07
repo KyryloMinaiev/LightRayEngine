@@ -13,4 +13,4 @@ add_library(imgui STATIC
         backends/imgui_impl_opengl3.h
         backends/imgui_impl_opengl3_loader.h)
 target_include_directories(imgui PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}
-                            ../ExternalTools/GLFW/include)
+        ../ExternalTools/GLFW/include)

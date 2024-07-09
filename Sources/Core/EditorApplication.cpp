@@ -8,6 +8,7 @@
 namespace LightRayEngine {
     bool EditorApplication::Open() {
         m_consoleLog = std::make_unique<ConsoleLogImpl>();
+        m_fileLog = std::make_unique<FileLog>();
         m_editorConfigurationSettings = TryOpenEditorConfiguration();
         return InitializeGlfw();
     }
@@ -93,9 +94,9 @@ namespace LightRayEngine {
         }
 
         glewInit();
-        std::cout << glGetString(GL_VERSION) << "\n";
-        std::cout << glGetString(GL_VENDOR) << "\n";
-        std::cout << glGetString(GL_RENDERER) << "\n";
+        LightRayLog::Log("GL_VERSION: {}",glGetString(GL_VERSION));
+        LightRayLog::Log("GL_VENDOR: {}",glGetString(GL_VENDOR));
+        LightRayLog::Log("GL_RENDERER: {}",glGetString(GL_RENDERER));
 
         glfwSwapInterval(1);
         return true;

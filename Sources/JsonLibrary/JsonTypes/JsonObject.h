@@ -21,6 +21,7 @@ namespace JsonLibrary {
         bool Contains(const std::string &fieldName) const;
 
         BaseJsonType &GetField(const std::string &fieldName) const;
+        void SetField(const std::string &fieldName, const BaseJsonType& value);
 
         BaseJsonType &operator[](const std::string &fieldName);
 

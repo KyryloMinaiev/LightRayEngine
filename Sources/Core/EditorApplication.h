@@ -25,6 +25,7 @@ namespace LightRayEngine {
         bool InitializeGlfw();
         bool TryOpenWindow(glm::ivec2& outGlVersion);
         bool TryOpenWindowWithGLVersion(glm::ivec2 version);
+        void SaveEditorConfiguration();
         static EditorConfigurationSettings* TryOpenEditorConfiguration();
 
         GLFWwindow *m_mainWindow;

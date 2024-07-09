@@ -3,7 +3,6 @@
 //
 
 #include "EditorApplication.h"
-#include <iostream>
 
 namespace LightRayEngine {
     bool EditorApplication::Open() {
@@ -27,25 +26,21 @@ namespace LightRayEngine {
         }
     }
 
-    EditorApplication::~EditorApplication()
-    {
+    EditorApplication::~EditorApplication() {
         SaveEditorConfiguration();
         glfwDestroyWindow(m_mainWindow);
         glfwTerminate();
     }
 
-    bool EditorApplication::TryOpenWindow(glm::ivec2& outGlVersion)
-    {
-            outGlVersion.x = m_editorConfigurationSettings->GetValue("glMajorVersion", availableGLVersions[0].x);
-            outGlVersion.y = m_editorConfigurationSettings->GetValue("glMinorVersion", availableGLVersions[0].y);
-            if(TryOpenWindowWithGLVersion(outGlVersion))
-            {
-                return true;
-            }
+    bool EditorApplication::TryOpenWindow(glm::ivec2 &outGlVersion) {
+        outGlVersion.x = m_editorConfigurationSettings->GetValue("glMajorVersion", availableGLVersions[0].x);
+        outGlVersion.y = m_editorConfigurationSettings->GetValue("glMinorVersion", availableGLVersions[0].y);
+        if (TryOpenWindowWithGLVersion(outGlVersion)) {
+            return true;
+        }
 
-        for (const auto& glVersion : availableGLVersions) {
-            if(TryOpenWindowWithGLVersion(glVersion))
-            {
+        for (const auto &glVersion: availableGLVersions) {
+            if (TryOpenWindowWithGLVersion(glVersion)) {
                 outGlVersion = glVersion;
                 m_editorConfigurationSettings->SetField("glMajorVersion", glVersion.x);
                 m_editorConfigurationSettings->SetField("glMinorVersion", glVersion.y);
@@ -65,8 +60,7 @@ namespace LightRayEngine {
 
         m_mainWindow = glfwCreateWindow(width, height, "LightRay Engine", nullptr, nullptr);
         glfwMakeContextCurrent(m_mainWindow);
-        if (!m_mainWindow)
-        {
+        if (!m_mainWindow) {
             return false;
         }
 
@@ -75,8 +69,7 @@ namespace LightRayEngine {
 
 
     bool EditorApplication::InitializeGlfw() {
-        if (!glfwInit())
-        {
+        if (!glfwInit()) {
             return false;
         }
 
@@ -87,22 +80,21 @@ namespace LightRayEngine {
         glfwWindowHint(GLFW_MAXIMIZED, editorMaximised);
 
         glm::ivec2 glVersion{0, 0};
-        if(!TryOpenWindow(glVersion))
-        {
+        if (!TryOpenWindow(glVersion)) {
             glfwTerminate();
             return false;
         }
 
         glewInit();
-        LightRayLog::Log("GL_VERSION: {}",glGetString(GL_VERSION));
-        LightRayLog::Log("GL_VENDOR: {}",glGetString(GL_VENDOR));
-        LightRayLog::Log("GL_RENDERER: {}",glGetString(GL_RENDERER));
+        LightRayLog::Log("GL_VERSION: {}", glGetString(GL_VERSION));
+        LightRayLog::Log("GL_VENDOR: {}", glGetString(GL_VENDOR));
+        LightRayLog::Log("GL_RENDERER: {}", glGetString(GL_RENDERER));
 
         glfwSwapInterval(1);
         return true;
     }
 
-    EditorConfigurationSettings* EditorApplication::TryOpenEditorConfiguration() {
+    EditorConfigurationSettings *EditorApplication::TryOpenEditorConfiguration() {
         return EditorConfigurationSettingsUtils::LoadOrCreateDefaultEditorConfig();
     }
 

@@ -14,6 +14,8 @@ namespace LightRayEngine {
         EditorConfigurationSettings(const JsonLibrary::JsonObject &other);
 
         EditorConfigurationSettings();
+
+        JsonLibrary::BaseJsonType GetValue(const std::string& fieldName, const JsonLibrary::BaseJsonType& defaultValue);
     };
 }
 

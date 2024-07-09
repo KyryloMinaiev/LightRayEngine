@@ -3,16 +3,13 @@
 //
 
 #include "EditorApplication.h"
-#include <FileUtils.h>
-
 #include <iostream>
-#include <LightRayLog.h>
 
 namespace LightRayEngine {
     bool EditorApplication::Open() {
         m_consoleLog = std::make_unique<ConsoleLogImpl>();
         m_editorConfigurationSettings = TryOpenEditorConfiguration();
-        return InitializeGlfw(m_editorConfigurationSettings);
+        return InitializeGlfw();
     }
 
     void EditorApplication::Run() {
@@ -31,16 +28,26 @@ namespace LightRayEngine {
 
     EditorApplication::~EditorApplication()
     {
+        SaveEditorConfiguration();
         glfwDestroyWindow(m_mainWindow);
         glfwTerminate();
     }
 
     bool EditorApplication::TryOpenWindow(glm::ivec2& outGlVersion)
     {
+            outGlVersion.x = m_editorConfigurationSettings->GetValue("glMajorVersion", availableGLVersions[0].x);
+            outGlVersion.y = m_editorConfigurationSettings->GetValue("glMinorVersion", availableGLVersions[0].y);
+            if(TryOpenWindowWithGLVersion(outGlVersion))
+            {
+                return true;
+            }
+
         for (const auto& glVersion : availableGLVersions) {
             if(TryOpenWindowWithGLVersion(glVersion))
             {
                 outGlVersion = glVersion;
+                m_editorConfigurationSettings->SetField("glMajorVersion", glVersion.x);
+                m_editorConfigurationSettings->SetField("glMinorVersion", glVersion.y);
                 return true;
             }
         }
@@ -52,7 +59,10 @@ namespace LightRayEngine {
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, version.x);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, version.y);
 
-        m_mainWindow = glfwCreateWindow(1024, 768, "LightRay Engine", nullptr, nullptr);
+        int width = m_editorConfigurationSettings->GetValue("editorWidth", 1024);
+        int height = m_editorConfigurationSettings->GetValue("editorHeight", 768);
+
+        m_mainWindow = glfwCreateWindow(width, height, "LightRay Engine", nullptr, nullptr);
         glfwMakeContextCurrent(m_mainWindow);
         if (!m_mainWindow)
         {
@@ -63,16 +73,17 @@ namespace LightRayEngine {
     }
 
 
-    bool EditorApplication::InitializeGlfw(const EditorConfigurationSettings &editorConfiguration) {
+    bool EditorApplication::InitializeGlfw() {
         if (!glfwInit())
         {
             return false;
         }
 
+        int editorMaximised = m_editorConfigurationSettings->GetValue("editorMaximised", 0);
         glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
         glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
-        glfwWindowHint(GLFW_MAXIMIZED, GLFW_TRUE);
+        glfwWindowHint(GLFW_MAXIMIZED, editorMaximised);
 
         glm::ivec2 glVersion{0, 0};
         if(!TryOpenWindow(glVersion))
@@ -90,12 +101,17 @@ namespace LightRayEngine {
         return true;
     }
 
-    EditorConfigurationSettings EditorApplication::TryOpenEditorConfiguration() {
-        std::string editorConfiguration;
-        if(!FileUtils::TryLoadFile("editorConfig.config", editorConfiguration)){
-            LightRayLog::Log("Editor configuration on path: {} is not present. Trying to generate new one: {}", "editorConfig.config",2);
-        }
+    EditorConfigurationSettings* EditorApplication::TryOpenEditorConfiguration() {
+        return EditorConfigurationSettingsUtils::LoadOrCreateDefaultEditorConfig();
+    }
 
-        return EditorConfigurationSettings();
+    void EditorApplication::SaveEditorConfiguration() {
+        int width, height;
+        glfwGetWindowSize(m_mainWindow, &width, &height);
+        m_editorConfigurationSettings->SetField("editorWidth", width);
+        m_editorConfigurationSettings->SetField("editorHeight", height);
+        int maximized = glfwGetWindowAttrib(m_mainWindow, GLFW_MAXIMIZED);
+        m_editorConfigurationSettings->SetField("editorMaximised", maximized);
+        EditorConfigurationSettingsUtils::SaveEditorConfigurationSettings();
     }
 } // LightRayEngine

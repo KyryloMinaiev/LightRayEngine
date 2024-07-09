@@ -3,6 +3,7 @@
 //
 
 #include "ConsoleLogImpl.h"
+#include <iostream>
 
 namespace LightRayEngine {
 

@@ -5,8 +5,8 @@
 #ifndef LIGHTRAYENGINE_CONSOLELOGIMPL_H
 #define LIGHTRAYENGINE_CONSOLELOGIMPL_H
 
-#include <iostream>
-#include <LightRayLog.h>
+
+#include "LightRayLog.h"
 
 namespace LightRayEngine{
     class ConsoleLogImpl : public ILightRayLogUpdateSubscriber{
@@ -15,7 +15,6 @@ namespace LightRayEngine{
         ~ConsoleLogImpl();
 
         void OnLogUpdated(const LogInfo &logInfo) override;
-
     };
 }
 

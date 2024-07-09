@@ -4,12 +4,14 @@
 
 #include "EditorLoop.h"
 
-EditorLoop::EditorLoop(const EditorConfigurationSettings &editorConfiguration) {
+namespace LightRayEngine {
+    EditorLoop::EditorLoop(const EditorConfigurationSettings* editorConfiguration) {
 
-}
+    }
 
-EditorLoop::~EditorLoop() = default;
+    EditorLoop::~EditorLoop() = default;
 
-void EditorLoop::Update() {
+    void EditorLoop::Update() {
 
+    }
 }

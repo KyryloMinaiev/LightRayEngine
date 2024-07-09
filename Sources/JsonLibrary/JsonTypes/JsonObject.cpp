@@ -122,5 +122,9 @@ namespace JsonLibrary {
         return false;
     }
 
+    void JsonObject::SetField(const std::string &fieldName, const BaseJsonType &value) {
+        _data.SetField(fieldName, value);
+    }
+
     JsonObject::JsonObject() = default;
 }

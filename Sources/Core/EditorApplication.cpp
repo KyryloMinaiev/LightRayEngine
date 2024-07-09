@@ -16,10 +16,11 @@ namespace LightRayEngine {
         m_editorLoop = std::make_unique<EditorLoop>(m_editorConfigurationSettings);
 
         while (!glfwWindowShouldClose(m_mainWindow)) {
-            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-            glClearColor(1, 1, 1, 1);
-            glClearDepth(0);
-            glClearStencil(0);
+            try {
+                m_editorLoop->Update();
+            } catch (...) {
+                LightRayLog::LogException("Unknown exception in editor loop!");
+            }
 
             glfwPollEvents();
             glfwSwapBuffers(m_mainWindow);
@@ -58,20 +59,28 @@ namespace LightRayEngine {
         int width = m_editorConfigurationSettings->GetValue("editorWidth", 1024);
         int height = m_editorConfigurationSettings->GetValue("editorHeight", 768);
 
+        LightRayLog::Log("Trying to open window with width={}, height={}. GL version: {}.{}", width, height, version.x, version.y);
+
         m_mainWindow = glfwCreateWindow(width, height, "LightRay Engine", nullptr, nullptr);
         glfwMakeContextCurrent(m_mainWindow);
         if (!m_mainWindow) {
             return false;
         }
 
+        LightRayLog::Log("Successfully opened window with width={}, height={}. GL version: {}.{}", width, height, version.x, version.y);
         return true;
     }
 
 
     bool EditorApplication::InitializeGlfw() {
         if (!glfwInit()) {
+            LightRayLog::LogError("GLFW is not inited! Quiting application!");
             return false;
         }
+
+        LightRayLog::Log("GL_VERSION: {}", glGetString(GL_VERSION));
+        LightRayLog::Log("GL_VENDOR: {}", glGetString(GL_VENDOR));
+        LightRayLog::Log("GL_RENDERER: {}", glGetString(GL_RENDERER));
 
         int editorMaximised = m_editorConfigurationSettings->GetValue("editorMaximised", 0);
         glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
@@ -82,14 +91,11 @@ namespace LightRayEngine {
         glm::ivec2 glVersion{0, 0};
         if (!TryOpenWindow(glVersion)) {
             glfwTerminate();
+            LightRayLog::LogError("Cannot open a window with any GL version! Quiting application!");
             return false;
         }
 
         glewInit();
-        LightRayLog::Log("GL_VERSION: {}", glGetString(GL_VERSION));
-        LightRayLog::Log("GL_VENDOR: {}", glGetString(GL_VENDOR));
-        LightRayLog::Log("GL_RENDERER: {}", glGetString(GL_RENDERER));
-
         glfwSwapInterval(1);
         return true;
     }

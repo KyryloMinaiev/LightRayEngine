@@ -78,10 +78,6 @@ namespace LightRayEngine {
             return false;
         }
 
-        LightRayLog::Log("GL_VERSION: {}", glGetString(GL_VERSION));
-        LightRayLog::Log("GL_VENDOR: {}", glGetString(GL_VENDOR));
-        LightRayLog::Log("GL_RENDERER: {}", glGetString(GL_RENDERER));
-
         int editorMaximised = m_editorConfigurationSettings->GetValue("editorMaximised", 0);
         glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
@@ -96,6 +92,10 @@ namespace LightRayEngine {
         }
 
         glewInit();
+        LightRayLog::Log("GL_VERSION: {}", glGetString(GL_VERSION));
+        LightRayLog::Log("GL_VENDOR: {}", glGetString(GL_VENDOR));
+        LightRayLog::Log("GL_RENDERER: {}", glGetString(GL_RENDERER));
+
         glfwSwapInterval(1);
         return true;
     }

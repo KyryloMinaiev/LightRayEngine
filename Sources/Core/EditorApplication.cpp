@@ -14,6 +14,10 @@ namespace LightRayEngine {
 
     void EditorApplication::Run() {
         m_editorLoop = std::make_unique<EditorLoop>(m_editorConfigurationSettings);
+        if (!m_editorLoop->Initialize(m_mainWindow)) {
+            LightRayLog::LogError("Cannot initialize editor loop. Quitting application!");
+            return;
+        }
 
         while (!glfwWindowShouldClose(m_mainWindow)) {
             try {
@@ -59,7 +63,8 @@ namespace LightRayEngine {
         int width = m_editorConfigurationSettings->GetValue("editorWidth", 1024);
         int height = m_editorConfigurationSettings->GetValue("editorHeight", 768);
 
-        LightRayLog::Log("Trying to open window with width={}, height={}. GL version: {}.{}", width, height, version.x, version.y);
+        LightRayLog::Log("Trying to open window with width={}, height={}. GL version: {}.{}", width, height, version.x,
+                         version.y);
 
         m_mainWindow = glfwCreateWindow(width, height, "LightRay Engine", nullptr, nullptr);
         glfwMakeContextCurrent(m_mainWindow);
@@ -67,7 +72,8 @@ namespace LightRayEngine {
             return false;
         }
 
-        LightRayLog::Log("Successfully opened window with width={}, height={}. GL version: {}.{}", width, height, version.x, version.y);
+        LightRayLog::Log("Successfully opened window with width={}, height={}. GL version: {}.{}", width, height,
+                         version.x, version.y);
         return true;
     }
 

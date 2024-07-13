@@ -16,7 +16,10 @@ add_executable(LightRayEngine Sources/main.cpp
         Sources/Core/ConsoleLogImpl.cpp
         Sources/Core/ConsoleLogImpl.h
         Sources/Core/FileLog/FileLog.cpp
-        Sources/Core/FileLog/FileLog.h)
+        Sources/Core/FileLog/FileLog.h
+        Sources/Core/EditorLoop/EditorLoopSystem.h
+        Sources/EditorGUI/EditorGUIController.cpp
+        Sources/EditorGUI/EditorGUIController.h)
 
 IF (WIN32)
     target_include_directories(LightRayEngine PRIVATE Sources/ExternalTools/GLEW/include

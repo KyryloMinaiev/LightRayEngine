@@ -6,15 +6,21 @@
 #define LIGHTRAYENGINE_EDITORLOOP_H
 
 #include "../EditorConfigurationSettings/EditorConfigurationSettings.h"
+#include "../platform-defines.h"
+#include <memory>
 
 namespace LightRayEngine {
+    class EditorGUIController;
+
     class EditorLoop {
     public:
-        explicit EditorLoop(const EditorConfigurationSettings* editorConfiguration);
-
+        explicit EditorLoop(EditorConfigurationSettings* editorConfiguration);
         ~EditorLoop();
 
+        bool Initialize(GLFWwindow* window);
         void Update();
+    private:
+        std::unique_ptr<EditorGUIController> m_editorGuiController;
     };
 }
 

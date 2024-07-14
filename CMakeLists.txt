@@ -61,8 +61,7 @@ add_subdirectory(Sources/LightRayLog)
 add_subdirectory(Sources/ImGUI)
 add_subdirectory(Sources/JsonLibrary)
 
-target_link_libraries(LightRayEngine PRIVATE ${OPENGL_PATH} ${GLEW_PATH} ${GLTW_PATH}
+target_link_libraries(LightRayEngine PRIVATE imgui ${OPENGL_PATH} ${GLEW_PATH} ${GLTW_PATH}
         light-ray-utils
-        imgui
         light-ray-log
         json-library)

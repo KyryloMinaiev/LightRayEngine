@@ -69,7 +69,7 @@ namespace LightRayEngine {
     void MenuToolbar::ShowMenuItem(const MenuItemData &menuItemData) {
         auto label = menuItemData.label.c_str();
         if (menuItemData.childDataList.empty()) {
-            if (ImGui::MenuItem(label)) {
+            if (ImGui::MenuItem(label) && menuItemData.callback) {
                 menuItemData.callback();
             }
         } else {

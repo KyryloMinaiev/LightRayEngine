@@ -12,15 +12,23 @@
 #include <backends/imgui_impl_opengl3.h>
 
 namespace LightRayEngine {
+    class MenuToolbar;
+
     class EditorGUIController : public EditorLoopSystem{
         public:
             explicit EditorGUIController(EditorConfigurationSettings *editorSettings);
 
-            static bool Initialize(GLFWwindow* window);
+            bool Initialize(GLFWwindow* window);
             void StartFrame();
             void Render();
 
-            virtual ~EditorGUIController() override;
+            ~EditorGUIController() override;
+
+        private:
+            static bool InitializeImGUI(GLFWwindow* window);
+            bool InitializeMenuToolbar();
+
+            std::unique_ptr<MenuToolbar> m_menuToolbar;
     };
 }
 

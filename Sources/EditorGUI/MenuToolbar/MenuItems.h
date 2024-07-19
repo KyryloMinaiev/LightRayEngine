@@ -1,14 +1,15 @@
-//
-// Created by MrFlyingChip on 14.07.2024.
-//
-
-#ifndef LIGHTRAYENGINE_MENUITEMS_H
-#define LIGHTRAYENGINE_MENUITEMS_H
+﻿#pragma once
 
 #include <functional>
 #include <string>
 #include <utility>
 #include <vector>
+
+#include "../EditorWindows/ConsoleWindow.h"
+#include "../EditorWindows/Hierarchy.h"
+#include "../EditorWindows/InspectorWindow.h"
+#include "../EditorWindows/ProjectView.h"
+#include "../EditorWindows/SceneView.h"
 
 namespace LightRayEngine {
     struct MenuItem {
@@ -24,12 +25,10 @@ namespace LightRayEngine {
     std::vector<MenuItem> menuItems =
     {
         MenuItem("File/Save Project", nullptr),
-        MenuItem("Windows/Inspector", nullptr),
-        MenuItem("Windows/Console", nullptr),
-        MenuItem("Windows/Scene View", nullptr),
-        MenuItem("Windows/Hierarchy", nullptr),
-        MenuItem("Windows/Project", nullptr)
+        MenuItem("Windows/Inspector", InspectorWindow::Create),
+        MenuItem("Windows/Console", ConsoleWindow::Create),
+        MenuItem("Windows/Scene View", SceneView::Create),
+        MenuItem("Windows/Hierarchy", Hierarchy::Create),
+        MenuItem("Windows/Project", ProjectView::Create)
     };
 }
-
-#endif //LIGHTRAYENGINE_MENUITEMS_H

@@ -13,6 +13,7 @@
 
 namespace LightRayEngine {
     class MenuToolbar;
+    class EditorWindowManager;
 
     class EditorGUIController : public EditorLoopSystem{
         public:
@@ -27,8 +28,10 @@ namespace LightRayEngine {
         private:
             static bool InitializeImGUI(GLFWwindow* window);
             bool InitializeMenuToolbar();
+            bool InitializeEditorWindowManager();
 
             std::unique_ptr<MenuToolbar> m_menuToolbar;
+            std::unique_ptr<EditorWindowManager> m_editorWindowManager;
     };
 }
 

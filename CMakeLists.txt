@@ -22,7 +22,17 @@ add_executable(LightRayEngine Sources/main.cpp
         Sources/EditorGUI/EditorGUIController.h
         Sources/EditorGUI/MenuToolbar/MenuItems.h
         Sources/EditorGUI/MenuToolbar/MenuToolbar.cpp
-        Sources/EditorGUI/MenuToolbar/MenuToolbar.h)
+        Sources/EditorGUI/MenuToolbar/MenuToolbar.h
+        Sources/EditorGUI/EditorWindow.cpp
+        Sources/EditorGUI/EditorWindow.h
+        Sources/EditorGUI/EditorWindowManager.cpp
+        Sources/EditorGUI/EditorWindowManager.h
+        Sources/EditorGUI/EditorWindows/ConsoleWindow.cpp
+        Sources/EditorGUI/EditorWindows/Hierarchy.cpp
+        Sources/EditorGUI/EditorWindows/InspectorWindow.cpp
+        Sources/EditorGUI/EditorWindows/ProjectView.cpp
+        Sources/EditorGUI/EditorWindows/SceneView.cpp
+        Sources/EditorGUI/EditorWindowLayoutData.cpp)
 
 IF (WIN32)
     target_include_directories(LightRayEngine PRIVATE Sources/ExternalTools/GLEW/include

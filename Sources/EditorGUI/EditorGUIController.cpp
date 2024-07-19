@@ -5,11 +5,12 @@
 #include "EditorGUIController.h"
 #include <LightRayLog.h>
 #include "MenuToolbar/MenuToolbar.h"
+#include "EditorWindowManager.h"
 
 namespace LightRayEngine {
 
     bool EditorGUIController::Initialize(GLFWwindow *window) {
-        return InitializeImGUI(window) && InitializeMenuToolbar();
+        return InitializeImGUI(window) && InitializeMenuToolbar() && InitializeEditorWindowManager();
     }
 
     void EditorGUIController::StartFrame() {
@@ -19,6 +20,7 @@ namespace LightRayEngine {
 
         ImGui::DockSpaceOverViewport(0, ImGui::GetMainViewport());
         m_menuToolbar->ShowToolbar();
+        m_editorWindowManager->DrawEditorWindows();
     }
 
     void EditorGUIController::Render() {
@@ -27,11 +29,14 @@ namespace LightRayEngine {
     }
 
     EditorGUIController::~EditorGUIController() {
-
+        m_editorWindowManager->SaveLayout(configurationSettings);
     }
 
     EditorGUIController::EditorGUIController(EditorConfigurationSettings *editorSettings) : EditorLoopSystem(
-            editorSettings) {}
+            editorSettings) {
+        m_menuToolbar = std::make_unique<MenuToolbar>();
+        m_editorWindowManager = std::make_unique<EditorWindowManager>();
+    }
 
     bool EditorGUIController::InitializeImGUI(GLFWwindow *window) {
         try {
@@ -56,12 +61,23 @@ namespace LightRayEngine {
 
     bool EditorGUIController::InitializeMenuToolbar() {
         try {
-            m_menuToolbar = std::make_unique<MenuToolbar>();
             m_menuToolbar->Initialize();
             LightRayLog::Log("Successfully initialized MenuToolbar.");
             return true;
         } catch (...) {
             LightRayLog::LogException("Unknown exception during MenuToolbar initialization!");
+        }
+
+        return false;
+    }
+
+    bool EditorGUIController::InitializeEditorWindowManager() {
+        try {
+            m_editorWindowManager->LoadLayout(configurationSettings);
+            LightRayLog::Log("Successfully loaded editor window manager.");
+            return true;
+        } catch (...) {
+            LightRayLog::LogException("Unknown exception during loading editor window layout!");
         }
 
         return false;

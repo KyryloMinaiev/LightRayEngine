@@ -16,7 +16,23 @@ add_executable(LightRayEngine Sources/main.cpp
         Sources/Core/ConsoleLogImpl.cpp
         Sources/Core/ConsoleLogImpl.h
         Sources/Core/FileLog/FileLog.cpp
-        Sources/Core/FileLog/FileLog.h)
+        Sources/Core/FileLog/FileLog.h
+        Sources/Core/EditorLoop/EditorLoopSystem.h
+        Sources/EditorGUI/EditorGUIController.cpp
+        Sources/EditorGUI/EditorGUIController.h
+        Sources/EditorGUI/MenuToolbar/MenuItems.h
+        Sources/EditorGUI/MenuToolbar/MenuToolbar.cpp
+        Sources/EditorGUI/MenuToolbar/MenuToolbar.h
+        Sources/EditorGUI/EditorWindow.cpp
+        Sources/EditorGUI/EditorWindow.h
+        Sources/EditorGUI/EditorWindowManager.cpp
+        Sources/EditorGUI/EditorWindowManager.h
+        Sources/EditorGUI/EditorWindows/ConsoleWindow.cpp
+        Sources/EditorGUI/EditorWindows/Hierarchy.cpp
+        Sources/EditorGUI/EditorWindows/InspectorWindow.cpp
+        Sources/EditorGUI/EditorWindows/ProjectView.cpp
+        Sources/EditorGUI/EditorWindows/SceneView.cpp
+        Sources/EditorGUI/EditorWindowLayoutData.cpp)
 
 IF (WIN32)
     target_include_directories(LightRayEngine PRIVATE Sources/ExternalTools/GLEW/include
@@ -58,8 +74,7 @@ add_subdirectory(Sources/LightRayLog)
 add_subdirectory(Sources/ImGUI)
 add_subdirectory(Sources/JsonLibrary)
 
-target_link_libraries(LightRayEngine PRIVATE ${OPENGL_PATH} ${GLEW_PATH} ${GLTW_PATH}
+target_link_libraries(LightRayEngine PRIVATE imgui ${OPENGL_PATH} ${GLEW_PATH} ${GLTW_PATH}
         light-ray-utils
-        imgui
         light-ray-log
         json-library)

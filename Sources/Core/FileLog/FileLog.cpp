@@ -29,6 +29,7 @@ namespace LightRayEngine{
                 break;
             case LogLevel::Exception:
                 levelStr = "Exception";
+                break;
             case LogLevel::Error:
                 levelStr = "Error";
                 break;

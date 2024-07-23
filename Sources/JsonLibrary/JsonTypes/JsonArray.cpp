@@ -7,6 +7,7 @@
 
 namespace JsonLibrary {
     JsonArray::~JsonArray() = default;
+
     JsonArray::JsonArray() = default;
 
     JsonArray::JsonArray(const std::vector<int> &array) : _vectorType(JsonType::JsonInt) {
@@ -34,6 +35,10 @@ namespace JsonLibrary {
     }
 
     JsonArray::operator std::vector<int>() const {
+        if (_array.empty()) {
+            return {};
+        }
+
         if (_vectorType != JsonType::JsonInt) {
             throw InvalidCastTypeException(JsonType::JsonInt, _vectorType);
         }
@@ -42,6 +47,10 @@ namespace JsonLibrary {
     }
 
     JsonArray::operator std::vector<float>() const {
+        if (_array.empty()) {
+            return {};
+        }
+
         if (_vectorType == JsonType::JsonFloat) {
             return {_array.begin(), _array.end()};
         }
@@ -60,6 +69,10 @@ namespace JsonLibrary {
     }
 
     JsonArray::operator std::vector<std::string>() const {
+        if (_array.empty()) {
+            return {};
+        }
+
         if (_vectorType != JsonType::JsonString) {
             throw InvalidCastTypeException(JsonType::JsonString, _vectorType);
         }
@@ -74,6 +87,10 @@ namespace JsonLibrary {
     }
 
     JsonArray::operator std::vector<bool>() const {
+        if (_array.empty()) {
+            return {};
+        }
+
         if (_vectorType != JsonType::JsonBool) {
             throw InvalidCastTypeException(JsonType::JsonBool, _vectorType);
         }
@@ -82,6 +99,10 @@ namespace JsonLibrary {
     }
 
     JsonArray::operator std::vector<JsonObject>() const {
+        if (_array.empty()) {
+            return {};
+        }
+
         if (_vectorType != JsonType::JsonObject) {
             throw InvalidCastTypeException(JsonType::JsonObject, _vectorType);
         }

@@ -5,14 +5,7 @@
 #ifndef LIGHTRAYENGINE_PLATFORM_DEFINES_H
 #define LIGHTRAYENGINE_PLATFORM_DEFINES_H
 
-#if defined(__APPLE__)
-    #include <GL/glew.h>
-    #include <GLFW/glfw3.h>
-#endif
-
-#if defined(_WIN32)
-    #include <GL/glew.h>
-    #include <GLFW/glfw3.h>
-#endif
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
 
 #endif //LIGHTRAYENGINE_PLATFORM_DEFINES_H

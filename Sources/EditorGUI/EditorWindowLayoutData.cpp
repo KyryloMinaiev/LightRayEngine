@@ -26,8 +26,8 @@ namespace LightRayEngine {
     }
 
     void EditorWindowLayoutData::FromJson(JsonLibrary::JsonObject &jsonObject) {
-        className = jsonObject["className"];
-        title = jsonObject["title"];
+        className = static_cast<std::string>(jsonObject["className"]);
+        title = static_cast<std::string>(jsonObject["title"]);
         width = jsonObject["width"];
         height = jsonObject["height"];
         positionX = jsonObject["positionX"];

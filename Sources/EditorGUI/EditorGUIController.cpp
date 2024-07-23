@@ -28,9 +28,7 @@ namespace LightRayEngine {
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
     }
 
-    EditorGUIController::~EditorGUIController() {
-        m_editorWindowManager->SaveLayout(configurationSettings);
-    }
+    EditorGUIController::~EditorGUIController()  = default;
 
     EditorGUIController::EditorGUIController(EditorConfigurationSettings *editorSettings) : EditorLoopSystem(
             editorSettings) {
@@ -81,5 +79,9 @@ namespace LightRayEngine {
         }
 
         return false;
+    }
+
+    void EditorGUIController::OnLoopStop() {
+        m_editorWindowManager->SaveLayout(configurationSettings);
     }
 }

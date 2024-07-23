@@ -19,6 +19,7 @@ namespace LightRayEngine {
 
         bool Initialize(GLFWwindow* window);
         void Update();
+        void Stop();
     private:
         std::unique_ptr<EditorGUIController> m_editorGuiController;
     };

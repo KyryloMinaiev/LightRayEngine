@@ -14,6 +14,8 @@ namespace LightRayEngine {
                 configurationSettings = editorSettings;
             }
 
+            virtual void OnLoopStop() {}
+
             virtual ~EditorLoopSystem() = default;
         protected:
             EditorConfigurationSettings* configurationSettings;

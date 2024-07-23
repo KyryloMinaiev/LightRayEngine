@@ -24,4 +24,8 @@ namespace LightRayEngine {
 
         return true;
     }
+
+    void EditorLoop::Stop() {
+        m_editorGuiController->OnLoopStop();
+    }
 }

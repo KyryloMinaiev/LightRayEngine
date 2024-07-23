@@ -32,6 +32,7 @@ namespace LightRayEngine {
     }
 
     EditorApplication::~EditorApplication() {
+        m_editorLoop->Stop();
         SaveEditorConfiguration();
         glfwDestroyWindow(m_mainWindow);
         glfwTerminate();
@@ -117,6 +118,7 @@ namespace LightRayEngine {
         m_editorConfigurationSettings->SetField("editorHeight", height);
         int maximized = glfwGetWindowAttrib(m_mainWindow, GLFW_MAXIMIZED);
         m_editorConfigurationSettings->SetField("editorMaximised", maximized);
+
         EditorConfigurationSettingsUtils::SaveEditorConfigurationSettings();
     }
 } // LightRayEngine

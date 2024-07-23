@@ -23,7 +23,9 @@ namespace LightRayEngine {
             void StartFrame();
             void Render();
 
-            ~EditorGUIController() override;
+        void OnLoopStop() override;
+
+        ~EditorGUIController() override;
 
         private:
             static bool InitializeImGUI(GLFWwindow* window);

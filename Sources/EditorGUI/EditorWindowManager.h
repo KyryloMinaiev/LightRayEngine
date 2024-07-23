@@ -28,7 +28,7 @@ namespace LightRayEngine {
 
         void DrawEditorWindows() const;
 
-        void LoadLayout(EditorConfigurationSettings* editorConfigurationSettings);
+        static void LoadLayout(EditorConfigurationSettings* editorConfigurationSettings);
 
         void SaveLayout(EditorConfigurationSettings* editorConfigurationSettings) const;
 

@@ -32,7 +32,9 @@ add_executable(LightRayEngine Sources/main.cpp
         Sources/EditorGUI/EditorWindows/InspectorWindow.cpp
         Sources/EditorGUI/EditorWindows/ProjectView.cpp
         Sources/EditorGUI/EditorWindows/SceneView.cpp
-        Sources/EditorGUI/EditorWindowLayoutData.cpp)
+        Sources/EditorGUI/EditorWindowLayoutData.cpp
+        Sources/EditorGUI/EditorWindows/ProjectWizardWindow.cpp
+        Sources/EditorGUI/EditorWindows/ProjectWizardWindow.h)
 
 IF (WIN32)
     target_include_directories(LightRayEngine PRIVATE Sources/ExternalTools/GLEW/include

@@ -10,6 +10,7 @@
 #include "../EditorWindows/InspectorWindow.h"
 #include "../EditorWindows/ProjectView.h"
 #include "../EditorWindows/SceneView.h"
+#include "../EditorWindows/ProjectWizardWindow.h"
 
 namespace LightRayEngine {
     struct MenuItem {
@@ -24,6 +25,7 @@ namespace LightRayEngine {
 
     std::vector<MenuItem> menuItems =
     {
+        MenuItem("File/Open Project...", ProjectWizardWindow::Create),
         MenuItem("File/Save Project", nullptr),
         MenuItem("Windows/Inspector", InspectorWindow::Create),
         MenuItem("Windows/Console", ConsoleWindow::Create),

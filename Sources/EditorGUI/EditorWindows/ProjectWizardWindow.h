@@ -6,6 +6,7 @@
 #define LIGHTRAYENGINE_PROJECTWIZARDWINDOW_H
 
 #include "../EditorWindow.h"
+#include <vector>
 
 namespace LightRayEngine {
     class ProjectWizardWindow : public EditorWindow {
@@ -15,6 +16,8 @@ namespace LightRayEngine {
         static void Create();
     private:
         void LoadLastProjects();
+
+        std::vector<std::string> m_lastProjectsPathList;
     };
 }
 

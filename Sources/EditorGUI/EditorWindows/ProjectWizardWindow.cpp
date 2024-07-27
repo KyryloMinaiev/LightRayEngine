@@ -5,11 +5,12 @@
 #include "ProjectWizardWindow.h"
 #include <ImGUI.h>
 #include "../EditorWindowManager.h"
+#include "../../Core/EditorConfigurationSettings/EditorConfigurationSettingsUtils.h"
 
 namespace LightRayEngine {
 
     void ProjectWizardWindow::OnCreate() {
-
+        LoadLastProjects();
     }
 
     void ProjectWizardWindow::OnGui() {
@@ -23,5 +24,17 @@ namespace LightRayEngine {
         window->resizable = false;
         window->canBeDocked = false;
         ImGui::SetNextWindowFocus();
+    }
+
+    void ProjectWizardWindow::LoadLastProjects() {
+        EditorConfigurationSettings *settings = EditorConfigurationSettingsUtils::GetSettings();
+        if (!settings) {
+            return;
+        }
+
+        m_lastProjectsPathList = settings->GetValue("lastProjects", std::vector<std::string>());
+        for (auto projectPath : m_lastProjectsPathList) {
+
+        }
     }
 }

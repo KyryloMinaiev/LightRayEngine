@@ -13,6 +13,7 @@ namespace LightRayEngine {
     public:
         static EditorConfigurationSettings* LoadOrCreateDefaultEditorConfig();
         static void SaveEditorConfigurationSettings();
+        static EditorConfigurationSettings*  GetSettings();
     private:
         static constexpr auto k_configFileName = "editorConfiguration.config";
 

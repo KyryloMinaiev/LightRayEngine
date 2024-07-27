@@ -47,7 +47,20 @@ namespace LightRayEngine {
 
     void EditorWindowManager::DrawEditorWindow(EditorWindow *window) const {
         ImGui::SetNextWindowSize(ImVec2(window->width, window->height), ImGuiCond_FirstUseEver);
-        if (!ImGui::Begin(window->title.c_str(), nullptr, ImGuiWindowFlags_NoCollapse)) {
+        int windowFlags = ImGuiWindowFlags_NoCollapse;
+        if(!window->canBeMoved) {
+            windowFlags |= ImGuiWindowFlags_NoMove;
+        }
+
+        if(!window->resizable) {
+            windowFlags |= ImGuiWindowFlags_NoResize;
+        }
+
+        if(!window->canBeDocked) {
+            windowFlags |= ImGuiWindowFlags_NoDocking;
+        }
+
+        if (!ImGui::Begin(window->title.c_str(), nullptr, windowFlags)) {
             ImGui::End();
             return;
         }

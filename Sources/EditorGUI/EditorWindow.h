@@ -17,6 +17,9 @@ namespace LightRayEngine {
         int positionX = 0;
         int positionY = 0;
 
+        bool canBeMoved = true;
+        bool canBeDocked = true;
+        bool resizable = true;
         bool isDocked;
         unsigned int dockId;
         bool isFocused;

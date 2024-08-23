@@ -80,4 +80,19 @@ namespace LightRayEngine {
         window->OnGui();
         ImGui::End();
     }
+
+    void EditorWindowManager::CloseWindow(EditorWindow *window) {
+        s_instance->CloseWindowInternal(window);
+    }
+
+    void EditorWindowManager::CloseWindowInternal(EditorWindow *window) {
+        auto it = m_editorWindows.begin();
+
+        for (;it < m_editorWindows.end(); it++) {
+            if(window == it->get()) {
+                m_editorWindows.erase(it);
+                break;
+            }
+        }
+    }
 }

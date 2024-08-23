@@ -14,28 +14,26 @@ namespace LightRayEngine {
     class EditorWindowManager {
     public:
         EditorWindowManager();
-
         ~EditorWindowManager();
 
         template<typename T>
         static EditorWindow *CreateBasicEditorWindow(std::string title);
-
         template<typename T>
         static T *CreateEditorWindow();
-
         template<typename T>
         static T *CreateEditorWindow(std::string title);
 
+        static void CloseWindow(EditorWindow *window);
+
         void DrawEditorWindows() const;
-
-        static void LoadLayout(EditorConfigurationSettings* editorConfigurationSettings);
-
-        void SaveLayout(EditorConfigurationSettings* editorConfigurationSettings) const;
+        void LoadLayout(EditorConfigurationSettings *editorConfigurationSettings);
+        void SaveLayout(EditorConfigurationSettings *editorConfigurationSettings) const;
 
     private:
         static EditorWindowManager *s_instance;
 
         void DrawEditorWindow(EditorWindow *window) const;
+        void CloseWindowInternal(EditorWindow *window);
 
         std::vector<std::unique_ptr<EditorWindow>> m_editorWindows;
 

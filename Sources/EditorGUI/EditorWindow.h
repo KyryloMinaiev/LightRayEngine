@@ -25,5 +25,7 @@ namespace LightRayEngine {
         bool isFocused;
 
         std::string title;
+
+        void Close();
     };
 }

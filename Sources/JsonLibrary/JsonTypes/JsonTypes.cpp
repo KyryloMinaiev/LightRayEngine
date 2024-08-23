@@ -7,8 +7,6 @@
 namespace JsonLibrary {
     std::string toString(JsonType jsonType){
         switch (jsonType) {
-            case JsonType::JsonInt:
-                return "JsonInt";
             case JsonType::JsonFloat:
                 return "JsonFloat";
             case JsonType::JsonBool:

@@ -10,7 +10,7 @@ namespace JsonLibrary {
 
     JsonArray::JsonArray() = default;
 
-    JsonArray::JsonArray(const std::vector<int> &array) : _vectorType(JsonType::JsonInt) {
+    JsonArray::JsonArray(const std::vector<int> &array) : _vectorType(JsonType::JsonFloat) {
         _array = {array.begin(), array.end()};
     }
 
@@ -34,80 +34,24 @@ namespace JsonLibrary {
         _array = {other._array.begin(), other._array.end()};
     }
 
-    JsonArray::operator std::vector<int>() const {
-        if (_array.empty()) {
-            return {};
-        }
-
-        if (_vectorType != JsonType::JsonInt) {
-            throw InvalidCastTypeException(JsonType::JsonInt, _vectorType);
-        }
-
-        return {_array.begin(), _array.end()};
+    JsonArray::operator std::vector<int>() {
+        return GetJsonType<int>(JsonType::JsonFloat);
     }
 
-    JsonArray::operator std::vector<float>() const {
-        if (_array.empty()) {
-            return {};
-        }
-
-        if (_vectorType == JsonType::JsonFloat) {
-            return {_array.begin(), _array.end()};
-        }
-
-        if (_vectorType == JsonType::JsonInt) {
-            std::vector<float> result;
-            result.reserve(_array.size());
-            for (const auto &i: _array) {
-                result.push_back(i);
-            }
-
-            return result;
-        }
-
-        throw InvalidCastTypeException(JsonType::JsonFloat, _vectorType);
+    JsonArray::operator std::vector<float>() {
+        return GetJsonType<float>(JsonType::JsonFloat);
     }
 
-    JsonArray::operator std::vector<std::string>() const {
-        if (_array.empty()) {
-            return {};
-        }
-
-        if (_vectorType != JsonType::JsonString) {
-            throw InvalidCastTypeException(JsonType::JsonString, _vectorType);
-        }
-
-        std::vector<std::string> returnVector;
-        returnVector.reserve(_array.size());
-        for (auto base_json: _array) {
-            returnVector.push_back(base_json);
-        }
-
-        return returnVector;
+    JsonArray::operator std::vector<std::string>() {
+        return GetJsonType<std::string>(JsonType::JsonString);
     }
 
-    JsonArray::operator std::vector<bool>() const {
-        if (_array.empty()) {
-            return {};
-        }
-
-        if (_vectorType != JsonType::JsonBool) {
-            throw InvalidCastTypeException(JsonType::JsonBool, _vectorType);
-        }
-
-        return {_array.begin(), _array.end()};
+    JsonArray::operator std::vector<bool>() {
+        return GetJsonType<bool>(JsonType::JsonBool);
     }
 
-    JsonArray::operator std::vector<JsonObject>() const {
-        if (_array.empty()) {
-            return {};
-        }
-
-        if (_vectorType != JsonType::JsonObject) {
-            throw InvalidCastTypeException(JsonType::JsonObject, _vectorType);
-        }
-
-        return {_array.begin(), _array.end()};
+    JsonArray::operator std::vector<JsonObject>() {
+        return GetJsonType<JsonObject>(JsonType::JsonObject);
     }
 
     BaseJsonType &JsonArray::operator[](const int &index) {
@@ -157,16 +101,8 @@ namespace JsonLibrary {
             if (waitingNextValue && foundFirstValue && base_json.TryDecodeJsonType(json, i, index)) {
                 i = index;
                 waitingNextValue = false;
-                const bool isIntButNeededFloat = _vectorType == JsonType::JsonFloat && base_json.GetType() ==
-                                                                                       JsonType::JsonInt;
-                if (!isIntButNeededFloat && _vectorType != base_json.GetType()) {
+                if (_vectorType != base_json.GetType()) {
                     return false;
-                }
-
-                if (isIntButNeededFloat) {
-                    const int currentValue = base_json;
-                    const float floatValue = static_cast<float>(currentValue);
-                    base_json = BaseJsonType(floatValue);
                 }
 
                 _array.push_back(base_json);
@@ -197,5 +133,24 @@ namespace JsonLibrary {
 
         buffer << JsonLiteralsUtils::GetLiteral(JsonLiterals::ArrayEnd);
         return buffer.str();
+    }
+
+    template<typename T>
+    std::vector<T> JsonArray::GetJsonType(JsonType jsonType) {
+        if (_array.empty()) {
+            return {};
+        }
+
+        if (_vectorType != jsonType) {
+            throw InvalidCastTypeException(jsonType, _vectorType);
+        }
+
+        std::vector<T> returnVector;
+        returnVector.reserve(_array.size());
+        for (auto& base_json: _array) {
+            returnVector.push_back(static_cast<T>(base_json));
+        }
+
+        return returnVector;
     }
 }

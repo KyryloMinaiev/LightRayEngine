@@ -6,7 +6,6 @@ add_library(json-library JsonLibrary.cpp
         JsonTypes/JsonArray.cpp
         JsonTypes/JsonBool.cpp
         JsonTypes/JsonFloat.cpp
-        JsonTypes/JsonInt.cpp
         JsonTypes/JsonObject.cpp
         JsonTypes/JsonObjectData.cpp
         JsonTypes/JsonString.cpp

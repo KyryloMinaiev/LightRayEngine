@@ -5,16 +5,32 @@
 #include "ProjectWizardWindow.h"
 #include <ImGUI.h>
 #include "../EditorWindowManager.h"
-#include "../../Core/EditorConfigurationSettings/EditorConfigurationSettingsUtils.h"
+#include "ProjectCreatingWindow.h"
+#include "NativeFileDialog.h"
 
 namespace LightRayEngine {
-
     void ProjectWizardWindow::OnCreate() {
         LoadLastProjects();
     }
 
     void ProjectWizardWindow::OnGui() {
+        ImGui::ShowDemoWindow();
+        ImGui::Text("Projects:");
+        ImGui::SameLine();
+        if(ImGui::Button("Add", ImVec2(100, 30))){
+            std::string selectedProjectPath;
+            NativeFileDialog::OpenFolderDialog("", selectedProjectPath);
+        }
 
+        ImGui::SameLine();
+        if(ImGui::Button("Create", ImVec2(100, 30))){
+            auto callback = std::bind(&ProjectWizardWindow::OnProjectCreated, this, std::placeholders::_1, std::placeholders::_2);
+            ProjectCreatingWindow::Create(callback);
+        }
+
+        if(ImGui::Button("Cancel", ImVec2(100, 30))){
+            Close();
+        }
     }
 
     void ProjectWizardWindow::Create() {
@@ -27,14 +43,13 @@ namespace LightRayEngine {
     }
 
     void ProjectWizardWindow::LoadLastProjects() {
-        EditorConfigurationSettings *settings = EditorConfigurationSettingsUtils::GetSettings();
-        if (!settings) {
-            return;
-        }
-
-        m_lastProjectsPathList = settings->GetValue("lastProjects", std::vector<std::string>());
+        m_lastProjectsPathList = ProjectCreationUtils::GetSavedProjects();
         for (auto projectPath : m_lastProjectsPathList) {
 
         }
+    }
+
+    void ProjectWizardWindow::OnProjectCreated(std::string projectName, std::string projectPath) {
+
     }
 }

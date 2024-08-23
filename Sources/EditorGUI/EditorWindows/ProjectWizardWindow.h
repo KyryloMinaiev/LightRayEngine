@@ -6,7 +6,9 @@
 #define LIGHTRAYENGINE_PROJECTWIZARDWINDOW_H
 
 #include "../EditorWindow.h"
+#include "../../Core/ProjectCreationUtils/ProjectCreationUtils.h"
 #include <vector>
+#include <functional>
 
 namespace LightRayEngine {
     class ProjectWizardWindow : public EditorWindow {
@@ -15,9 +17,10 @@ namespace LightRayEngine {
         void OnGui() override;
         static void Create();
     private:
+        void OnProjectCreated(std::string projectName, std::string projectPath);
         void LoadLastProjects();
 
-        std::vector<std::string> m_lastProjectsPathList;
+        std::vector<ProjectData> m_lastProjectsPathList;
     };
 }
 

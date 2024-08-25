@@ -5,6 +5,7 @@
 #include "FileUtils.h"
 #include <fstream>
 #include <sstream>
+#include <filesystem>
 
 namespace LightRayEngine {
     bool FileUtils::TryLoadFile(const std::string &path, std::string &output) {
@@ -92,5 +93,14 @@ namespace LightRayEngine {
         outputFileStream.close();
 
         return true;
+    }
+
+    bool FileUtils::TryCreateFolder(const std::string &path, const std::string &folderName) {
+        if(!std::filesystem::exists(path)){
+            return false;
+        }
+
+        std::string fullPath = path + "/" + folderName;
+        return std::filesystem::create_directory(fullPath);
     }
 }

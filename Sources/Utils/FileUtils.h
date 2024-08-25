@@ -22,6 +22,7 @@ namespace LightRayEngine {
         static bool TryAppendFile(const std::string &path, const std::string &input);
 
         static float GetLastFileChangeTime(const std::string &path);
+        static bool TryCreateFolder(const std::string &path, const std::string &folderName);
     };
 }
 

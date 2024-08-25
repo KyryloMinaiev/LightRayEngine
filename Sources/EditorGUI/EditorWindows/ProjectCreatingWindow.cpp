@@ -4,6 +4,7 @@
 
 #include "ProjectCreatingWindow.h"
 #include "../EditorWindowManager.h"
+#include "../../Core/ProjectCreationUtils/ProjectCreationUtils.h"
 #include <ImGUI.h>
 #include <misc/cpp/imgui_stdlib.h>
 #include "NativeFileDialog.h"
@@ -29,6 +30,7 @@ namespace LightRayEngine {
         if (ImGui::Button("Create", ImVec2(100, 30))) {
             if (m_projectCreationCallback) {
                 m_projectCreationCallback(m_projectName, m_projectPath);
+                Close();
             }
         }
         if (isDisabled) {
@@ -56,6 +58,6 @@ namespace LightRayEngine {
     }
 
     bool ProjectCreatingWindow::IsPathValid() {
-        return !m_projectPath.empty();
+        return !m_projectPath.empty() && ProjectCreationUtils::ValidatePathForProjectCreating(m_projectPath);
     }
 } // LightRayEngine

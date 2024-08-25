@@ -30,6 +30,8 @@ namespace LightRayEngine {
     public:
         static void Init(EditorConfigurationSettings *settings);
         static std::vector<ProjectData> GetSavedProjects();
+        static bool TryAddProjectByPath(const std::string& path);
+        static bool ValidatePathForProjectCreating(const std::string& path);
 
     private:
         static void ReadSavedProjectsPathList();

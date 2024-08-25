@@ -58,7 +58,9 @@ namespace LightRayEngine {
         }
 
         std::string projectName = projectSettings.projectName;
-        AddProjectToList(path, projectName);
+        if (!TryAddProjectToList(path, projectName)) {
+            return false;
+        }
 
         return true;
     }
@@ -68,7 +70,10 @@ namespace LightRayEngine {
             return false;
         }
 
-        AddProjectToList(path, projectName);
+        if (!TryAddProjectToList(path, projectName)) {
+            return false;
+        }
+
         if (!FileUtils::TryCreateFolder(path, k_assetsFolderName)) {
             return false;
         }
@@ -93,7 +98,11 @@ namespace LightRayEngine {
         return path1 + "/" + path2;
     }
 
-    void ProjectCreationUtils::AddProjectToList(const std::string &path, const std::string &projectName) {
+    bool ProjectCreationUtils::TryAddProjectToList(const std::string &path, const std::string &projectName) {
+        if (IsProjectAdded(path)) {
+            return false;
+        }
+
         std::time_t now = std::time(nullptr);
         ProjectData data;
         data.path = path;
@@ -101,6 +110,18 @@ namespace LightRayEngine {
         data.changeTime = *std::localtime(&now);
         m_savedProjectsPathList.push_back(data);
         m_settings->GetField("savedProjects").EncodeArray(m_savedProjectsPathList);
+
+        return true;
+    }
+
+    bool ProjectCreationUtils::IsProjectAdded(const std::string &path) {
+        for (const auto &projectData: m_savedProjectsPathList) {
+            if (projectData.path == path) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     void ProjectData::FromJson(JsonLibrary::JsonObject &jsonObject) {

@@ -28,4 +28,8 @@ namespace LightRayEngine {
         jsonObject["yday"] = tm_yday;
         jsonObject["isdst"] = tm_isdst;
     }
+
+    SerializedTime::SerializedTime(tm &other) : tm() {
+
+    }
 }

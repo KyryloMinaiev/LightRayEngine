@@ -107,7 +107,7 @@ namespace LightRayEngine {
         ProjectData data;
         data.path = path;
         data.name = projectName;
-        data.changeTime = *std::localtime(&now);
+        data.changeTime = SerializedTime(*std::localtime(&now));
         m_savedProjectsPathList.push_back(data);
         m_settings->GetField("savedProjects").EncodeArray(m_savedProjectsPathList);
 

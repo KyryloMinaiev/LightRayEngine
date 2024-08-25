@@ -29,7 +29,7 @@ namespace LightRayEngine {
         jsonObject["isdst"] = tm_isdst;
     }
 
-    SerializedTime::SerializedTime(tm &other) : tm() {
+    SerializedTime::SerializedTime(tm &other) : tm(other) {
 
     }
 }

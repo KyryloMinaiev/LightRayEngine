@@ -32,12 +32,19 @@ namespace LightRayEngine {
         static std::vector<ProjectData> GetSavedProjects();
         static bool TryAddProjectByPath(const std::string& path);
         static bool ValidatePathForProjectCreating(const std::string& path);
+        static bool TryCreateProjectByPath(const std::string& path, const std::string& projectName);
 
     private:
+        static void AddProjectToList(const std::string& path, const std::string& projectName);
         static void ReadSavedProjectsPathList();
+        static std::string CombinePath(const std::string& path1, const std::string& path2);
 
         static EditorConfigurationSettings *m_settings;
         static std::vector<ProjectData> m_savedProjectsPathList;
+
+        static constexpr auto k_assetsFolderName = "Assets";
+        static constexpr auto k_projectSettingsFolderName = "ProjectSettings";
+        static constexpr auto k_projectSettingsFileName = "ProjectSettings.json";
     };
 
 } // LightRayEngine

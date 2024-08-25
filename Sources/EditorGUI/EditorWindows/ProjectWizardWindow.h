@@ -17,7 +17,7 @@ namespace LightRayEngine {
         void OnGui() override;
         static void Create();
     private:
-        void OnProjectCreated(std::string projectName, std::string projectPath);
+        void OnProjectCreated(const std::string& projectName, const std::string& projectPath);
         void LoadLastProjects();
 
         std::vector<ProjectData> m_lastProjectsPathList;

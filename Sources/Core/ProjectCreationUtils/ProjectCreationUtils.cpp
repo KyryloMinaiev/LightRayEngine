@@ -4,10 +4,12 @@
 
 #include "ProjectCreationUtils.h"
 #include "../EditorConfigurationSettings/EditorConfigurationSettingsUtils.h"
+#include "FileUtils.h"
+#include "../ProjectSettings.h"
 #include <filesystem>
 
 namespace LightRayEngine {
-    EditorConfigurationSettings* ProjectCreationUtils::m_settings;
+    EditorConfigurationSettings *ProjectCreationUtils::m_settings;
     std::vector<ProjectData> ProjectCreationUtils::m_savedProjectsPathList;
 
     std::vector<ProjectData> ProjectCreationUtils::GetSavedProjects() {
@@ -29,7 +31,76 @@ namespace LightRayEngine {
     }
 
     bool ProjectCreationUtils::TryAddProjectByPath(const std::string &path) {
-        return false;
+        std::string assetsFolderPath = CombinePath(path, k_assetsFolderName);
+        std::string projectSettingsFolderPath = CombinePath(path, k_projectSettingsFolderName);
+        std::string projectSettingsFilePath = CombinePath(projectSettingsFolderPath, k_projectSettingsFileName);
+
+        if (!std::filesystem::exists(assetsFolderPath)) {
+            return false;
+        }
+
+        if (!std::filesystem::exists(projectSettingsFolderPath)) {
+            return false;
+        }
+
+        if (!std::filesystem::exists(projectSettingsFilePath)) {
+            return false;
+        }
+
+        std::string projectSettingsStr;
+        if (!FileUtils::TryLoadFile(projectSettingsFilePath, projectSettingsStr)) {
+            return false;
+        }
+
+        ProjectSettings projectSettings;
+        if (!JsonLibrary::JsonLibrary::FromJsonString(projectSettingsStr, projectSettings)) {
+            return false;
+        }
+
+        std::string projectName = projectSettings.projectName;
+        AddProjectToList(path, projectName);
+
+        return true;
+    }
+
+    bool ProjectCreationUtils::TryCreateProjectByPath(const std::string &path, const std::string &projectName) {
+        if (!ValidatePathForProjectCreating(path)) {
+            return false;
+        }
+
+        AddProjectToList(path, projectName);
+        if (!FileUtils::TryCreateFolder(path, k_assetsFolderName)) {
+            return false;
+        }
+
+        if (!FileUtils::TryCreateFolder(path, k_projectSettingsFolderName)) {
+            return false;
+        }
+
+        std::string projectSettingsFilePath = CombinePath(CombinePath(path, k_projectSettingsFolderName),
+                                                          k_projectSettingsFileName);
+        ProjectSettings settings;
+        settings.projectName = projectName;
+        std::string json = JsonLibrary::JsonLibrary::ToJson(settings);
+        if (!FileUtils::TrySaveFile(projectSettingsFilePath, json)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    std::string ProjectCreationUtils::CombinePath(const std::string &path1, const std::string &path2) {
+        return path1 + "/" + path2;
+    }
+
+    void ProjectCreationUtils::AddProjectToList(const std::string &path, const std::string &projectName) {
+        std::time_t now = std::time(nullptr);
+        ProjectData data;
+        data.path = path;
+        data.name = projectName;
+        data.changeTime = *std::localtime(&now);
+        m_savedProjectsPathList.push_back(data);
+        m_settings->GetField("savedProjects").EncodeArray(m_savedProjectsPathList);
     }
 
     void ProjectData::FromJson(JsonLibrary::JsonObject &jsonObject) {

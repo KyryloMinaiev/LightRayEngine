@@ -34,6 +34,8 @@ namespace LightRayEngine {
         for (const auto& project : m_lastProjectsPathList) {
             ImGui::Text(project.name.c_str());
             ImGui::Text(project.path.c_str());
+            ImGui::SameLine();
+            ImGui::Text(GetChangeTimeString(project.changeTime));
         }
 
         if(ImGui::Button("Cancel", ImVec2(100, 30))){
@@ -52,10 +54,36 @@ namespace LightRayEngine {
 
     void ProjectWizardWindow::LoadLastProjects() {
         m_lastProjectsPathList = ProjectCreationUtils::GetSavedProjects();
+        std::time_t now = std::time(nullptr);
+        m_currentTime = SerializedTime(*std::localtime(&now));
     }
 
     void ProjectWizardWindow::OnProjectCreated(const std::string& projectName, const std::string& projectPath) {
         ProjectCreationUtils::TryCreateProjectByPath(projectPath, projectName);
         LoadLastProjects();
+    }
+
+    const char* ProjectWizardWindow::GetChangeTimeString(const SerializedTime &changeTime) {
+        if(m_currentTime.tm_year - changeTime.tm_year > 0){
+            return "More than a year ago";
+        }
+
+        if(m_currentTime.tm_mon - changeTime.tm_year > 1){
+            return "Less than a year ago";
+        }
+
+        if(m_currentTime.tm_mday - changeTime.tm_mday > 1){
+            return "Less than a month ago";
+        }
+
+        if(m_currentTime.tm_hour - changeTime.tm_hour > 1){
+            return "More than a hour ago";
+        }
+
+        if(m_currentTime.tm_min - changeTime.tm_min > 5){
+            return "Less than a hour ago";
+        }
+
+        return "A moment ago";
     }
 }

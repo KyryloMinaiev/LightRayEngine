@@ -19,7 +19,9 @@ namespace LightRayEngine {
     private:
         void OnProjectCreated(const std::string& projectName, const std::string& projectPath);
         void LoadLastProjects();
+        const char* GetChangeTimeString(const SerializedTime& changeTime);
 
+        SerializedTime m_currentTime;
         std::vector<ProjectData> m_lastProjectsPathList;
     };
 }

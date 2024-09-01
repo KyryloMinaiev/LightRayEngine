@@ -4,7 +4,7 @@
 
 #include "ProjectCreatingWindow.h"
 #include "../EditorWindowManager.h"
-#include "../../Core/ProjectCreationUtils/ProjectCreationUtils.h"
+#include "../../Core/ProjectManager/ProjectManager.h"
 #include <ImGUI.h>
 #include <misc/cpp/imgui_stdlib.h>
 #include "NativeFileDialog.h"
@@ -58,6 +58,6 @@ namespace LightRayEngine {
     }
 
     bool ProjectCreatingWindow::IsPathValid() {
-        return !m_projectPath.empty() && ProjectCreationUtils::ValidatePathForProjectCreating(m_projectPath);
+        return !m_projectPath.empty() && ProjectManager::ValidatePathForProjectCreating(m_projectPath);
     }
 } // LightRayEngine

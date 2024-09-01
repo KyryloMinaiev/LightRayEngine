@@ -21,7 +21,7 @@ namespace LightRayEngine {
         if(ImGui::Button("Add", ImVec2(100, 30))){
             std::string selectedProjectPath;
             NativeFileDialog::OpenFolderDialog("", selectedProjectPath);
-            ProjectCreationUtils::TryAddProjectByPath(selectedProjectPath);
+            ProjectManager::TryAddProjectByPath(selectedProjectPath);
             LoadLastProjects();
         }
 
@@ -53,13 +53,13 @@ namespace LightRayEngine {
     }
 
     void ProjectWizardWindow::LoadLastProjects() {
-        m_lastProjectsPathList = ProjectCreationUtils::GetSavedProjects();
+        m_lastProjectsPathList = ProjectManager::GetSavedProjects();
         std::time_t now = std::time(nullptr);
         m_currentTime = SerializedTime(*std::localtime(&now));
     }
 
     void ProjectWizardWindow::OnProjectCreated(const std::string& projectName, const std::string& projectPath) {
-        ProjectCreationUtils::TryCreateProjectByPath(projectPath, projectName);
+        ProjectManager::TryCreateProjectByPath(projectPath, projectName);
         LoadLastProjects();
     }
 

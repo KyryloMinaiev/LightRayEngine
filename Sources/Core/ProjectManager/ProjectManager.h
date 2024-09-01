@@ -2,8 +2,8 @@
 // Created by MrFlyingChip on 19.08.2024.
 //
 
-#ifndef LIGHTRAYENGINE_PROJECTCREATIONUTILS_H
-#define LIGHTRAYENGINE_PROJECTCREATIONUTILS_H
+#ifndef LIGHTRAYENGINE_PROJECTMANAGER_H
+#define LIGHTRAYENGINE_PROJECTMANAGER_H
 
 #include <vector>
 #include <string>
@@ -25,7 +25,7 @@ namespace LightRayEngine {
         void ToJson(JsonLibrary::JsonObject &jsonObject) const override;
     };
 
-    class ProjectCreationUtils {
+    class ProjectManager {
 
     public:
         static void Init(EditorConfigurationSettings *settings);
@@ -33,6 +33,7 @@ namespace LightRayEngine {
         static bool TryAddProjectByPath(const std::string& path);
         static bool ValidatePathForProjectCreating(const std::string& path);
         static bool TryCreateProjectByPath(const std::string& path, const std::string& projectName);
+        static bool TryOpenProjectByPath(const std::string& path);
 
     private:
         static bool TryAddProjectToList(const std::string& path, const std::string& projectName);
@@ -50,4 +51,4 @@ namespace LightRayEngine {
 
 } // LightRayEngine
 
-#endif //LIGHTRAYENGINE_PROJECTCREATIONUTILS_H
+#endif //LIGHTRAYENGINE_PROJECTMANAGER_H

@@ -2,35 +2,35 @@
 // Created by MrFlyingChip on 19.08.2024.
 //
 
-#include "ProjectCreationUtils.h"
+#include "ProjectManager.h"
 #include "../EditorConfigurationSettings/EditorConfigurationSettingsUtils.h"
 #include "FileUtils.h"
 #include "../ProjectSettings.h"
 #include <filesystem>
 
 namespace LightRayEngine {
-    EditorConfigurationSettings *ProjectCreationUtils::m_settings;
-    std::vector<ProjectData> ProjectCreationUtils::m_savedProjectsPathList;
+    EditorConfigurationSettings *ProjectManager::m_settings;
+    std::vector<ProjectData> ProjectManager::m_savedProjectsPathList;
 
-    std::vector<ProjectData> ProjectCreationUtils::GetSavedProjects() {
+    std::vector<ProjectData> ProjectManager::GetSavedProjects() {
         return m_savedProjectsPathList;
     }
 
-    void ProjectCreationUtils::Init(EditorConfigurationSettings *settings) {
+    void ProjectManager::Init(EditorConfigurationSettings *settings) {
         m_settings = settings;
         ReadSavedProjectsPathList();
     }
 
-    void ProjectCreationUtils::ReadSavedProjectsPathList() {
+    void ProjectManager::ReadSavedProjectsPathList() {
         auto array = m_settings->GetValue("savedProjects", std::vector<JsonLibrary::JsonObject>());
         array.DecodeArray(m_savedProjectsPathList);
     }
 
-    bool ProjectCreationUtils::ValidatePathForProjectCreating(const std::string &path) {
+    bool ProjectManager::ValidatePathForProjectCreating(const std::string &path) {
         return std::filesystem::exists(path) && std::filesystem::is_empty(path);
     }
 
-    bool ProjectCreationUtils::TryAddProjectByPath(const std::string &path) {
+    bool ProjectManager::TryAddProjectByPath(const std::string &path) {
         std::string assetsFolderPath = CombinePath(path, k_assetsFolderName);
         std::string projectSettingsFolderPath = CombinePath(path, k_projectSettingsFolderName);
         std::string projectSettingsFilePath = CombinePath(projectSettingsFolderPath, k_projectSettingsFileName);
@@ -65,7 +65,7 @@ namespace LightRayEngine {
         return true;
     }
 
-    bool ProjectCreationUtils::TryCreateProjectByPath(const std::string &path, const std::string &projectName) {
+    bool ProjectManager::TryCreateProjectByPath(const std::string &path, const std::string &projectName) {
         if (!ValidatePathForProjectCreating(path)) {
             return false;
         }
@@ -94,11 +94,11 @@ namespace LightRayEngine {
         return true;
     }
 
-    std::string ProjectCreationUtils::CombinePath(const std::string &path1, const std::string &path2) {
+    std::string ProjectManager::CombinePath(const std::string &path1, const std::string &path2) {
         return path1 + "/" + path2;
     }
 
-    bool ProjectCreationUtils::TryAddProjectToList(const std::string &path, const std::string &projectName) {
+    bool ProjectManager::TryAddProjectToList(const std::string &path, const std::string &projectName) {
         if (IsProjectAdded(path)) {
             return false;
         }
@@ -114,13 +114,17 @@ namespace LightRayEngine {
         return true;
     }
 
-    bool ProjectCreationUtils::IsProjectAdded(const std::string &path) {
+    bool ProjectManager::IsProjectAdded(const std::string &path) {
         for (const auto &projectData: m_savedProjectsPathList) {
             if (projectData.path == path) {
                 return true;
             }
         }
 
+        return false;
+    }
+
+    bool ProjectManager::TryOpenProjectByPath(const std::string &path) {
         return false;
     }
 

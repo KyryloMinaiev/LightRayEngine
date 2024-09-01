@@ -35,8 +35,8 @@ add_executable(LightRayEngine Sources/main.cpp
         Sources/EditorGUI/EditorWindowLayoutData.cpp
         Sources/EditorGUI/EditorWindows/ProjectWizardWindow.cpp
         Sources/EditorGUI/EditorWindows/ProjectWizardWindow.h
-        Sources/Core/ProjectCreationUtils/ProjectCreationUtils.cpp
-        Sources/Core/ProjectCreationUtils/ProjectCreationUtils.h
+        Sources/Core/ProjectManager/ProjectManager.cpp
+        Sources/Core/ProjectManager/ProjectManager.h
         Sources/Core/SerializedTime.cpp
         Sources/Core/SerializedTime.h
         Sources/EditorGUI/EditorWindows/ProjectCreatingWindow.cpp

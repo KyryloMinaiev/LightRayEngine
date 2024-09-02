@@ -40,4 +40,8 @@ namespace LightRayEngine {
             LightRayLog::LogError("Cannot save editor configuration!");
         }
     }
+
+    EditorConfigurationSettings *EditorConfigurationSettingsUtils::GetSettings() {
+        return s_settings.get();
+    }
 }

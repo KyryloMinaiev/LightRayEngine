@@ -18,6 +18,7 @@ namespace LightRayEngine {
         ~EditorLoop();
 
         bool Initialize(GLFWwindow* window);
+        void Start();
         void Update();
         void Stop();
     private:

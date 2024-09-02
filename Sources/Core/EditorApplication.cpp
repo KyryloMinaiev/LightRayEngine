@@ -19,6 +19,7 @@ namespace LightRayEngine {
             return;
         }
 
+        m_editorLoop->Start();
         while (!glfwWindowShouldClose(m_mainWindow)) {
             try {
                 m_editorLoop->Update();

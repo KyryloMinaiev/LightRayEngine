@@ -4,7 +4,6 @@
 
 namespace JsonLibrary {
     enum class JsonType {
-        JsonInt,
         JsonFloat,
         JsonBool,
         JsonString,

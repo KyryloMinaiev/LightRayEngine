@@ -4,10 +4,13 @@
 
 #include "EditorLoop.h"
 #include "../../EditorGUI/EditorGUIController.h"
+#include "../../EditorGUI/EditorWindows/ProjectWizardWindow.h"
+#include "../ProjectManager/ProjectManager.h"
 
 namespace LightRayEngine {
     EditorLoop::EditorLoop(EditorConfigurationSettings* editorConfiguration) {
         m_editorGuiController = std::make_unique<EditorGUIController>(editorConfiguration);
+        ProjectManager::Init(editorConfiguration, nullptr);
     }
 
     EditorLoop::~EditorLoop() = default;
@@ -27,5 +30,9 @@ namespace LightRayEngine {
 
     void EditorLoop::Stop() {
         m_editorGuiController->OnLoopStop();
+    }
+
+    void EditorLoop::Start() {
+        ProjectWizardWindow::Create();
     }
 }

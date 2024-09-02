@@ -32,7 +32,18 @@ add_executable(LightRayEngine Sources/main.cpp
         Sources/EditorGUI/EditorWindows/InspectorWindow.cpp
         Sources/EditorGUI/EditorWindows/ProjectView.cpp
         Sources/EditorGUI/EditorWindows/SceneView.cpp
-        Sources/EditorGUI/EditorWindowLayoutData.cpp)
+        Sources/EditorGUI/EditorWindowLayoutData.cpp
+        Sources/EditorGUI/EditorWindows/ProjectWizardWindow.cpp
+        Sources/EditorGUI/EditorWindows/ProjectWizardWindow.h
+        Sources/Core/ProjectManager/ProjectManager.cpp
+        Sources/Core/ProjectManager/ProjectManager.h
+        Sources/Core/SerializedTime.cpp
+        Sources/Core/SerializedTime.h
+        Sources/EditorGUI/EditorWindows/ProjectCreatingWindow.cpp
+        Sources/EditorGUI/EditorWindows/ProjectCreatingWindow.h
+        Sources/EditorGUI/EditorWindows/ProjectCreatingWindow.h
+        Sources/Core/ProjectSettings.cpp
+        Sources/Core/ProjectSettings.h)
 
 IF (WIN32)
     target_include_directories(LightRayEngine PRIVATE Sources/ExternalTools/GLEW/include
@@ -73,8 +84,10 @@ add_subdirectory(Sources/Utils)
 add_subdirectory(Sources/LightRayLog)
 add_subdirectory(Sources/ImGUI)
 add_subdirectory(Sources/JsonLibrary)
+add_subdirectory(Sources/NFD)
 
 target_link_libraries(LightRayEngine PRIVATE imgui ${OPENGL_PATH} ${GLEW_PATH} ${GLTW_PATH}
         light-ray-utils
         light-ray-log
-        json-library)
+        json-library
+        native-file-dialog)

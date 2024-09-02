@@ -3,7 +3,6 @@
 #include "JsonArray.h"
 #include "JsonBool.h"
 #include "JsonFloat.h"
-#include "JsonInt.h"
 #include "JsonObject.h"
 #include "JsonString.h"
 #include "JsonTypes.h"
@@ -13,28 +12,16 @@ namespace JsonLibrary {
     class BaseJsonType : public IJsonType {
     public:
         BaseJsonType();
-
         BaseJsonType(const BaseJsonType &other);
-
         BaseJsonType(int value);
-
         BaseJsonType(bool value);
-
         BaseJsonType(float value);
-
-        //BaseJsonType(const std::string& value);
         BaseJsonType(std::string value);
-
         BaseJsonType(const JsonObject &value);
-
         BaseJsonType(const JsonArray &value);
-
         BaseJsonType(const std::vector<int> &value);
-
         BaseJsonType(const std::vector<JsonObject> &value);
-
         BaseJsonType(const std::vector<std::string> &value);
-
         BaseJsonType(const std::vector<float> &value);
 
         ~BaseJsonType() override;
@@ -42,28 +29,17 @@ namespace JsonLibrary {
         bool TryDecodeJsonType(const std::string &json, int startIndex, int &endIndex) override;
 
         std::string EncodeJsonType() const override;
-
         JsonType GetType() const;
-
-        operator bool() const;
-
-        operator int() const;
-
-        operator float() const;
-
-        operator std::string &();
-
-        operator JsonObject() const;
-
-        operator std::vector<float>() const;
-
-        operator std::vector<int>() const;
-
-        operator std::vector<std::string>() const;
-
-        operator std::vector<JsonObject>() const;
-
-        operator std::vector<bool>() const;
+        operator bool();
+        operator int();
+        operator float();
+        operator std::string();
+        operator JsonObject();
+        operator std::vector<float>();
+        operator std::vector<int>();
+        operator std::vector<std::string>();
+        operator std::vector<JsonObject>();
+        operator std::vector<bool>();
 
         void DecodeObject(JsonSerialized &json_serialized);
 
@@ -74,9 +50,12 @@ namespace JsonLibrary {
         void EncodeArray(std::vector<Json> &vector);
 
     private:
+        template<typename T, typename J>
+        T GetJsonType(JsonType jsonType, J& value);
+        bool TypeCheck(JsonType jsonType);
+
         JsonType _jsonType = JsonType::None;
         JsonFloat _floatValue;
-        JsonInt _intValue;
         JsonBool _boolValue;
         JsonString _stringValue;
         JsonObject _jsonObjectValue;
@@ -113,6 +92,20 @@ namespace JsonLibrary {
         }
 
         _jsonArrayValue = JsonArray(json_objects);
+    }
+
+
+    template<typename T, typename J>
+    T BaseJsonType::GetJsonType(JsonType jsonType, J &value) {
+        if (TypeCheck(JsonType::None)) {
+            _jsonType = jsonType;
+        }
+
+        if (TypeCheck(jsonType)) {
+            return static_cast<T>(value);
+        }
+
+        throw InvalidCastTypeException(jsonType, _jsonType);
     }
 }
 

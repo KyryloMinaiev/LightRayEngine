@@ -46,10 +46,19 @@ namespace JsonLibrary {
     bool JsonFloat::TryDecodeFloatFromString(const std::string &floatString, float &result) {
         std::size_t characterCount;
         result = std::stof(floatString, &characterCount);
-        if (floatString.size() != characterCount) {
-            return false;
+        if (floatString.size() == characterCount) {
+            return true;
+        }
+
+        result = std::stoi(floatString, &characterCount);
+        if (floatString.size() == characterCount) {
+            return true;
         }
 
         return true;
+    }
+
+    JsonFloat::operator int() const {
+        return _value;
     }
 }

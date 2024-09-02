@@ -14,29 +14,20 @@ namespace JsonLibrary {
     class JsonArray : public IJsonType {
     public:
         ~JsonArray();
+
         JsonArray();
-
         JsonArray(const std::vector<int> &array);
-
         JsonArray(const std::vector<float> &array);
-
         JsonArray(const std::vector<bool> &array);
-
         JsonArray(const std::vector<std::string> &array);
-
         JsonArray(const std::vector<JsonObject> &array);
-
         JsonArray(const JsonArray &other);
 
-        operator std::vector<int>() const;
-
-        operator std::vector<float>() const;
-
-        operator std::vector<std::string>() const;
-
-        operator std::vector<bool>() const;
-
-        operator std::vector<JsonObject>() const;
+        operator std::vector<int>();
+        operator std::vector<float>();
+        operator std::vector<std::string>();
+        operator std::vector<bool>();
+        operator std::vector<JsonObject>();
 
         BaseJsonType &operator[](const int &index);
 
@@ -45,6 +36,9 @@ namespace JsonLibrary {
         std::string EncodeJsonType() const override;
 
     private:
+        template<typename T>
+        std::vector<T> GetJsonType(JsonType jsonType);
+
         JsonType _vectorType = JsonType::None;
         std::vector<BaseJsonType> _array;
     };

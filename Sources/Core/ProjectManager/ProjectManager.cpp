@@ -13,13 +13,15 @@ namespace LightRayEngine {
     EditorConfigurationSettings *ProjectManager::m_settings;
     std::vector<ProjectData> ProjectManager::m_savedProjectsPathList;
     ProjectData ProjectManager::m_currentProject;
+    ProjectOpenCallback ProjectManager::m_projectOpenCallback;
 
     std::vector<ProjectData> ProjectManager::GetSavedProjects() {
         return m_savedProjectsPathList;
     }
 
-    void ProjectManager::Init(EditorConfigurationSettings *settings) {
+    void ProjectManager::Init(EditorConfigurationSettings *settings, ProjectOpenCallback projectOpenCallback) {
         m_settings = settings;
+        m_projectOpenCallback = projectOpenCallback;
         ReadSavedProjectsPathList();
     }
 
@@ -127,7 +129,28 @@ namespace LightRayEngine {
     }
 
     bool ProjectManager::TryOpenProjectByPath(const std::string &path) {
-        return false;
+        std::string assetsFolderPath = CombinePath(path, k_assetsFolderName);
+        std::string projectSettingsFolderPath = CombinePath(path, k_projectSettingsFolderName);
+        std::string projectSettingsFilePath = CombinePath(projectSettingsFolderPath, k_projectSettingsFileName);
+
+        if (!std::filesystem::exists(assetsFolderPath)) {
+            return false;
+        }
+
+        if (!std::filesystem::exists(projectSettingsFolderPath)) {
+            return false;
+        }
+
+        if (!std::filesystem::exists(projectSettingsFilePath)) {
+            return false;
+        }
+
+        std::string projectSettingsStr;
+        if (!FileUtils::TryLoadFile(projectSettingsFilePath, projectSettingsStr)) {
+            return false;
+        }
+
+        return m_projectOpenCallback(path);
     }
 
     ProjectData ProjectManager::GetCurrentOpenProject() {

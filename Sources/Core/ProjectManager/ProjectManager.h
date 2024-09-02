@@ -9,9 +9,12 @@
 #include <string>
 #include <ctime>
 #include "JsonLibrary.h"
+#include <functional>
 #include "../SerializedTime.h"
 
 namespace LightRayEngine {
+    #define ProjectOpenCallback std::function<bool(std::string)>
+
     class EditorConfigurationSettings;
 
     struct ProjectData : public JsonLibrary::JsonSerialized {
@@ -28,7 +31,7 @@ namespace LightRayEngine {
     class ProjectManager {
 
     public:
-        static void Init(EditorConfigurationSettings *settings);
+        static void Init(EditorConfigurationSettings *settings, ProjectOpenCallback projectOpenCallback);
         static std::vector<ProjectData> GetSavedProjects();
         static bool TryAddProjectByPath(const std::string& path);
         static bool ValidatePathForProjectCreating(const std::string& path);
@@ -46,6 +49,7 @@ namespace LightRayEngine {
         static EditorConfigurationSettings *m_settings;
         static std::vector<ProjectData> m_savedProjectsPathList;
         static ProjectData m_currentProject;
+        static ProjectOpenCallback m_projectOpenCallback;
 
         static constexpr auto k_assetsFolderName = "Assets";
         static constexpr auto k_projectSettingsFolderName = "ProjectSettings";

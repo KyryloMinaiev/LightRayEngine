@@ -10,7 +10,7 @@
 namespace LightRayEngine {
     EditorLoop::EditorLoop(EditorConfigurationSettings* editorConfiguration) {
         m_editorGuiController = std::make_unique<EditorGUIController>(editorConfiguration);
-        ProjectManager::Init(editorConfiguration);
+        ProjectManager::Init(editorConfiguration, nullptr);
     }
 
     EditorLoop::~EditorLoop() = default;

@@ -34,6 +34,8 @@ namespace LightRayEngine {
         static bool ValidatePathForProjectCreating(const std::string& path);
         static bool TryCreateProjectByPath(const std::string& path, const std::string& projectName);
         static bool TryOpenProjectByPath(const std::string& path);
+        static void RemoveProjectFromList(const std::string& path);
+        static ProjectData GetCurrentOpenProject();
 
     private:
         static bool TryAddProjectToList(const std::string& path, const std::string& projectName);
@@ -43,6 +45,7 @@ namespace LightRayEngine {
 
         static EditorConfigurationSettings *m_settings;
         static std::vector<ProjectData> m_savedProjectsPathList;
+        static ProjectData m_currentProject;
 
         static constexpr auto k_assetsFolderName = "Assets";
         static constexpr auto k_projectSettingsFolderName = "ProjectSettings";

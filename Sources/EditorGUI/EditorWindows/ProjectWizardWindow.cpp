@@ -36,6 +36,20 @@ namespace LightRayEngine {
             ImGui::Text(project.path.c_str());
             ImGui::SameLine();
             ImGui::Text(GetChangeTimeString(project.changeTime));
+            ImGui::SameLine();
+            if(ImGui::Button("Open", ImVec2(100, 30))){
+                if(!ProjectManager::TryOpenProjectByPath(project.path)){
+
+                } else{
+                    Close();
+                }
+            }
+
+            ImGui::SameLine();
+            if(ImGui::Button("Remove", ImVec2(100, 30))){
+                ProjectManager::RemoveProjectFromList(project.path);
+                LoadLastProjects();
+            }
         }
 
         if(ImGui::Button("Cancel", ImVec2(100, 30))){

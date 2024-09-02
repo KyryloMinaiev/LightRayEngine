@@ -7,10 +7,12 @@
 #include "FileUtils.h"
 #include "../ProjectSettings.h"
 #include <filesystem>
+#include <algorithm>
 
 namespace LightRayEngine {
     EditorConfigurationSettings *ProjectManager::m_settings;
     std::vector<ProjectData> ProjectManager::m_savedProjectsPathList;
+    ProjectData ProjectManager::m_currentProject;
 
     std::vector<ProjectData> ProjectManager::GetSavedProjects() {
         return m_savedProjectsPathList;
@@ -126,6 +128,17 @@ namespace LightRayEngine {
 
     bool ProjectManager::TryOpenProjectByPath(const std::string &path) {
         return false;
+    }
+
+    ProjectData ProjectManager::GetCurrentOpenProject() {
+        return m_currentProject;
+    }
+
+    void ProjectManager::RemoveProjectFromList(const std::string &path) {
+        m_savedProjectsPathList.erase(std::remove_if(m_savedProjectsPathList.begin(), m_savedProjectsPathList.end(),
+                                                     [&path](const ProjectData &data) { return data.path == path; }),
+                                      m_savedProjectsPathList.end());
+        m_settings->GetField("savedProjects").EncodeArray(m_savedProjectsPathList);
     }
 
     void ProjectData::FromJson(JsonLibrary::JsonObject &jsonObject) {

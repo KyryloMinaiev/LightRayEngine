@@ -43,7 +43,9 @@ add_executable(LightRayEngine Sources/main.cpp
         Sources/EditorGUI/EditorWindows/ProjectCreatingWindow.h
         Sources/EditorGUI/EditorWindows/ProjectCreatingWindow.h
         Sources/Core/ProjectSettings.cpp
-        Sources/Core/ProjectSettings.h)
+        Sources/Core/ProjectSettings.h
+        Sources/Core/WindowTitle/WindowTitleUpdater.cpp
+        Sources/Core/WindowTitle/WindowTitleUpdater.h)
 
 IF (WIN32)
     target_include_directories(LightRayEngine PRIVATE Sources/ExternalTools/GLEW/include

@@ -43,6 +43,7 @@ namespace LightRayEngine {
     private:
         static bool TryAddProjectToList(const std::string& path, const std::string& projectName);
         static bool IsProjectAdded(const std::string& path);
+        static bool TryGetProjectDataFromList(const std::string& path, ProjectData& projectData);
         static void ReadSavedProjectsPathList();
         static std::string CombinePath(const std::string& path1, const std::string& path2);
 

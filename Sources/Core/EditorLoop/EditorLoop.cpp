@@ -4,18 +4,21 @@
 
 #include "EditorLoop.h"
 #include "../../EditorGUI/EditorGUIController.h"
+#include "../WindowTitle/WindowTitleUpdater.h"
 #include "../../EditorGUI/EditorWindows/ProjectWizardWindow.h"
-#include "../ProjectManager/ProjectManager.h"
 
 namespace LightRayEngine {
     EditorLoop::EditorLoop(EditorConfigurationSettings* editorConfiguration) {
         m_editorGuiController = std::make_unique<EditorGUIController>(editorConfiguration);
+        m_windowTitleUpdater = std::make_unique<WindowTitleUpdater>();
         ProjectManager::Init(editorConfiguration, nullptr);
     }
 
     EditorLoop::~EditorLoop() = default;
     void EditorLoop::Update() {
         m_editorGuiController->StartFrame();
+
+        m_windowTitleUpdater->UpdateTitle();
 
         m_editorGuiController->Render();
     }
@@ -25,6 +28,7 @@ namespace LightRayEngine {
             return false;
         }
 
+        m_windowTitleUpdater->Initialize(window);
         return true;
     }
 

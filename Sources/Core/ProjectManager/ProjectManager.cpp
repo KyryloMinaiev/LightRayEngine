@@ -119,16 +119,16 @@ namespace LightRayEngine {
     }
 
     bool ProjectManager::IsProjectAdded(const std::string &path) {
-        for (const auto &projectData: m_savedProjectsPathList) {
-            if (projectData.path == path) {
-                return true;
-            }
-        }
-
-        return false;
+        ProjectData data;
+        return TryGetProjectDataFromList(path, data);
     }
 
     bool ProjectManager::TryOpenProjectByPath(const std::string &path) {
+        ProjectData projectData;
+        if (!TryGetProjectDataFromList(path, projectData)) {
+            return false;
+        }
+
         std::string assetsFolderPath = CombinePath(path, k_assetsFolderName);
         std::string projectSettingsFolderPath = CombinePath(path, k_projectSettingsFolderName);
         std::string projectSettingsFilePath = CombinePath(projectSettingsFolderPath, k_projectSettingsFileName);
@@ -150,7 +150,16 @@ namespace LightRayEngine {
             return false;
         }
 
-        return m_projectOpenCallback(path);
+        bool result = true;
+        if (m_projectOpenCallback) {
+            result = m_projectOpenCallback(path);
+        }
+
+        if (result) {
+            m_currentProject = projectData;
+        }
+
+        return result;
     }
 
     ProjectData ProjectManager::GetCurrentOpenProject() {
@@ -162,6 +171,17 @@ namespace LightRayEngine {
                                                      [&path](const ProjectData &data) { return data.path == path; }),
                                       m_savedProjectsPathList.end());
         m_settings->GetField("savedProjects").EncodeArray(m_savedProjectsPathList);
+    }
+
+    bool ProjectManager::TryGetProjectDataFromList(const std::string &path, ProjectData &projectData) {
+        for (const auto &pd: m_savedProjectsPathList) {
+            if (pd.path == path) {
+                projectData = pd;
+                return true;
+            }
+        }
+
+        return false;
     }
 
     void ProjectData::FromJson(JsonLibrary::JsonObject &jsonObject) {

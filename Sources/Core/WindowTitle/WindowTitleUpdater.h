@@ -13,10 +13,14 @@ namespace LightRayEngine {
     public:
         WindowTitleUpdater() = default;
         void Initialize(GLFWwindow* window);
-        void UpdateTitle();
+        void UpdateTitle(bool forceUpdate = false);
     private:
+        bool UpdateProjectName(bool forceUpdate, std::string& projectName);
+        bool UpdateSceneName(bool forceUpdate, std::string& sceneName);
+
         GLFWwindow* m_window = nullptr;
-        std::string m_currentProjectName = "Empty Project";
+        std::string m_currentProjectName;
+        std::string m_currentSceneName;
     };
 
 } // LightRayEngine

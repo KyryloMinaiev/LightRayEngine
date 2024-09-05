@@ -3,49 +3,27 @@ project(LightRayEngine)
 
 set(CMAKE_CXX_STANDARD 23)
 
-add_executable(LightRayEngine Sources/main.cpp
-        Sources/Core/EditorApplication.cpp
-        Sources/Core/EditorApplication.h
-        Sources/Core/platform-defines.h
-        Sources/Core/EditorLoop/EditorLoop.cpp
-        Sources/Core/EditorLoop/EditorLoop.h
-        Sources/Core/EditorConfigurationSettings/EditorConfigurationSettings.cpp
-        Sources/Core/EditorConfigurationSettings/EditorConfigurationSettings.h
-        Sources/Core/EditorConfigurationSettings/EditorConfigurationSettingsUtils.cpp
-        Sources/Core/EditorConfigurationSettings/EditorConfigurationSettingsUtils.h
-        Sources/Core/ConsoleLogImpl.cpp
-        Sources/Core/ConsoleLogImpl.h
-        Sources/Core/FileLog/FileLog.cpp
-        Sources/Core/FileLog/FileLog.h
-        Sources/Core/EditorLoop/EditorLoopSystem.h
-        Sources/EditorGUI/EditorGUIController.cpp
-        Sources/EditorGUI/EditorGUIController.h
-        Sources/EditorGUI/MenuToolbar/MenuItems.h
-        Sources/EditorGUI/MenuToolbar/MenuToolbar.cpp
-        Sources/EditorGUI/MenuToolbar/MenuToolbar.h
-        Sources/EditorGUI/EditorWindow.cpp
-        Sources/EditorGUI/EditorWindow.h
-        Sources/EditorGUI/EditorWindowManager.cpp
-        Sources/EditorGUI/EditorWindowManager.h
-        Sources/EditorGUI/EditorWindows/ConsoleWindow.cpp
-        Sources/EditorGUI/EditorWindows/Hierarchy.cpp
-        Sources/EditorGUI/EditorWindows/InspectorWindow.cpp
-        Sources/EditorGUI/EditorWindows/ProjectView.cpp
-        Sources/EditorGUI/EditorWindows/SceneView.cpp
-        Sources/EditorGUI/EditorWindowLayoutData.cpp
-        Sources/EditorGUI/EditorWindows/ProjectWizardWindow.cpp
-        Sources/EditorGUI/EditorWindows/ProjectWizardWindow.h
-        Sources/Core/ProjectManager/ProjectManager.cpp
-        Sources/Core/ProjectManager/ProjectManager.h
-        Sources/Core/SerializedTime.cpp
-        Sources/Core/SerializedTime.h
-        Sources/EditorGUI/EditorWindows/ProjectCreatingWindow.cpp
-        Sources/EditorGUI/EditorWindows/ProjectCreatingWindow.h
-        Sources/EditorGUI/EditorWindows/ProjectCreatingWindow.h
-        Sources/Core/ProjectSettings.cpp
-        Sources/Core/ProjectSettings.h
-        Sources/Core/WindowTitle/WindowTitleUpdater.cpp
-        Sources/Core/WindowTitle/WindowTitleUpdater.h)
+add_executable(LightRayEngine Sources/main.cpp)
+
+file(GLOB_RECURSE CORE_SOURCES
+        Sources/Core/*.cpp
+)
+
+file(GLOB_RECURSE GUI_SOURCES
+        Sources/EditorGUI/*.cpp
+)
+
+target_sources(LightRayEngine
+        PRIVATE
+        ${CORE_SOURCES}
+        ${GUI_SOURCES}
+)
+
+target_include_directories(LightRayEngine
+        PRIVATE
+        Sources/Core
+        Sources/EditorGUI
+)
 
 IF (WIN32)
     target_include_directories(LightRayEngine PRIVATE Sources/ExternalTools/GLEW/include

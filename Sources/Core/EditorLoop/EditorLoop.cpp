@@ -6,11 +6,13 @@
 #include "../../EditorGUI/EditorGUIController.h"
 #include "../WindowTitle/WindowTitleUpdater.h"
 #include "../../EditorGUI/EditorWindows/ProjectWizardWindow.h"
+#include "../../AssetDatabase/AssetDatabase.h"
 
 namespace LightRayEngine {
     EditorLoop::EditorLoop(EditorConfigurationSettings* editorConfiguration) {
         m_editorGuiController = std::make_unique<EditorGUIController>(editorConfiguration);
         m_windowTitleUpdater = std::make_unique<WindowTitleUpdater>();
+        m_assetDatabase = std::make_unique<AssetDatabase>();
         ProjectManager::Init(editorConfiguration, nullptr);
     }
 

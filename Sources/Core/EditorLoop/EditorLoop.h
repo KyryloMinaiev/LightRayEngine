@@ -12,6 +12,7 @@
 namespace LightRayEngine {
     class EditorGUIController;
     class WindowTitleUpdater;
+    class AssetDatabase;
 
     class EditorLoop {
     public:
@@ -25,6 +26,7 @@ namespace LightRayEngine {
     private:
         std::unique_ptr<WindowTitleUpdater> m_windowTitleUpdater;
         std::unique_ptr<EditorGUIController> m_editorGuiController;
+        std::unique_ptr<AssetDatabase> m_assetDatabase;
     };
 }
 

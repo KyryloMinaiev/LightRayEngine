@@ -13,16 +13,22 @@ file(GLOB_RECURSE GUI_SOURCES
         Sources/EditorGUI/*.cpp
 )
 
+file(GLOB_RECURSE ASSET_DATABASE_SOURCES
+        Sources/AssetDatabase/*.cpp
+)
+
 target_sources(LightRayEngine
         PRIVATE
         ${CORE_SOURCES}
         ${GUI_SOURCES}
+        ${ASSET_DATABASE_SOURCES}
 )
 
 target_include_directories(LightRayEngine
         PRIVATE
         Sources/Core
         Sources/EditorGUI
+        Sources/AssetDatabase
 )
 
 IF (WIN32)

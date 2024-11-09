@@ -26,26 +26,26 @@ target_include_directories(LightRayEngine
 )
 
 IF (WIN32)
-    target_include_directories(LightRayEngine PRIVATE Sources/ExternalTools/GLEW/include
-            Sources/ExternalTools/GLFW/include
-            Sources/ExternalTools/glm
-            Sources/ExternalTools/stb)
+    target_include_directories(LightRayEngine PRIVATE ExternalLibraries/GLEW/include
+            ExternalLibraries/GLFW/include
+            ExternalLibraries/glm
+            ExternalLibraries/stb)
 
-    target_link_directories(LightRayEngine PRIVATE Sources/ExternalTools/GLFW
-            Sources/ExternalTools/GLEW)
+    target_link_directories(LightRayEngine PRIVATE ExternalLibraries/GLFW
+            ExternalLibraries/GLEW)
 
-    find_library(GLEW_PATH glew32.lib PATHS Sources/ExternalTools/GLEW/lib/)
-    find_library(GLTW_PATH glfw3.lib PATHS Sources/ExternalTools/GLFW/lib/)
-    find_library(OPENGL_PATH opengl32.lib PATHS Sources/ExternalTools/OpenGL/lib/)
+    find_library(GLEW_PATH glew32.lib PATHS ExternalLibraries/GLEW/lib/)
+    find_library(GLTW_PATH glfw3.lib PATHS ExternalLibraries/GLFW/lib/)
+    find_library(OPENGL_PATH opengl32.lib PATHS ExternalLibraries/OpenGL/lib/)
 
-    configure_file(Sources/ExternalTools/GLEW/dll/glew32.dll ${CMAKE_BINARY_DIR}/glew32.dll COPYONLY)
-    configure_file(Sources/ExternalTools/GLFW/dll/glfw3.dll ${CMAKE_BINARY_DIR}/glfw3.dll COPYONLY)
+    configure_file(ExternalLibraries/GLEW/dll/glew32.dll ${CMAKE_BINARY_DIR}/glew32.dll COPYONLY)
+    configure_file(ExternalLibraries/GLFW/dll/glfw3.dll ${CMAKE_BINARY_DIR}/glfw3.dll COPYONLY)
 ENDIF (WIN32)
 
 IF (APPLE)
-    target_include_directories(LightRayEngine PRIVATE Sources/ExternalTools/glm
-            Sources/ExternalTools/stb
-            Sources/ExternalTools/glm)
+    target_include_directories(LightRayEngine PRIVATE ExternalLibraries/glm
+            ExternalLibraries/stb
+            ExternalLibraries/glm)
 
     FIND_PACKAGE(GLEW REQUIRED)
     link_directories(${GLEW_LIBRARY_DIRS})

@@ -2,8 +2,8 @@
 // Created by MrFlyingChip on 24.06.2024.
 //
 
-#ifndef LIGHTRAYENGINE_EDITORAPPLICATION_H
-#define LIGHTRAYENGINE_EDITORAPPLICATION_H
+#ifndef LIGHTRAYENGINE_APPLICATION_H
+#define LIGHTRAYENGINE_APPLICATION_H
 
 #include <vector>
 #include <memory>
@@ -17,11 +17,11 @@
 
 namespace LightRayEngine {
 
-    class EditorApplication {
+    class Application {
     public:
         bool Open();
         void Run();
-        ~EditorApplication();
+        ~Application();
     private:
         bool InitializeGlfw();
         bool TryOpenWindow(glm::ivec2& outGlVersion);
@@ -46,4 +46,4 @@ namespace LightRayEngine {
 
 } // LightRayEngine
 
-#endif //LIGHTRAYENGINE_EDITORAPPLICATION_H
+#endif //LIGHTRAYENGINE_APPLICATION_H

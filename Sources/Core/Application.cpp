@@ -2,17 +2,17 @@
 // Created by MrFlyingChip on 24.06.2024.
 //
 
-#include "EditorApplication.h"
+#include "Application.h"
 
 namespace LightRayEngine {
-    bool EditorApplication::Open() {
+    bool Application::Open() {
         m_consoleLog = std::make_unique<ConsoleLogImpl>();
         m_fileLog = std::make_unique<FileLog>();
         m_editorConfigurationSettings = TryOpenEditorConfiguration();
         return InitializeGlfw();
     }
 
-    void EditorApplication::Run() {
+    void Application::Run() {
         m_editorLoop = std::make_unique<EditorLoop>(m_editorConfigurationSettings);
         if (!m_editorLoop->Initialize(m_mainWindow)) {
             LightRayLog::LogError("Cannot initialize editor loop. Quitting application!");
@@ -32,14 +32,14 @@ namespace LightRayEngine {
         }
     }
 
-    EditorApplication::~EditorApplication() {
+    Application::~Application() {
         m_editorLoop->Stop();
         SaveEditorConfiguration();
         glfwDestroyWindow(m_mainWindow);
         glfwTerminate();
     }
 
-    bool EditorApplication::TryOpenWindow(glm::ivec2 &outGlVersion) {
+    bool Application::TryOpenWindow(glm::ivec2 &outGlVersion) {
         outGlVersion.x = m_editorConfigurationSettings->GetValue("glMajorVersion", availableGLVersions[0].x);
         outGlVersion.y = m_editorConfigurationSettings->GetValue("glMinorVersion", availableGLVersions[0].y);
         if (TryOpenWindowWithGLVersion(outGlVersion)) {
@@ -58,7 +58,7 @@ namespace LightRayEngine {
         return false;
     }
 
-    bool EditorApplication::TryOpenWindowWithGLVersion(glm::ivec2 version) {
+    bool Application::TryOpenWindowWithGLVersion(glm::ivec2 version) {
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, version.x);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, version.y);
 
@@ -80,7 +80,7 @@ namespace LightRayEngine {
     }
 
 
-    bool EditorApplication::InitializeGlfw() {
+    bool Application::InitializeGlfw() {
         if (!glfwInit()) {
             LightRayLog::LogError("GLFW is not inited! Quiting application!");
             return false;
@@ -108,11 +108,11 @@ namespace LightRayEngine {
         return true;
     }
 
-    EditorConfigurationSettings *EditorApplication::TryOpenEditorConfiguration() {
+    EditorConfigurationSettings *Application::TryOpenEditorConfiguration() {
         return EditorConfigurationSettingsUtils::LoadOrCreateDefaultEditorConfig();
     }
 
-    void EditorApplication::SaveEditorConfiguration() {
+    void Application::SaveEditorConfiguration() {
         int width, height;
         glfwGetWindowSize(m_mainWindow, &width, &height);
         m_editorConfigurationSettings->SetField("editorWidth", width);

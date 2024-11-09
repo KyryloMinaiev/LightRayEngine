@@ -1,8 +1,8 @@
 #include <memory>
-#include "Core/EditorApplication.h"
+#include "Core/Application.h"
 
 int main() {
-    auto app = std::make_unique<LightRayEngine::EditorApplication>();
+    auto app = std::make_unique<LightRayEngine::Application>();
     if(app->Open())
     {
         app->Run();

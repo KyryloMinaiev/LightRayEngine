@@ -1,37 +1,33 @@
 cmake_minimum_required(VERSION 3.28)
-project(LightRayEngine)
+project(LightRayApplication)
 
 set(CMAKE_CXX_STANDARD 23)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-add_executable(LightRayEngine Sources/main.cpp)
+option(ENABLE_EDITOR "Enable LightRayEditor configuration" ON)
+
+add_executable(LightRayApplication Sources/main.cpp)
 
 file(GLOB_RECURSE CORE_SOURCES
-        Sources/Core/*.cpp
+        Sources/LightRayCore/*.cpp
 )
 
-file(GLOB_RECURSE GUI_SOURCES
-        Sources/EditorGUI/*.cpp
-)
-
-target_sources(LightRayEngine
+target_sources(LightRayApplication
         PRIVATE
         ${CORE_SOURCES}
-        ${GUI_SOURCES}
 )
 
-target_include_directories(LightRayEngine
+target_include_directories(LightRayApplication
         PRIVATE
-        Sources/Core
-        Sources/EditorGUI
+        Sources/LightRayCore
 )
 
 IF (WIN32)
-    target_include_directories(LightRayEngine PRIVATE ExternalLibraries/GLEW/include
+    target_include_directories(LightRayApplication PRIVATE ExternalLibraries/GLEW/include
             ExternalLibraries/GLFW/include
-            ExternalLibraries/glm
             ExternalLibraries/stb)
 
-    target_link_directories(LightRayEngine PRIVATE ExternalLibraries/GLFW
+    target_link_directories(LightRayApplication PRIVATE ExternalLibraries/GLFW
             ExternalLibraries/GLEW)
 
     find_library(GLEW_PATH glew32.lib PATHS ExternalLibraries/GLEW/lib/)
@@ -43,9 +39,8 @@ IF (WIN32)
 ENDIF (WIN32)
 
 IF (APPLE)
-    target_include_directories(LightRayEngine PRIVATE ExternalLibraries/glm
-            ExternalLibraries/stb
-            ExternalLibraries/glm)
+    target_include_directories(LightRayApplication PRIVATE
+            ExternalLibraries/stb)
 
     FIND_PACKAGE(GLEW REQUIRED)
     link_directories(${GLEW_LIBRARY_DIRS})
@@ -60,14 +55,14 @@ IF (APPLE)
     set(OPENGL_PATH "")
 ENDIF (APPLE)
 
-add_subdirectory(Sources/Utils)
-add_subdirectory(Sources/LightRayLog)
-add_subdirectory(Sources/ImGUI)
-add_subdirectory(Sources/JsonLibrary)
-add_subdirectory(Sources/NFD)
+if(ENABLE_EDITOR)
+    add_compile_definitions(LIGHTRAY_EDITOR)
+    add_subdirectory(Sources/LightRayEditor)
+    target_link_libraries(LightRayApplication PUBLIC ${OPENGL_PATH} ${GLEW_PATH} ${GLTW_PATH}
+            LightRayEditor)
+else()
+    add_subdirectory(Sources/LightRayEngine)
+    target_link_libraries(LightRayApplication PUBLIC ${OPENGL_PATH} ${GLEW_PATH} ${GLTW_PATH}
+            LightRayEngine)
+endif ()
 
-target_link_libraries(LightRayEngine PRIVATE imgui ${OPENGL_PATH} ${GLEW_PATH} ${GLTW_PATH}
-        light-ray-utils
-        light-ray-log
-        json-library
-        native-file-dialog)

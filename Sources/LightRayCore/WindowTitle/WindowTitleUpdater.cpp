@@ -5,7 +5,6 @@
 #include <string>
 #include <format>
 #include "WindowTitleUpdater.h"
-#include "ProjectManager/ProjectManager.h"
 
 namespace LightRayEngine {
     void WindowTitleUpdater::UpdateTitle(bool forceUpdate) {
@@ -30,24 +29,24 @@ namespace LightRayEngine {
     }
 
     bool WindowTitleUpdater::UpdateProjectName(bool forceUpdate, std::string& projectName) {
-        auto projectData = ProjectManager::GetCurrentOpenProject();
-        bool requiresProjectNameUpdate = false;
-
-        if (m_currentProjectName != projectData.name) {
-            m_currentProjectName = projectData.name;
-            requiresProjectNameUpdate = true;
-        }
-
-        if (!requiresProjectNameUpdate && !forceUpdate) {
-            return false;
-        }
-
-        projectName = m_currentProjectName;
-        if (projectName.empty()) {
-            projectName = "Empty Project";
-        }
-
-        return true;
+//        auto projectData = ProjectManager::GetCurrentOpenProject();
+//        bool requiresProjectNameUpdate = false;
+//
+//        if (m_currentProjectName != projectData.name) {
+//            m_currentProjectName = projectData.name;
+//            requiresProjectNameUpdate = true;
+//        }
+//
+//        if (!requiresProjectNameUpdate && !forceUpdate) {
+//            return false;
+//        }
+//
+//        projectName = m_currentProjectName;
+//        if (projectName.empty()) {
+//            projectName = "Empty Project";
+//        }
+//
+//        return true;
     }
 
     bool WindowTitleUpdater::UpdateSceneName(bool forceUpdate, std::string& sceneName) {

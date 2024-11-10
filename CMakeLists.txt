@@ -4,6 +4,8 @@ project(LightRayApplication)
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+option(ENABLE_EDITOR "Enable LightRayEditor configuration" ON)
+
 add_executable(LightRayApplication Sources/main.cpp)
 
 file(GLOB_RECURSE CORE_SOURCES
@@ -53,10 +55,14 @@ IF (APPLE)
     set(OPENGL_PATH "")
 ENDIF (APPLE)
 
-add_subdirectory(Sources/LightRayEditor)
+if(ENABLE_EDITOR)
+    add_compile_definitions(LIGHTRAY_EDITOR)
+    add_subdirectory(Sources/LightRayEditor)
+    target_link_libraries(LightRayApplication PUBLIC ${OPENGL_PATH} ${GLEW_PATH} ${GLTW_PATH}
+            LightRayEditor)
+else()
+    add_subdirectory(Sources/LightRayEngine)
+    target_link_libraries(LightRayApplication PUBLIC ${OPENGL_PATH} ${GLEW_PATH} ${GLTW_PATH}
+            LightRayEngine)
+endif ()
 
-##add_subdirectory(Sources/LightRayEngine)
-
-target_link_libraries(LightRayApplication PUBLIC ${OPENGL_PATH} ${GLEW_PATH} ${GLTW_PATH}
-        LightRayEditor)
-        ##LightRayEngine)

@@ -5,7 +5,7 @@
 #include <string>
 #include <format>
 #include "WindowTitleUpdater.h"
-#include "../ProjectManager/ProjectManager.h"
+#include "ProjectManager/ProjectManager.h"
 
 namespace LightRayEngine {
     void WindowTitleUpdater::UpdateTitle(bool forceUpdate) {

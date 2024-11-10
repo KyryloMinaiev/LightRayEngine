@@ -6,10 +6,11 @@
 #include <LightRayLog.h>
 #include "MenuToolbar/MenuToolbar.h"
 #include "EditorWindowManager.h"
+#include "Window/IWindow.h"
 
 namespace LightRayEngine {
 
-    bool EditorGUIController::Initialize(GLFWwindow *window) {
+    bool EditorGUIController::Initialize(IWindow* window) {
         return InitializeImGUI(window) && InitializeMenuToolbar() && InitializeEditorWindowManager();
     }
 
@@ -30,13 +31,13 @@ namespace LightRayEngine {
 
     EditorGUIController::~EditorGUIController()  = default;
 
-    EditorGUIController::EditorGUIController(EditorConfigurationSettings *editorSettings) : EditorLoopSystem(
+    EditorGUIController::EditorGUIController(ConfigurationSettings *editorSettings) : EditorLoopSystem(
             editorSettings) {
         m_menuToolbar = std::make_unique<MenuToolbar>();
         m_editorWindowManager = std::make_unique<EditorWindowManager>();
     }
 
-    bool EditorGUIController::InitializeImGUI(GLFWwindow *window) {
+    bool EditorGUIController::InitializeImGUI(IWindow *window) {
         try {
             IMGUI_CHECKVERSION();
             ImGui::CreateContext();
@@ -45,7 +46,7 @@ namespace LightRayEngine {
             io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
             io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;         // IF using Docking Branch
 
-            ImGui_ImplGlfw_InitForOpenGL(window,
+            ImGui_ImplGlfw_InitForOpenGL(window->GetGLFWWindow(),
                                          true);          // Second param install_callback=true will install GLFW callbacks and chain to existing ones.
             ImGui_ImplOpenGL3_Init();
             LightRayLog::Log("Successfully initialized ImGUI.");

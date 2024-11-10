@@ -4,7 +4,7 @@
 
 #include "ProjectCreatingWindow.h"
 #include "../EditorWindowManager.h"
-#include "../../LightRayCore/ProjectManager/ProjectManager.h"
+#include "ProjectManager/ProjectManager.h"
 #include <ImGUI.h>
 #include <misc/cpp/imgui_stdlib.h>
 #include "NativeFileDialog.h"

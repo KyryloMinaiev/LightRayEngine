@@ -5,25 +5,25 @@
 #ifndef LIGHTRAYENGINE_EDITORLOOP_H
 #define LIGHTRAYENGINE_EDITORLOOP_H
 
-#include "../EditorConfigurationSettings/EditorConfigurationSettings.h"
-#include "../platform-defines.h"
 #include <memory>
+#include "Window/IWindow.h"
 
 namespace LightRayEngine {
     class EditorGUIController;
     class WindowTitleUpdater;
+    class ConfigurationSettings;
 
     class EditorLoop {
     public:
-        explicit EditorLoop(EditorConfigurationSettings* editorConfiguration);
+        explicit EditorLoop(ConfigurationSettings* editorConfiguration);
         ~EditorLoop();
 
-        bool Initialize(GLFWwindow* window);
+        bool Initialize(IWindow* window);
         void Start();
         void Update();
         void Stop();
     private:
-        std::unique_ptr<WindowTitleUpdater> m_windowTitleUpdater;
+        //std::unique_ptr<WindowTitleUpdater> m_windowTitleUpdater;
         std::unique_ptr<EditorGUIController> m_editorGuiController;
     };
 }

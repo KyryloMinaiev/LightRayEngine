@@ -5,8 +5,9 @@
 #ifndef LIGHTRAYENGINE_EDITORGUICONTROLLER_H
 #define LIGHTRAYENGINE_EDITORGUICONTROLLER_H
 
-#include "../LightRayCore/EditorLoop/EditorLoopSystem.h"
-#include "../LightRayCore/platform-defines.h"
+#include <memory>
+#include "../EditorLoop/EditorLoopSystem.h"
+#include "Window/IWindow.h"
 #include <imgui.h>
 #include <backends/imgui_impl_glfw.h>
 #include <backends/imgui_impl_opengl3.h>
@@ -17,9 +18,9 @@ namespace LightRayEngine {
 
     class EditorGUIController : public EditorLoopSystem{
         public:
-            explicit EditorGUIController(EditorConfigurationSettings *editorSettings);
+            explicit EditorGUIController(ConfigurationSettings *editorSettings);
 
-            bool Initialize(GLFWwindow* window);
+            bool Initialize(IWindow* window);
             void StartFrame();
             void Render();
 
@@ -28,7 +29,7 @@ namespace LightRayEngine {
         ~EditorGUIController() override;
 
         private:
-            static bool InitializeImGUI(GLFWwindow* window);
+            static bool InitializeImGUI(IWindow* window);
             bool InitializeMenuToolbar();
             bool InitializeEditorWindowManager();
 

@@ -14,13 +14,13 @@ namespace LightRayEngine {
 
     void Application::Run() {
         m_editorLoop = std::make_unique<EditorLoop>(m_editorConfigurationSettings);
-        if (!m_editorLoop->Initialize(m_mainWindow)) {
+        if (!m_editorLoop->Initialize(m_mainWindow.get())) {
             LightRayLog::LogError("Cannot initialize editor loop. Quitting application!");
             return;
         }
 
         m_editorLoop->Start();
-        while (!glfwWindowShouldClose(m_mainWindow)) {
+        while (!glfwWindowShouldClose(m_mainWindow->GetGLFWWindow())) {
             try {
                 m_editorLoop->Update();
             } catch (...) {
@@ -28,14 +28,14 @@ namespace LightRayEngine {
             }
 
             glfwPollEvents();
-            glfwSwapBuffers(m_mainWindow);
+            glfwSwapBuffers(m_mainWindow->GetGLFWWindow());
         }
     }
 
     Application::~Application() {
         m_editorLoop->Stop();
         SaveEditorConfiguration();
-        glfwDestroyWindow(m_mainWindow);
+        glfwDestroyWindow(m_mainWindow->GetGLFWWindow());
         glfwTerminate();
     }
 
@@ -68,9 +68,10 @@ namespace LightRayEngine {
         LightRayLog::Log("Trying to open window with width={}, height={}. GL version: {}.{}", width, height, version.x,
                          version.y);
 
-        m_mainWindow = glfwCreateWindow(width, height, "LightRay Engine", nullptr, nullptr);
-        glfwMakeContextCurrent(m_mainWindow);
-        if (!m_mainWindow) {
+        auto glfwWindow = glfwCreateWindow(width, height, "LightRay Engine", nullptr, nullptr);
+        m_mainWindow = std::make_unique<ApplicationWindow>(glfwWindow);
+        glfwMakeContextCurrent(m_mainWindow->GetGLFWWindow());
+        if (!m_mainWindow->GetGLFWWindow()) {
             return false;
         }
 
@@ -108,18 +109,18 @@ namespace LightRayEngine {
         return true;
     }
 
-    EditorConfigurationSettings *Application::TryOpenEditorConfiguration() {
-        return EditorConfigurationSettingsUtils::LoadOrCreateDefaultEditorConfig();
+    ConfigurationSettings *Application::TryOpenEditorConfiguration() {
+        return ConfigurationSettingsUtils::LoadOrCreateDefaultEditorConfig();
     }
 
     void Application::SaveEditorConfiguration() {
         int width, height;
-        glfwGetWindowSize(m_mainWindow, &width, &height);
+        glfwGetWindowSize(m_mainWindow->GetGLFWWindow(), &width, &height);
         m_editorConfigurationSettings->SetField("editorWidth", width);
         m_editorConfigurationSettings->SetField("editorHeight", height);
-        int maximized = glfwGetWindowAttrib(m_mainWindow, GLFW_MAXIMIZED);
+        int maximized = glfwGetWindowAttrib(m_mainWindow->GetGLFWWindow(), GLFW_MAXIMIZED);
         m_editorConfigurationSettings->SetField("editorMaximised", maximized);
 
-        EditorConfigurationSettingsUtils::SaveEditorConfigurationSettings();
+        ConfigurationSettingsUtils::SaveEditorConfigurationSettings();
     }
 } // LightRayEngine

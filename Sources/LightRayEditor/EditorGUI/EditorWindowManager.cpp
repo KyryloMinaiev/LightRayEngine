@@ -3,7 +3,7 @@
 #include <imgui.h>
 #include <LightRayLog.h>
 
-#include "../LightRayCore/EditorConfigurationSettings/EditorConfigurationSettings.h"
+#include "ConfigurationSettings/ConfigurationSettings.h"
 #include "EditorWindows/AvailableWindows.h"
 #include "EditorWindowLayoutData.h"
 
@@ -23,7 +23,7 @@ namespace LightRayEngine {
         }
     }
 
-    void EditorWindowManager::LoadLayout(EditorConfigurationSettings* editorConfigurationSettings) {
+    void EditorWindowManager::LoadLayout(ConfigurationSettings* editorConfigurationSettings) {
         std::vector<EditorWindowLayoutData> openedWindows;
         editorConfigurationSettings->GetValue("openedWindows", std::vector<JsonLibrary::JsonObject>()).DecodeArray(openedWindows);
 
@@ -35,7 +35,7 @@ namespace LightRayEngine {
         }
     }
 
-    void EditorWindowManager::SaveLayout(EditorConfigurationSettings* editorConfigurationSettings) const {
+    void EditorWindowManager::SaveLayout(ConfigurationSettings* editorConfigurationSettings) const {
         std::vector<EditorWindowLayoutData> openedWindows;
         for (const auto &window: m_editorWindows) {
             EditorWindow *ptr = window.get();

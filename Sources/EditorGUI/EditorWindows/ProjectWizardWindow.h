@@ -6,7 +6,7 @@
 #define LIGHTRAYENGINE_PROJECTWIZARDWINDOW_H
 
 #include "../EditorWindow.h"
-#include "../../Core/ProjectManager/ProjectManager.h"
+#include "../../LightRayCore/ProjectManager/ProjectManager.h"
 #include <vector>
 #include <functional>
 

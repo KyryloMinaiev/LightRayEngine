@@ -1,5 +1,5 @@
 #include <memory>
-#include "Core/Application.h"
+#include "LightRayCore/Application.h"
 
 int main() {
     auto app = std::make_unique<LightRayEngine::Application>();

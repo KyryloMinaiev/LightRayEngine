@@ -6,7 +6,7 @@ set(CMAKE_CXX_STANDARD 23)
 add_executable(LightRayEngine Sources/main.cpp)
 
 file(GLOB_RECURSE CORE_SOURCES
-        Sources/Core/*.cpp
+        Sources/LightRayCore/*.cpp
 )
 
 file(GLOB_RECURSE GUI_SOURCES
@@ -21,7 +21,7 @@ target_sources(LightRayEngine
 
 target_include_directories(LightRayEngine
         PRIVATE
-        Sources/Core
+        Sources/LightRayCore
         Sources/EditorGUI
 )
 

@@ -5,8 +5,8 @@
 #ifndef LIGHTRAYENGINE_EDITORGUICONTROLLER_H
 #define LIGHTRAYENGINE_EDITORGUICONTROLLER_H
 
-#include "../Core/EditorLoop/EditorLoopSystem.h"
-#include "../Core/platform-defines.h"
+#include "../LightRayCore/EditorLoop/EditorLoopSystem.h"
+#include "../LightRayCore/platform-defines.h"
 #include <imgui.h>
 #include <backends/imgui_impl_glfw.h>
 #include <backends/imgui_impl_opengl3.h>

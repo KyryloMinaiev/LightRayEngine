@@ -3,7 +3,7 @@
 #include <imgui.h>
 #include <LightRayLog.h>
 
-#include "../Core/EditorConfigurationSettings/EditorConfigurationSettings.h"
+#include "../LightRayCore/EditorConfigurationSettings/EditorConfigurationSettings.h"
 #include "EditorWindows/AvailableWindows.h"
 #include "EditorWindowLayoutData.h"
 

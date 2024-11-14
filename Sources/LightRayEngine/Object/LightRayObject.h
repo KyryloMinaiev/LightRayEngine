@@ -11,6 +11,11 @@
 namespace LightRayEngine {
     class LightRayObject : public JsonLibrary::JsonSerialized {
     public:
+        explicit LightRayObject(int objectID);
+        ~LightRayObject() override = default;
+
+        [[nodiscard]] int GetID() const;
+
         void FromJson(JsonLibrary::JsonObject &jsonObject) override {
             name = jsonObject["name"].operator std::string();
         };
@@ -20,6 +25,9 @@ namespace LightRayEngine {
         };
 
         std::string name;
+
+    private:
+        int m_objectID;
     };
 
 } // LightRayEngine

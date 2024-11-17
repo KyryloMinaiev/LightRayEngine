@@ -6,8 +6,8 @@
 #define LIGHTRAYAPPLICATION_OBJECTMANAGER_H
 
 #include "LightRayObject.h"
+#include "TypeManager.h"
 #include <map>
-#include <type_traits>
 
 namespace LightRayEngine {
     class ObjectManager {
@@ -27,27 +27,13 @@ namespace LightRayEngine {
         static ObjectManager *s_instance;
 
         template<class T>
-        size_t GetTypeSize();
-        template<class T>
         T* CreateObjectOfTypeInternal(const std::string &name);
 
         void DeleteObjectInternal(LightRayObject *object);
 
         int m_idCounter{};
-        std::map<size_t, size_t> m_typeHashToTypeSize;
         std::map<int, void*> m_objectsContainer;
     };
-
-    template<class T>
-    size_t ObjectManager::GetTypeSize() {
-        const std::type_info &typeInfo = typeid(T);
-        size_t typeHash = typeInfo.hash_code();
-        if (!m_typeHashToTypeSize.contains(typeHash)) {
-            m_typeHashToTypeSize[typeHash] = sizeof(T);
-        }
-
-        return m_typeHashToTypeSize[typeHash];
-    }
 
     template<class T>
     T *ObjectManager::CreateObjectOfType() {
@@ -64,7 +50,7 @@ namespace LightRayEngine {
     T* ObjectManager::CreateObjectOfTypeInternal(const std::string &name) {
         static_assert(std::is_base_of<LightRayObject, T>());
 
-        size_t typeSize = GetTypeSize<T>();
+        size_t typeSize = TypeManager::GetTypeSize<T>();
         void* ptr = malloc(typeSize);
         T* objectPtr = (T*) ptr;
         objectPtr(m_idCounter);

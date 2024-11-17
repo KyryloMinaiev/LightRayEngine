@@ -18,14 +18,6 @@ namespace LightRayEngine {
         m_typeComponentsMap.clear();
     }
 
-    void EntityComponentContainer::UpdateEntity() {
-        for (auto component: m_components) {
-            if (component->active) {
-                component->Update();
-            }
-        }
-    }
-
     void EntityComponentContainer::DeleteComponent(Component *componentPtr) {
         componentPtr->OnDestroy();
         ObjectManager::DeleteObject(componentPtr);

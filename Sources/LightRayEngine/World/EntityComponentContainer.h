@@ -19,8 +19,6 @@ namespace LightRayEngine {
 
         ~EntityComponentContainer();
 
-        void UpdateEntity();
-
         template<class T>
         T *AddComponent();
 

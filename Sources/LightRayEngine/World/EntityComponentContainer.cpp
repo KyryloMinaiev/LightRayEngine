@@ -19,7 +19,6 @@ namespace LightRayEngine {
     }
 
     void EntityComponentContainer::DeleteComponent(Component *componentPtr) {
-        componentPtr->OnDestroy();
         ObjectManager::DeleteObject(componentPtr);
     }
 } // LightRayEngine

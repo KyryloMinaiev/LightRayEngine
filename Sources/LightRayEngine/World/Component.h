@@ -19,14 +19,6 @@ namespace LightRayEngine {
 
         ~Component() override = default;
 
-        virtual void Awake() {};
-        virtual void Start() {};
-        virtual void Update() {};
-        virtual void LateUpdate() {};
-        virtual void OnEnable() {};
-        virtual void OnDisable() {};
-        virtual void OnDestroy() {};
-
         void SetEntity(Entity *entity) {
             m_entity = entity;
         }
@@ -34,7 +26,6 @@ namespace LightRayEngine {
         [[nodiscard]] Entity *GetEntity() const {
             return m_entity;
         }
-
 
         bool active;
     private:

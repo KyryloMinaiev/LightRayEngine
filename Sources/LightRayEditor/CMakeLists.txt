@@ -9,4 +9,4 @@ target_include_directories(LightRayEditor PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
 add_subdirectory(../LightRayEngine ${CMAKE_BINARY_DIR}/LightRayEngine)
 
-target_link_libraries(LightRayEditor LightRayEngine)
+target_link_libraries(LightRayEditor PUBLIC LightRayEngine)

@@ -14,6 +14,7 @@ namespace LightRayEngine {
     public:
         explicit Component(int objectID) : LightRayObject(objectID) {
             m_entity = nullptr;
+            active = true;
         };
 
         ~Component() override = default;
@@ -34,6 +35,8 @@ namespace LightRayEngine {
             return m_entity;
         }
 
+
+        bool active;
     private:
         Entity *m_entity;
     };

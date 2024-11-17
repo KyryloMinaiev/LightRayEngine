@@ -26,9 +26,11 @@ namespace LightRayEngine {
         template<class T>
         T* AddComponent(Entity* entity);
         template<class T>
-        void RemoveComponent(Entity* entity, T* component);
+        void RemoveComponent(Entity* entity);
         template<class T>
-        bool HasComponent(Entity* entity, T* component);
+        bool HasComponent(Entity* entity);
+        template<class T>
+        T* GetComponent(Entity* entity);
 
         Entity* CreateEntity();
         Entity* CreateEntity(std::string& name);
@@ -67,19 +69,27 @@ namespace LightRayEngine {
     }
 
     template<class T>
-    void EntityManager::RemoveComponent(Entity *entity, T *component) {
+    void EntityManager::RemoveComponent(Entity *entity) {
         static_assert(std::is_base_of<Component, T>());
         auto container = GetEntityContainer(entity);
 
-        return container->RemoveComponent<T>(component);
+        return container->RemoveComponent<T>();
     }
 
     template<class T>
-    bool EntityManager::HasComponent(Entity *entity, T *component) {
+    bool EntityManager::HasComponent(Entity *entity) {
         static_assert(std::is_base_of<Component, T>());
         auto container = GetEntityContainer(entity);
 
-        return container->HasComponent<T>(component);
+        return container->HasComponent<T>();
+    }
+
+    template<class T>
+    T *EntityManager::GetComponent(Entity *entity) {
+        static_assert(std::is_base_of<Component, T>());
+        auto container = GetEntityContainer(entity);
+
+        return container->GetComponent<T>();
     }
 } // LightRayEngine
 

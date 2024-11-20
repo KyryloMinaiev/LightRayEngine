@@ -6,10 +6,11 @@
 #include "World.h"
 
 namespace LightRayEngine {
-    WorldsSystem *WorldsSystem::s_instance;
+    World* WorldsSystem::s_mainWorld;
 
-    WorldsSystem::WorldsSystem() {
-        s_instance = this;
+    WorldsSystem::WorldsSystem() : SingletonManager<WorldsSystem>(){
+        s_mainWorld = CreateWorld("Main World");
+        InjectWorld(s_mainWorld);
     }
 
     void WorldsSystem::DestroyWorld(World *world) {
@@ -25,7 +26,11 @@ namespace LightRayEngine {
     }
 
     World *WorldsSystem::CreateWorld(const std::string &name, bool editorWorld) {
-        return nullptr;
+        std::unique_ptr<World> world = std::make_unique<World>(name, editorWorld);
+        World* worldPtr = world.get();
+        s_instance->m_worlds.push_back(std::move(world));
+
+        return worldPtr;
     }
 
     void WorldsSystem::InjectWorld(World *world) {
@@ -36,5 +41,9 @@ namespace LightRayEngine {
         s_instance->m_injectedWorlds.push_back(world);
     }
 
+    World *WorldsSystem::GetMainWorld() {
+        return s_mainWorld;
+    }
 
+    WorldsSystem::~WorldsSystem() = default;
 } // LightRayEngine

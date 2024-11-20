@@ -17,7 +17,7 @@ namespace LightRayEngine {
         ~World();
 
         void Update();
-        [[nodiscard]] const EntityManager* GetEntityManager() const;
+        [[nodiscard]] EntityManager* GetEntityManager() const;
 
     private:
         std::string m_name;

@@ -66,3 +66,11 @@ else()
             LightRayEngine)
 endif ()
 
+set(RESOURCES_FOLDER ${CMAKE_SOURCE_DIR}/Resources)
+set(DESTINATION_FOLDER ${CMAKE_CURRENT_BINARY_DIR}/Resources)
+
+add_custom_target(FullBuild ALL
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${RESOURCES_FOLDER} ${DESTINATION_FOLDER}
+        COMMENT "Copying Resources folder to build directory"
+)

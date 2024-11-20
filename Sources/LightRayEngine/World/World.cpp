@@ -23,7 +23,7 @@ namespace LightRayEngine {
 
     }
 
-    const EntityManager *World::GetEntityManager() const {
+    EntityManager *World::GetEntityManager() const {
         return m_entityManager.get();
     }
 } // LightRayEngine

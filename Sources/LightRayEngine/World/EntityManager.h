@@ -26,6 +26,8 @@ namespace LightRayEngine {
         template<class T>
         T* AddComponent(Entity* entity);
         template<class T>
+        void AddComponent(Entity* entity, T* component);
+        template<class T>
         void RemoveComponent(Entity* entity);
         template<class T>
         bool HasComponent(Entity* entity);
@@ -34,6 +36,8 @@ namespace LightRayEngine {
 
         Entity* CreateEntity();
         Entity* CreateEntity(std::string& name);
+
+        void DeleteEntity(Entity* entity);
 
         [[nodiscard]] const World* GetGameWorld() const;
     private:
@@ -66,6 +70,14 @@ namespace LightRayEngine {
         auto container = GetEntityContainer(entity);
 
         return container->AddComponent<T>();
+    }
+
+    template<class T>
+    void EntityManager::AddComponent(Entity *entity, T *component) {
+        static_assert(std::is_base_of<Component, T>());
+        auto container = GetEntityContainer(entity);
+
+        container->AddComponent<T>(component);
     }
 
     template<class T>

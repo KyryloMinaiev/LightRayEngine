@@ -8,21 +8,23 @@
 #include <string>
 #include <memory>
 #include <vector>
+#include "Generic/SingletonManager.h"
 
 namespace LightRayEngine {
     class World;
 
-    class WorldsSystem {
+    class WorldsSystem : public SingletonManager<WorldsSystem>{
     public:
         WorldsSystem();
-        ~WorldsSystem() = default;
+        ~WorldsSystem() override;
         void UpdateWorlds();
 
         static World* CreateWorld(const std::string& name, bool editorWorld = false);
         static void InjectWorld(World* world);
         static void DestroyWorld(World* world);
+        static World* GetMainWorld();
     private:
-        static WorldsSystem* s_instance;
+        static World* s_mainWorld;
         std::vector<std::unique_ptr<World>> m_worlds;
         std::vector<World*> m_injectedWorlds;
     };

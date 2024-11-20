@@ -23,6 +23,9 @@ namespace LightRayEngine {
         T *AddComponent();
 
         template<class T>
+        void AddComponent(T* component);
+
+        template<class T>
         T *GetComponent();
 
         template<class T>
@@ -79,6 +82,18 @@ namespace LightRayEngine {
         m_typeComponentsMap[typeHash] = componentPtr;
 
         return componentPtr;
+    }
+
+    template<class T>
+    void EntityComponentContainer::AddComponent(T *component) {
+        T *componentPtr = GetComponent<T>();
+        if (componentPtr) {
+            return;
+        }
+
+        m_components.push_back(component);
+        size_t typeHash = TypeManager::GetTypeHash<T>();
+        m_typeComponentsMap[typeHash] = componentPtr;
     }
 
     template<class T>

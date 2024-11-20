@@ -13,6 +13,7 @@ namespace LightRayEngine {
     class ObjectManager {
     public:
         ObjectManager();
+
         ~ObjectManager();
 
         template<class T>
@@ -27,12 +28,12 @@ namespace LightRayEngine {
         static ObjectManager *s_instance;
 
         template<class T>
-        T* CreateObjectOfTypeInternal(const std::string &name);
+        T *CreateObjectOfTypeInternal(const std::string &name);
 
         void DeleteObjectInternal(LightRayObject *object);
 
         int m_idCounter{};
-        std::map<int, void*> m_objectsContainer;
+        std::map<int, void *> m_objectsContainer;
     };
 
     template<class T>
@@ -47,18 +48,18 @@ namespace LightRayEngine {
     }
 
     template<class T>
-    T* ObjectManager::CreateObjectOfTypeInternal(const std::string &name) {
+    T *ObjectManager::CreateObjectOfTypeInternal(const std::string &name) {
         static_assert(std::is_base_of<LightRayObject, T>());
 
         size_t typeSize = TypeManager::GetTypeSize<T>();
-        void* ptr = malloc(typeSize);
-        T* objectPtr = (T*) ptr;
-        objectPtr(m_idCounter);
+        void *ptr = malloc(typeSize);
+        T *objectPtr = (T *) ptr;
+        new(objectPtr) T(m_idCounter);
         objectPtr->name = name;
         m_objectsContainer[m_idCounter] = ptr;
         m_idCounter++;
 
-        return ptr;
+        return objectPtr;
     }
 } // LightRayEngine
 

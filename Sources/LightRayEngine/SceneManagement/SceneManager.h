@@ -5,6 +5,7 @@
 #ifndef LIGHTRAYAPPLICATION_SCENEMANAGER_H
 #define LIGHTRAYAPPLICATION_SCENEMANAGER_H
 
+#include <memory>
 #include "SceneData.h"
 #include "Generic/SingletonManager.h"
 #include <vector>
@@ -23,13 +24,16 @@ namespace LightRayEngine {
         ~SceneManager() override;
 
         static void LoadScene(SceneData& sceneData, SceneLoadType sceneLoadType);
-        static void UnloadScene(SceneData& sceneData);
+        static void UnloadScene(Scene* scene);
 
         static Scene* GetActiveScene();
         static std::vector<Scene*> GetAdditiveScenes();
+        static bool IsSceneLoaded(Scene* scene);
+
     private:
-        Scene* m_mainScene{};
-        std::vector<Scene*> m_additiveScenes;
+        std::unique_ptr<Scene> m_mainScene;
+        std::vector<std::unique_ptr<Scene>> m_additiveScenes;
+        std::vector<Scene*> m_additiveScenesPointers;
     };
 
 } // LightRayEngine

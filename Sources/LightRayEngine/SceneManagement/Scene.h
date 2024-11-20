@@ -8,12 +8,11 @@
 #include <string>
 #include <vector>
 #include "World/Entity.h"
+#include "SceneData.h"
 
 namespace LightRayEngine {
     struct Scene {
-        std::string name;
-        std::string scenePath;
-
+        SceneData sceneData;
         std::vector<Entity*> sceneEntities;
     };
 

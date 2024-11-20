@@ -76,6 +76,10 @@ namespace LightRayEngine {
         }
     }
 
+    void EntityManager::DeleteEntity(Entity *entity) {
+
+    }
+
     EntityManager::EntityContainerData::EntityContainerData(Entity *entity, EntityComponentContainer *container)
             : entity(entity), container(container) {}
 

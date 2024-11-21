@@ -11,6 +11,7 @@
 #include "../EditorWindows/ProjectView.h"
 #include "../EditorWindows/SceneView.h"
 #include "../EditorWindows/ProjectWizardWindow.h"
+#include "../Layout/LayoutSaver.h"
 
 namespace LightRayEngine {
     struct MenuItem {
@@ -31,6 +32,8 @@ namespace LightRayEngine {
         MenuItem("Windows/Console", ConsoleWindow::Create),
         MenuItem("Windows/Scene View", SceneView::Create),
         MenuItem("Windows/Hierarchy", Hierarchy::Create),
-        MenuItem("Windows/Project", ProjectView::Create)
+        MenuItem("Windows/Project", ProjectView::Create),
+
+        MenuItem("Layouts/Save Current Layout", LayoutSaver::SaveCurrentLayout)
     };
 }

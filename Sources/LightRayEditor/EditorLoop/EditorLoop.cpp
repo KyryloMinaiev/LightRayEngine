@@ -37,6 +37,6 @@ namespace LightRayEngine {
     }
 
     void EditorLoop::Start() {
-        ProjectWizardWindow::Create();
+        //ProjectWizardWindow::Create();
     }
 }

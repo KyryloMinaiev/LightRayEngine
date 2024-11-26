@@ -12,18 +12,17 @@ namespace LightRayEngine {
 
     void LayoutNameWindow::Create(const std::function<void(const std::string&)>& onCreateButtonClick) {
         auto window = EditorWindowManager::CreateEditorWindow<LayoutNameWindow>("Save Layout");
-        window->width = 500;
-        window->height = 300;
+        window->width = 250;
+        window->height = 80;
         window->m_onCreateButtonClick = onCreateButtonClick;
         window->canBeDocked = false;
         window->canBeMoved = false;
         window->resizable = false;
+        window->isCentered = true;
     }
 
     void LayoutNameWindow::OnGui() {
-        ImGui::LabelText("name", "Enter Name");
-        ImGui::SameLine();
-        ImGui::InputText("inputName", &m_inputName);
+        ImGui::InputText("Enter name", &m_inputName);
 
         bool inCorrectName = m_inputName.empty();
 

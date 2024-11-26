@@ -23,6 +23,7 @@ namespace LightRayEngine {
         bool isDocked;
         unsigned int dockId;
         bool isFocused;
+        bool isCentered;
 
         std::string title;
 

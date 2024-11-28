@@ -52,10 +52,10 @@ namespace LightRayEngine {
             //ImGui::SetNextWindowDockID(window->dockId);
         }
 
-        if(window->isCentered){
-            ImGuiIO& io = ImGui::GetIO();
-            ImGui::SetNextWindowPos(ImVec2(io.DisplaySize.x * 0.5f, io.DisplaySize.y * 0.5f), ImGuiCond_Always, ImVec2(0.5f,0.5f));
-        }
+//        if(window->isCentered){
+//            ImGuiIO& io = ImGui::GetIO();
+//            ImGui::SetNextWindowPos(ImVec2(io.DisplaySize.x * 0.5f, io.DisplaySize.y * 0.5f), ImGuiCond_Always, ImVec2(0.5f,0.5f));
+//        }
 
         int windowFlags = ImGuiWindowFlags_NoCollapse;// | ImGuiWindowFlags_NoSavedSettings;
         if(!window->canBeMoved) {

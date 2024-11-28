@@ -18,7 +18,6 @@ namespace LightRayEngine {
         window->canBeDocked = false;
         window->canBeMoved = false;
         window->resizable = false;
-        window->isCentered = true;
     }
 
     void LayoutNameWindow::OnGui() {

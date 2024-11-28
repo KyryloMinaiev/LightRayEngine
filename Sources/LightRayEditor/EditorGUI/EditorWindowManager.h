@@ -22,6 +22,8 @@ namespace LightRayEngine {
         static T *CreateEditorWindow();
         template<typename T>
         static T *CreateEditorWindow(std::string title);
+        template<typename T>
+        static T *CreateEditorWindow(std::string title, WindowAnchor anchor);
 
         static void CloseWindow(EditorWindow *window);
 
@@ -53,6 +55,11 @@ namespace LightRayEngine {
 
     template<typename T>
     T *EditorWindowManager::CreateEditorWindow(std::string title) {
+        return CreateEditorWindow<T>(title, WindowAnchor::TopLeft);
+    }
+
+    template<typename T>
+    T *EditorWindowManager::CreateEditorWindow(std::string title, WindowAnchor anchor) {
         static_assert(std::is_base_of<EditorWindow, T>::value,
                       "EditorWindowManager::CreateEditorWindow works only with EditorWindows!");
         assert(s_instance != nullptr);

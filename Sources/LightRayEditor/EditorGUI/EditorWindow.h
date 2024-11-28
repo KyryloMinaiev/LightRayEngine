@@ -3,6 +3,18 @@
 #include <string>
 
 namespace LightRayEngine {
+    enum class WindowAnchor {
+        Center,
+        TopCenter,
+        BottomCenter,
+        CenterLeft,
+        CenterRight,
+        TopLeft,
+        TopRight,
+        BottomLeft,
+        BottomRight
+    };
+
     class EditorWindow {
     public:
         virtual ~EditorWindow() = default;
@@ -23,7 +35,6 @@ namespace LightRayEngine {
         bool isDocked;
         unsigned int dockId;
         bool isFocused;
-        bool isCentered;
 
         std::string title;
 

@@ -109,8 +109,8 @@ namespace LightRayEngine {
         return true;
     }
 
-    ConfigurationSettings *Application::TryOpenEditorConfiguration() {
-        return ConfigurationSettingsUtils::LoadOrCreateDefaultEditorConfig();
+    EditorConfigurationSettings *Application::TryOpenEditorConfiguration() {
+        return EditorConfigurationSettingsUtils::LoadOrCreateDefaultEditorConfig();
     }
 
     void Application::SaveEditorConfiguration() {
@@ -121,6 +121,6 @@ namespace LightRayEngine {
         int maximized = glfwGetWindowAttrib(m_mainWindow->GetGLFWWindow(), GLFW_MAXIMIZED);
         m_editorConfigurationSettings->SetField("editorMaximised", maximized);
 
-        ConfigurationSettingsUtils::SaveEditorConfigurationSettings();
+        EditorConfigurationSettingsUtils::SaveEditorConfigurationSettings();
     }
 } // LightRayEngine

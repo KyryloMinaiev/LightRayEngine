@@ -3,12 +3,12 @@
 //
 
 #include "EditorLoop.h"
-#include "ConfigurationSettings/ConfigurationSettings.h"
+#include "EditorConfigurationSettings/EditorConfigurationSettings.h"
 #include "../EditorGUI/EditorGUIController.h"
 #include "../EditorGUI/EditorWindows/ProjectWizardWindow.h"
 
 namespace LightRayEngine {
-    EditorLoop::EditorLoop(ConfigurationSettings* editorConfiguration) {
+    EditorLoop::EditorLoop(EditorConfigurationSettings* editorConfiguration) {
         m_editorGuiController = std::make_unique<EditorGUIController>(editorConfiguration);
         //m_windowTitleUpdater = std::make_unique<WindowTitleUpdater>();
         ProjectManager::Init(editorConfiguration, nullptr);

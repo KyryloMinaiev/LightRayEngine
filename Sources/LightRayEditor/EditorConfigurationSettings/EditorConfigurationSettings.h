@@ -8,12 +8,12 @@
 #include "JsonLibrary.h"
 
 namespace LightRayEngine {
-    class ConfigurationSettings : public JsonLibrary::JsonObject{
+    class EditorConfigurationSettings : public JsonLibrary::JsonObject{
     public:
-        ConfigurationSettings(const ConfigurationSettings &other);
-        ConfigurationSettings(const JsonLibrary::JsonObject &other);
+        EditorConfigurationSettings(const EditorConfigurationSettings &other);
+        EditorConfigurationSettings(const JsonLibrary::JsonObject &other);
 
-        ConfigurationSettings();
+        EditorConfigurationSettings();
 
         JsonLibrary::BaseJsonType GetValue(const std::string& fieldName, const JsonLibrary::BaseJsonType& defaultValue);
     };

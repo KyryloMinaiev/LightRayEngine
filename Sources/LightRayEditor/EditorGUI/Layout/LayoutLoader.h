@@ -9,11 +9,11 @@
 #include <string>
 
 namespace LightRayEngine {
-    class ConfigurationSettings;
+    class EditorConfigurationSettings;
 
     class LayoutLoader {
     public:
-        static std::vector<std::string> LoadAvailableLayouts(ConfigurationSettings *settings);
+        static std::vector<std::string> LoadAvailableLayouts(EditorConfigurationSettings *settings);
     private:
         static constexpr auto k_defaultLayoutsFolder = "Resources/Default Layouts/";
     };

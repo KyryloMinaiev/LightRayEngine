@@ -5,7 +5,7 @@
 #include "LayoutLoader.h"
 
 namespace LightRayEngine {
-    std::vector<std::string> LayoutLoader::LoadAvailableLayouts(ConfigurationSettings *settings) {
+    std::vector<std::string> LayoutLoader::LoadAvailableLayouts(EditorConfigurationSettings *settings) {
         return std::vector<std::string>();
     }
 } // LightRayEngine

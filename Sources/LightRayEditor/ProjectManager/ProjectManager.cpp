@@ -4,13 +4,13 @@
 
 #include "ProjectManager.h"
 #include "ProjectSettings.h"
-#include "ConfigurationSettings/ConfigurationSettingsUtils.h"
+#include "EditorConfigurationSettings/EditorConfigurationSettingsUtils.h"
 #include "FileUtils.h"
 #include <filesystem>
 #include <algorithm>
 
 namespace LightRayEngine {
-    ConfigurationSettings *ProjectManager::m_settings;
+    EditorConfigurationSettings *ProjectManager::m_settings;
     std::vector<ProjectData> ProjectManager::m_savedProjectsPathList;
     ProjectData ProjectManager::m_currentProject;
     ProjectOpenCallback ProjectManager::m_projectOpenCallback;
@@ -19,7 +19,7 @@ namespace LightRayEngine {
         return m_savedProjectsPathList;
     }
 
-    void ProjectManager::Init(ConfigurationSettings *settings, ProjectOpenCallback projectOpenCallback) {
+    void ProjectManager::Init(EditorConfigurationSettings *settings, ProjectOpenCallback projectOpenCallback) {
         m_settings = settings;
         m_projectOpenCallback = projectOpenCallback;
         ReadSavedProjectsPathList();

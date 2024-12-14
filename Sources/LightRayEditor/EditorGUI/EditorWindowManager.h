@@ -9,7 +9,7 @@
 #include "EditorWindow.h"
 
 namespace LightRayEngine {
-    class ConfigurationSettings;
+    class EditorConfigurationSettings;
 
     class EditorWindowManager {
     public:
@@ -28,8 +28,8 @@ namespace LightRayEngine {
         static void CloseWindow(EditorWindow *window);
 
         void DrawEditorWindows() const;
-        void LoadLayout(ConfigurationSettings *editorConfigurationSettings);
-        void SaveLayout(ConfigurationSettings *editorConfigurationSettings) const;
+        void LoadLayout(EditorConfigurationSettings *editorConfigurationSettings);
+        void SaveLayout(EditorConfigurationSettings *editorConfigurationSettings) const;
 
     private:
         static EditorWindowManager *s_instance;

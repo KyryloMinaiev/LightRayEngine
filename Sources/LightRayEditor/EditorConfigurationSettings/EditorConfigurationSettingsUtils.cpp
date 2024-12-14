@@ -2,16 +2,16 @@
 // Created by Kirill Minaev on 25.06.2024.
 //
 
-#include "ConfigurationSettingsUtils.h"
+#include "EditorConfigurationSettingsUtils.h"
 #include "LightRayLog.h"
 #include "FileUtils.h"
 
 namespace LightRayEngine {
-    std::unique_ptr<ConfigurationSettings> ConfigurationSettingsUtils::s_settings;
+    std::unique_ptr<EditorConfigurationSettings> EditorConfigurationSettingsUtils::s_settings;
 
-    ConfigurationSettings *ConfigurationSettingsUtils::LoadOrCreateDefaultEditorConfig() {
+    EditorConfigurationSettings *EditorConfigurationSettingsUtils::LoadOrCreateDefaultEditorConfig() {
         std::string configStr;
-        ConfigurationSettings settings;
+        EditorConfigurationSettings settings;
         bool configCreated = false;
         if (FileUtils::TryLoadFile(k_configFileName, configStr)) {
             settings = JsonLibrary::JsonLibrary::FromJsonString(configStr);
@@ -21,7 +21,7 @@ namespace LightRayEngine {
             configCreated = true;
         }
 
-        s_settings = std::make_unique<ConfigurationSettings>(settings);
+        s_settings = std::make_unique<EditorConfigurationSettings>(settings);
         if (configCreated) {
             SaveEditorConfigurationSettings();
         }
@@ -29,19 +29,19 @@ namespace LightRayEngine {
         return s_settings.get();
     }
 
-    ConfigurationSettings ConfigurationSettingsUtils::CreateDefaultConfig() {
-        ConfigurationSettings settings;
+    EditorConfigurationSettings EditorConfigurationSettingsUtils::CreateDefaultConfig() {
+        EditorConfigurationSettings settings;
         return settings;
     }
 
-    void ConfigurationSettingsUtils::SaveEditorConfigurationSettings() {
+    void EditorConfigurationSettingsUtils::SaveEditorConfigurationSettings() {
         std::string configStr = JsonLibrary::JsonLibrary::ToJson(*s_settings);
         if(!FileUtils::TrySaveFile(k_configFileName, configStr)) {
             LightRayLog::LogError("Cannot save editor configuration!");
         }
     }
 
-    ConfigurationSettings *ConfigurationSettingsUtils::GetSettings() {
+    EditorConfigurationSettings *EditorConfigurationSettingsUtils::GetSettings() {
         return s_settings.get();
     }
 }

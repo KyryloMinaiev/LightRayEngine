@@ -11,11 +11,11 @@
 namespace LightRayEngine {
     class EditorGUIController;
     class WindowTitleUpdater;
-    class ConfigurationSettings;
+    class EditorConfigurationSettings;
 
     class EditorLoop {
     public:
-        explicit EditorLoop(ConfigurationSettings* editorConfiguration);
+        explicit EditorLoop(EditorConfigurationSettings* editorConfiguration);
         ~EditorLoop();
 
         bool Initialize(IWindow* window);

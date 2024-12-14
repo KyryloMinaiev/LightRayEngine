@@ -6,19 +6,19 @@
 #define LIGHTRAYENGINE_CONFIGURATIONSETTINGSUTILS_H
 
 #include <memory>
-#include "ConfigurationSettings.h"
+#include "EditorConfigurationSettings.h"
 
 namespace LightRayEngine {
-    class ConfigurationSettingsUtils {
+    class EditorConfigurationSettingsUtils {
     public:
-        static ConfigurationSettings* LoadOrCreateDefaultEditorConfig();
+        static EditorConfigurationSettings* LoadOrCreateDefaultEditorConfig();
         static void SaveEditorConfigurationSettings();
-        static ConfigurationSettings*  GetSettings();
+        static EditorConfigurationSettings*  GetSettings();
     private:
         static constexpr auto k_configFileName = "editorConfiguration.config";
 
-        static ConfigurationSettings CreateDefaultConfig();
-        static std::unique_ptr<ConfigurationSettings> s_settings;
+        static EditorConfigurationSettings CreateDefaultConfig();
+        static std::unique_ptr<EditorConfigurationSettings> s_settings;
     };
 }
 

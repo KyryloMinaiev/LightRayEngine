@@ -15,7 +15,7 @@
 namespace LightRayEngine {
     #define ProjectOpenCallback std::function<bool(std::string)>
 
-    class ConfigurationSettings;
+    class EditorConfigurationSettings;
 
     struct ProjectData : public JsonLibrary::JsonSerialized {
         std::string name;
@@ -31,7 +31,7 @@ namespace LightRayEngine {
     class ProjectManager {
 
     public:
-        static void Init(ConfigurationSettings *settings, ProjectOpenCallback projectOpenCallback);
+        static void Init(EditorConfigurationSettings *settings, ProjectOpenCallback projectOpenCallback);
         static std::vector<ProjectData> GetSavedProjects();
         static bool TryAddProjectByPath(const std::string& path);
         static bool ValidatePathForProjectCreating(const std::string& path);
@@ -47,7 +47,7 @@ namespace LightRayEngine {
         static void ReadSavedProjectsPathList();
         static std::string CombinePath(const std::string& path1, const std::string& path2);
 
-        static ConfigurationSettings *m_settings;
+        static EditorConfigurationSettings *m_settings;
         static std::vector<ProjectData> m_savedProjectsPathList;
         static ProjectData m_currentProject;
         static ProjectOpenCallback m_projectOpenCallback;

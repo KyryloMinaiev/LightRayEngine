@@ -7,11 +7,11 @@
 
 
 namespace LightRayEngine {
-    class ConfigurationSettings;
+    class EditorConfigurationSettings;
 
     class EditorLoopSystem {
         public:
-            EditorLoopSystem(ConfigurationSettings* editorSettings){
+            EditorLoopSystem(EditorConfigurationSettings* editorSettings){
                 configurationSettings = editorSettings;
             }
 
@@ -19,7 +19,7 @@ namespace LightRayEngine {
 
             virtual ~EditorLoopSystem() = default;
         protected:
-            ConfigurationSettings* configurationSettings;
+            EditorConfigurationSettings* configurationSettings;
     };
 }
 

@@ -11,13 +11,13 @@
 namespace LightRayEngine {
     class EditorConfigurationSettingsUtils {
     public:
-        static EditorConfigurationSettings* LoadOrCreateDefaultEditorConfig();
         static void SaveEditorConfigurationSettings();
         static EditorConfigurationSettings*  GetSettings();
     private:
         static constexpr auto k_configFileName = "editorConfiguration.config";
 
         static EditorConfigurationSettings CreateDefaultConfig();
+        static void LoadOrCreateDefaultEditorConfig();
         static std::unique_ptr<EditorConfigurationSettings> s_settings;
     };
 }

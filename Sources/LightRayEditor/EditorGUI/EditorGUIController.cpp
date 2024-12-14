@@ -31,8 +31,7 @@ namespace LightRayEngine {
 
     EditorGUIController::~EditorGUIController()  = default;
 
-    EditorGUIController::EditorGUIController(EditorConfigurationSettings *editorSettings) : EditorLoopSystem(
-            editorSettings) {
+    EditorGUIController::EditorGUIController() : EditorLoopSystem() {
         m_menuToolbar = std::make_unique<MenuToolbar>();
         m_editorWindowManager = std::make_unique<EditorWindowManager>();
     }

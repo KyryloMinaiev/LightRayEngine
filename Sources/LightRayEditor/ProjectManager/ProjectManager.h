@@ -31,7 +31,8 @@ namespace LightRayEngine {
     class ProjectManager {
 
     public:
-        static void Init(EditorConfigurationSettings *settings, ProjectOpenCallback projectOpenCallback);
+        ProjectManager(ProjectOpenCallback projectOpenCallback);
+
         static std::vector<ProjectData> GetSavedProjects();
         static bool TryAddProjectByPath(const std::string& path);
         static bool ValidatePathForProjectCreating(const std::string& path);

@@ -10,12 +10,11 @@
 
 namespace LightRayEngine {
     class EditorGUIController;
-    class WindowTitleUpdater;
-    class EditorConfigurationSettings;
+    class ProjectManager;
 
     class EditorLoop {
     public:
-        explicit EditorLoop(EditorConfigurationSettings* editorConfiguration);
+        EditorLoop();
         ~EditorLoop();
 
         bool Initialize(IWindow* window);
@@ -23,8 +22,8 @@ namespace LightRayEngine {
         void Update();
         void Stop();
     private:
-        //std::unique_ptr<WindowTitleUpdater> m_windowTitleUpdater;
         std::unique_ptr<EditorGUIController> m_editorGuiController;
+        std::unique_ptr<ProjectManager> m_projectManager;
     };
 }
 

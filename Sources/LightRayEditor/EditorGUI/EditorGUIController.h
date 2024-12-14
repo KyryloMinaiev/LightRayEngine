@@ -18,7 +18,7 @@ namespace LightRayEngine {
 
     class EditorGUIController : public EditorLoopSystem{
         public:
-            explicit EditorGUIController(EditorConfigurationSettings *editorSettings);
+            explicit EditorGUIController();
 
             bool Initialize(IWindow* window);
             void StartFrame();

@@ -9,7 +9,7 @@
 namespace LightRayEngine {
     std::unique_ptr<EditorConfigurationSettings> EditorConfigurationSettingsUtils::s_settings;
 
-    EditorConfigurationSettings *EditorConfigurationSettingsUtils::LoadOrCreateDefaultEditorConfig() {
+    void EditorConfigurationSettingsUtils::LoadOrCreateDefaultEditorConfig() {
         std::string configStr;
         EditorConfigurationSettings settings;
         bool configCreated = false;
@@ -25,8 +25,6 @@ namespace LightRayEngine {
         if (configCreated) {
             SaveEditorConfigurationSettings();
         }
-
-        return s_settings.get();
     }
 
     EditorConfigurationSettings EditorConfigurationSettingsUtils::CreateDefaultConfig() {
@@ -36,12 +34,16 @@ namespace LightRayEngine {
 
     void EditorConfigurationSettingsUtils::SaveEditorConfigurationSettings() {
         std::string configStr = JsonLibrary::JsonLibrary::ToJson(*s_settings);
-        if(!FileUtils::TrySaveFile(k_configFileName, configStr)) {
+        if (!FileUtils::TrySaveFile(k_configFileName, configStr)) {
             LightRayLog::LogError("Cannot save editor configuration!");
         }
     }
 
     EditorConfigurationSettings *EditorConfigurationSettingsUtils::GetSettings() {
+        if (!s_settings) {
+            LoadOrCreateDefaultEditorConfig();
+        }
+
         return s_settings.get();
     }
 }

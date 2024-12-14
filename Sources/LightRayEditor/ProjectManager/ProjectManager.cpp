@@ -15,14 +15,15 @@ namespace LightRayEngine {
     ProjectData ProjectManager::m_currentProject;
     ProjectOpenCallback ProjectManager::m_projectOpenCallback;
 
-    std::vector<ProjectData> ProjectManager::GetSavedProjects() {
-        return m_savedProjectsPathList;
+    ProjectManager::ProjectManager(ProjectOpenCallback projectOpenCallback) {
+        m_projectOpenCallback = std::move(projectOpenCallback);
+
+        m_settings = EditorConfigurationSettingsUtils::GetSettings();
+        ReadSavedProjectsPathList();
     }
 
-    void ProjectManager::Init(EditorConfigurationSettings *settings, ProjectOpenCallback projectOpenCallback) {
-        m_settings = settings;
-        m_projectOpenCallback = projectOpenCallback;
-        ReadSavedProjectsPathList();
+    std::vector<ProjectData> ProjectManager::GetSavedProjects() {
+        return m_savedProjectsPathList;
     }
 
     void ProjectManager::ReadSavedProjectsPathList() {

@@ -20,7 +20,7 @@ namespace LightRayEngine {
             name = jsonObject["name"].operator std::string();
         };
 
-        void ToJson(JsonLibrary::JsonObject &jsonObject) const override {
+        void ToJson(JsonLibrary::JsonObject &jsonObject) override {
             jsonObject["name"] = name;
         };
 

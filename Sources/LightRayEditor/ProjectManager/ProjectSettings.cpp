@@ -10,7 +10,7 @@ namespace LightRayEngine {
         lastOpenedSceneName = static_cast<std::string>(jsonObject["lastOpenedSceneName"]);
     }
 
-    void ProjectSettings::ToJson(JsonLibrary::JsonObject &jsonObject) const {
+    void ProjectSettings::ToJson(JsonLibrary::JsonObject &jsonObject) {
         jsonObject["projectName"] = projectName;
         jsonObject["lastOpenedSceneName"] = lastOpenedSceneName;
     }

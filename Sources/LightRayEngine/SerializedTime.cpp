@@ -17,7 +17,7 @@ namespace LightRayEngine {
         tm_isdst = jsonObject["isdst"];
     }
 
-    void SerializedTime::ToJson(JsonLibrary::JsonObject &jsonObject) const {
+    void SerializedTime::ToJson(JsonLibrary::JsonObject &jsonObject) {
         jsonObject["sec"] = tm_sec;
         jsonObject["min"] = tm_min;
         jsonObject["hour"] = tm_hour;

@@ -192,7 +192,7 @@ namespace LightRayEngine {
         JsonLibrary::JsonLibrary::DecodeJsonObjectField(jsonObject, "changeTime", changeTime);
     }
 
-    void ProjectData::ToJson(JsonLibrary::JsonObject &jsonObject) const {
+    void ProjectData::ToJson(JsonLibrary::JsonObject &jsonObject) {
         jsonObject["name"] = name;
         jsonObject["path"] = path;
         jsonObject["isFavourite"] = isFavourite;

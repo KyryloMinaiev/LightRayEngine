@@ -37,7 +37,7 @@ namespace LightRayEngine {
         isFocused = jsonObject["isFocused"];
     }
 
-    void EditorWindowLayoutData::ToJson(JsonLibrary::JsonObject &jsonObject) const {
+    void EditorWindowLayoutData::ToJson(JsonLibrary::JsonObject &jsonObject) {
         jsonObject["className"] = className;
         jsonObject["title"] = title;
         jsonObject["width"] = width;

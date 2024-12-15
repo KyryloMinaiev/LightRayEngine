@@ -42,6 +42,7 @@ namespace JsonLibrary {
         operator std::vector<bool>();
 
         void DecodeObject(JsonSerialized &json_serialized);
+        void EncodeObject(JsonSerialized &json_serialized);
 
         template<typename Json>
         void DecodeArray(std::vector<Json> &vector);

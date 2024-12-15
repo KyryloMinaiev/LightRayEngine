@@ -189,13 +189,13 @@ namespace LightRayEngine {
         name = static_cast<std::string>(jsonObject["name"]);
         path = static_cast<std::string>(jsonObject["path"]);
         isFavourite = jsonObject["isFavourite"];
-        JsonLibrary::JsonLibrary::DecodeJsonObjectField(jsonObject, "changeTime", changeTime);
+        jsonObject["changeTime"].DecodeObject(changeTime);
     }
 
     void ProjectData::ToJson(JsonLibrary::JsonObject &jsonObject) {
         jsonObject["name"] = name;
         jsonObject["path"] = path;
         jsonObject["isFavourite"] = isFavourite;
-        jsonObject["changeTime"] = JsonLibrary::JsonLibrary::ToJsonObject(changeTime);
+        jsonObject["changeTime"].EncodeObject(changeTime);
     }
 } // LightRayEngine

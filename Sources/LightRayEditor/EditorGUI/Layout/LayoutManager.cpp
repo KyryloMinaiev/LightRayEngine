@@ -6,6 +6,6 @@
 
 namespace LightRayEngine {
     EditorLayout LayoutManager::GetCurrentLayout() {
-        return EditorLayout();
+        return EditorLayout(0);
     }
 } // LightRayEngine

@@ -8,9 +8,21 @@
 #include "EditorLayout.h"
 
 namespace LightRayEngine {
+    class EditorConfigurationSettings;
+    class EditorWindowManager;
+
     class LayoutManager {
     public:
-        static EditorLayout GetCurrentLayout();
+        explicit LayoutManager(EditorWindowManager* windowManager);
+        void LoadLayouts(EditorConfigurationSettings* editorConfigurationSettings);
+        void ApplyLayout(EditorConfigurationSettings* editorConfigurationSettings);
+
+        void SaveCurrentLayout(EditorConfigurationSettings* editorConfigurationSettings);
+
+        EditorLayout GetCurrentLayout();
+
+    private:
+        EditorWindowManager* m_windowManager{};
     };
 
 } // LightRayEngine

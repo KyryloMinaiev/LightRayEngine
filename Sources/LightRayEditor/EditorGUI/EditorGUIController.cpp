@@ -7,11 +7,13 @@
 #include "MenuToolbar/MenuToolbar.h"
 #include "EditorWindowManager.h"
 #include "Window/IWindow.h"
+#include "Layout/LayoutManager.h"
 
 namespace LightRayEngine {
 
-    bool EditorGUIController::Initialize(IWindow* window) {
-        return InitializeImGUI(window) && InitializeMenuToolbar() && InitializeEditorWindowManager();
+    bool EditorGUIController::Initialize(IWindow *window) {
+        return InitializeImGUI(window) && InitializeMenuToolbar() &&
+               InitializeLayoutManager();
     }
 
     void EditorGUIController::StartFrame() {
@@ -29,11 +31,12 @@ namespace LightRayEngine {
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
     }
 
-    EditorGUIController::~EditorGUIController()  = default;
+    EditorGUIController::~EditorGUIController() = default;
 
     EditorGUIController::EditorGUIController() : EditorLoopSystem() {
         m_menuToolbar = std::make_unique<MenuToolbar>();
         m_editorWindowManager = std::make_unique<EditorWindowManager>();
+        m_layoutManager = std::make_unique<LayoutManager>(m_editorWindowManager.get());
     }
 
     bool EditorGUIController::InitializeImGUI(IWindow *window) {
@@ -69,9 +72,14 @@ namespace LightRayEngine {
         return false;
     }
 
-    bool EditorGUIController::InitializeEditorWindowManager() {
+    void EditorGUIController::OnLoopStop() {
+        m_layoutManager->SaveCurrentLayout(configurationSettings);
+    }
+
+    bool EditorGUIController::InitializeLayoutManager() {
         try {
-            m_editorWindowManager->LoadLayout(configurationSettings);
+            m_layoutManager->LoadLayouts(configurationSettings);
+            m_layoutManager->ApplyLayout(configurationSettings);
             LightRayLog::Log("Successfully loaded editor window manager.");
             return true;
         } catch (...) {
@@ -79,9 +87,5 @@ namespace LightRayEngine {
         }
 
         return false;
-    }
-
-    void EditorGUIController::OnLoopStop() {
-        m_editorWindowManager->SaveLayout(configurationSettings);
     }
 }

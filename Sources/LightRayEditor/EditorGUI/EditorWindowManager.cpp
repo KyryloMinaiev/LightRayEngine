@@ -23,28 +23,6 @@ namespace LightRayEngine {
         }
     }
 
-    void EditorWindowManager::LoadLayout(EditorConfigurationSettings* editorConfigurationSettings) {
-        std::vector<EditorWindowLayoutData> openedWindows;
-        editorConfigurationSettings->GetValue("openedWindows", std::vector<JsonLibrary::JsonObject>()).DecodeArray(openedWindows);
-
-        for (const auto &openedWindow: openedWindows) {
-            if (availableWindows.find(openedWindow.className) != availableWindows.cend()) {
-                auto window = availableWindows[openedWindow.className](openedWindow.title);
-                openedWindow.SetupEditorWindow(window);
-            }
-        }
-    }
-
-    void EditorWindowManager::SaveLayout(EditorConfigurationSettings* editorConfigurationSettings) const {
-        std::vector<EditorWindowLayoutData> openedWindows;
-        for (const auto &window: m_editorWindows) {
-            EditorWindow *ptr = window.get();
-            openedWindows.emplace_back(ptr);
-        }
-
-        editorConfigurationSettings->GetField("openedWindows").EncodeArray(openedWindows);
-    }
-
     void EditorWindowManager::DrawEditorWindow(EditorWindow *window) const {
         ImGui::SetNextWindowSize(ImVec2(window->width, window->height), ImGuiCond_FirstUseEver);
 
@@ -104,5 +82,14 @@ namespace LightRayEngine {
                 break;
             }
         }
+    }
+
+    std::vector<EditorWindow *> EditorWindowManager::GetOpenedWindows() const {
+        std::vector<EditorWindow*> openedWindows;
+        for(auto& windowPtr : m_editorWindows){
+            openedWindows.push_back(windowPtr.get());
+        }
+
+        return openedWindows;
     }
 }

@@ -28,9 +28,8 @@ namespace LightRayEngine {
         static void CloseWindow(EditorWindow *window);
 
         void DrawEditorWindows() const;
-        void LoadLayout(EditorConfigurationSettings *editorConfigurationSettings);
-        void SaveLayout(EditorConfigurationSettings *editorConfigurationSettings) const;
 
+        [[nodiscard]] std::vector<EditorWindow*> GetOpenedWindows() const;
     private:
         static EditorWindowManager *s_instance;
 

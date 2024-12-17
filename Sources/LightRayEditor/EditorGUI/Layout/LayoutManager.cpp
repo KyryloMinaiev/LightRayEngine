@@ -6,13 +6,23 @@
 #include "LayoutSaver.h"
 #include "../EditorWindowManager.h"
 #include "EditorConfigurationSettings/EditorConfigurationSettings.h"
+#include "../DockSpaceBuilder.h"
 
 namespace LightRayEngine {
     EditorLayout LayoutManager::GetCurrentLayout() {
-        return EditorLayout(0);
+        auto windows = m_windowManager->GetOpenedWindows();
+        auto dockSpaceID = m_dockSpaceBuilder->GetDockSpaceID();
+
+        EditorLayout layout(dockSpaceID);
+        for (auto window : windows) {
+            layout.AddWindow(window);
+        }
+
+        return layout;
     }
 
-    LayoutManager::LayoutManager(EditorWindowManager *windowManager) : m_windowManager(windowManager) {
+    LayoutManager::LayoutManager(DockSpaceBuilder *dockSpaceBuilder, EditorWindowManager *windowManager)
+            : m_dockSpaceBuilder(dockSpaceBuilder), m_windowManager(windowManager) {
 
     }
 
@@ -24,7 +34,9 @@ namespace LightRayEngine {
 
     }
 
-    void LayoutManager::SaveCurrentLayout(EditorConfigurationSettings *editorConfigurationSettings) {
-        LayoutSaver::SaveLayout(GetCurrentLayout(), editorConfigurationSettings);
+    void
+    LayoutManager::SaveCurrentLayout(EditorConfigurationSettings *editorConfigurationSettings) {
+        auto currentLayout = GetCurrentLayout();
+        LayoutSaver::SaveLayout(currentLayout, editorConfigurationSettings);
     }
 } // LightRayEngine

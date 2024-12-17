@@ -98,7 +98,11 @@ namespace JsonLibrary {
         return _data.ContainsField(fieldName);
     }
 
-    BaseJsonType &JsonObject::GetField(const std::string &fieldName) const {
+    BaseJsonType &JsonObject::GetField(const std::string &fieldName) {
+        if(!_data.ContainsField(fieldName)){
+            _data.SetField(fieldName, BaseJsonType());
+        }
+
         BaseJsonType &result = _data.GetBaseJsonTypeField(fieldName);
         return result;
     }

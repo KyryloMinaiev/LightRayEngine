@@ -8,6 +8,7 @@
 #include "EditorWindowManager.h"
 #include "Window/IWindow.h"
 #include "Layout/LayoutManager.h"
+#include "DockSpaceBuilder.h"
 
 namespace LightRayEngine {
 
@@ -21,7 +22,7 @@ namespace LightRayEngine {
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
 
-        ImGui::DockSpaceOverViewport(0, ImGui::GetMainViewport());
+        m_dockSpaceBuilder->BuildDockSpace();
         m_menuToolbar->ShowToolbar();
         m_editorWindowManager->DrawEditorWindows();
     }
@@ -34,9 +35,10 @@ namespace LightRayEngine {
     EditorGUIController::~EditorGUIController() = default;
 
     EditorGUIController::EditorGUIController() : EditorLoopSystem() {
+        m_dockSpaceBuilder = std::make_unique<DockSpaceBuilder>();
         m_menuToolbar = std::make_unique<MenuToolbar>();
         m_editorWindowManager = std::make_unique<EditorWindowManager>();
-        m_layoutManager = std::make_unique<LayoutManager>(m_editorWindowManager.get());
+        m_layoutManager = std::make_unique<LayoutManager>(m_dockSpaceBuilder.get(), m_editorWindowManager.get());
     }
 
     bool EditorGUIController::InitializeImGUI(IWindow *window) {

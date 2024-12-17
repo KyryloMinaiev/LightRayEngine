@@ -10,10 +10,11 @@
 namespace LightRayEngine {
     class EditorConfigurationSettings;
     class EditorWindowManager;
+    class DockSpaceBuilder;
 
     class LayoutManager {
     public:
-        explicit LayoutManager(EditorWindowManager* windowManager);
+        explicit LayoutManager(DockSpaceBuilder* dockSpaceBuilder, EditorWindowManager* windowManager);
         void LoadLayouts(EditorConfigurationSettings* editorConfigurationSettings);
         void ApplyLayout(EditorConfigurationSettings* editorConfigurationSettings);
 
@@ -22,7 +23,8 @@ namespace LightRayEngine {
         EditorLayout GetCurrentLayout();
 
     private:
-        EditorWindowManager* m_windowManager{};
+        DockSpaceBuilder* m_dockSpaceBuilder;
+        EditorWindowManager* m_windowManager;
     };
 
 } // LightRayEngine

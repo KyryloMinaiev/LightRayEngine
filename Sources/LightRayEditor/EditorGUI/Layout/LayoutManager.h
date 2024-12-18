@@ -6,6 +6,8 @@
 #define LIGHTRAYAPPLICATION_LAYOUTMANAGER_H
 
 #include "EditorLayout.h"
+#include <vector>
+#include <string>
 
 namespace LightRayEngine {
     class EditorConfigurationSettings;
@@ -16,7 +18,7 @@ namespace LightRayEngine {
     public:
         explicit LayoutManager(DockSpaceBuilder* dockSpaceBuilder, EditorWindowManager* windowManager);
         void LoadLayouts(EditorConfigurationSettings* editorConfigurationSettings);
-        void ApplyLayout(EditorConfigurationSettings* editorConfigurationSettings);
+        void ApplySavedLayout(EditorConfigurationSettings* editorConfigurationSettings);
 
         void SaveCurrentLayout(EditorConfigurationSettings* editorConfigurationSettings);
 
@@ -25,6 +27,8 @@ namespace LightRayEngine {
     private:
         DockSpaceBuilder* m_dockSpaceBuilder;
         EditorWindowManager* m_windowManager;
+
+        std::vector<std::string> m_loadedLayouts;
     };
 
 } // LightRayEngine

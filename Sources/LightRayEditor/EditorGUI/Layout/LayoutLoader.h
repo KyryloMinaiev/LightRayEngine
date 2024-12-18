@@ -15,7 +15,10 @@ namespace LightRayEngine {
     public:
         static std::vector<std::string> LoadAvailableLayouts(EditorConfigurationSettings *settings);
     private:
-        static constexpr auto k_defaultLayoutsFolder = "Resources/Default Layouts/";
+        static std::vector<std::string> LoadDefaultLayouts();
+
+        static constexpr auto k_defaultLayoutsFolder = "/Resources/Default Layouts";
+        static constexpr auto k_layoutExtension = ".layout";
     };
 
 } // LightRayEngine

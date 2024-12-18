@@ -75,7 +75,7 @@ namespace LightRayEngine {
     DockingData::~DockingData() = default;
 
     void DockingData::FromJson(JsonLibrary::JsonObject &jsonObject) {
-         jsonObject["dockSpaceNode"].DecodeObject(dockSpaceNode);
+        jsonObject["dockSpaceNode"].DecodeObject(dockSpaceNode);
     }
 
     void DockingData::ToJson(JsonLibrary::JsonObject &jsonObject) {
@@ -83,6 +83,10 @@ namespace LightRayEngine {
     }
 
     DockingNode::DockingNode(ImGuiDockNode *node) {
+        if (!node) {
+            return;
+        }
+
         id = node->ID;
         auto position = node->Pos;
         relativeXPos = position.x;

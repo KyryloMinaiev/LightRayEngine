@@ -2,6 +2,7 @@
 // Created by MrFlyingChip on 21.11.2024.
 //
 
+#include "LayoutLoader.h"
 #include "LayoutManager.h"
 #include "LayoutSaver.h"
 #include "../EditorWindowManager.h"
@@ -23,15 +24,15 @@ namespace LightRayEngine {
 
     LayoutManager::LayoutManager(DockSpaceBuilder *dockSpaceBuilder, EditorWindowManager *windowManager)
             : m_dockSpaceBuilder(dockSpaceBuilder), m_windowManager(windowManager) {
-
+        LayoutSaver::Init(this);
     }
 
-    void LayoutManager::ApplyLayout(EditorConfigurationSettings *editorConfigurationSettings) {
+    void LayoutManager::ApplySavedLayout(EditorConfigurationSettings *editorConfigurationSettings) {
 
     }
 
     void LayoutManager::LoadLayouts(EditorConfigurationSettings *editorConfigurationSettings) {
-
+        m_loadedLayouts = LayoutLoader::LoadAvailableLayouts(editorConfigurationSettings);
     }
 
     void

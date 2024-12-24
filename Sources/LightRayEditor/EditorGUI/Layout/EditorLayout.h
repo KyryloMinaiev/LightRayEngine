@@ -19,6 +19,8 @@ namespace LightRayEngine {
         explicit WindowData(EditorWindow* editorWindow);
         ~WindowData() override;
 
+        void SetupWindow(EditorWindow* editorWindow) const;
+
         void FromJson(JsonLibrary::JsonObject &jsonObject) override;
         void ToJson(JsonLibrary::JsonObject &jsonObject) override;
 

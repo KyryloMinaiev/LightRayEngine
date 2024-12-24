@@ -8,6 +8,8 @@
 #include <imgui.h>
 
 namespace LightRayEngine {
+    class DockingData;
+
     class DockSpaceBuilder {
     public:
         DockSpaceBuilder() = default;
@@ -16,6 +18,8 @@ namespace LightRayEngine {
         void BuildDockSpace();
         [[nodiscard]] ImGuiID GetDockSpaceID() const;
 
+        void CleanDockSpace();
+        void RebuildDockSpace(DockingData& dockingData);
     private:
         ImGuiID m_dockSpaceID;
     };

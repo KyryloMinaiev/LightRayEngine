@@ -92,4 +92,15 @@ namespace LightRayEngine {
 
         return openedWindows;
     }
+
+    void EditorWindowManager::CloseAllWindows() {
+        m_editorWindows.clear();
+    }
+
+    void EditorWindowManager::CreateWindows(const std::vector<WindowData>& windowDataList) {
+        for (const WindowData& windowData : windowDataList) {
+             EditorWindow* window = availableWindows[windowData.className](windowData.title);
+             windowData.SetupWindow(window);
+        }
+    }
 }

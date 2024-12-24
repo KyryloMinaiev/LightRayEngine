@@ -69,6 +69,16 @@ namespace LightRayEngine {
         jsonObject["isFocused"] = isFocused;
     }
 
+    void WindowData::SetupWindow(EditorWindow *editorWindow) const {
+        editorWindow->width = width;
+        editorWindow->height = height;
+        editorWindow->positionX = positionX;
+        editorWindow->positionY = positionY;
+        editorWindow->isDocked = isDocked;
+        editorWindow->dockId = dockId;
+        editorWindow->isFocused = isFocused;
+    }
+
     DockingData::DockingData(ImGuiID dockSpaceId) : dockSpaceNode(ImGui::DockBuilderGetNode(dockSpaceId)) {
     }
 

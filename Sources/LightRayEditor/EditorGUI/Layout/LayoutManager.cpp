@@ -28,7 +28,13 @@ namespace LightRayEngine {
     }
 
     void LayoutManager::ApplySavedLayout(EditorConfigurationSettings *editorConfigurationSettings) {
+        if(!editorConfigurationSettings->Contains("savedLayout")){
+            return;
+        }
 
+        EditorLayout layout;
+        editorConfigurationSettings->GetField("savedLayout").DecodeObject(layout);
+        ApplyLayout(layout);
     }
 
     void LayoutManager::LoadLayouts(EditorConfigurationSettings *editorConfigurationSettings) {
@@ -39,5 +45,13 @@ namespace LightRayEngine {
     LayoutManager::SaveCurrentLayout(EditorConfigurationSettings *editorConfigurationSettings) {
         auto currentLayout = GetCurrentLayout();
         LayoutSaver::SaveLayout(currentLayout, editorConfigurationSettings);
+    }
+
+    void LayoutManager::ApplyLayout(EditorLayout &editorLayout) {
+        m_dockSpaceBuilder->CleanDockSpace();
+        m_windowManager->CloseAllWindows();
+
+        m_dockSpaceBuilder->RebuildDockSpace(editorLayout.dockingData);
+        EditorWindowManager::CreateWindows(editorLayout.windows);
     }
 } // LightRayEngine

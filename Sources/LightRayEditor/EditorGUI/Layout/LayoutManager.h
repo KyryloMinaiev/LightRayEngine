@@ -13,6 +13,7 @@ namespace LightRayEngine {
     class EditorConfigurationSettings;
     class EditorWindowManager;
     class DockSpaceBuilder;
+    class EditorLayout;
 
     class LayoutManager {
     public:
@@ -25,6 +26,8 @@ namespace LightRayEngine {
         EditorLayout GetCurrentLayout();
 
     private:
+        void ApplyLayout(EditorLayout& editorLayout);
+
         DockSpaceBuilder* m_dockSpaceBuilder;
         EditorWindowManager* m_windowManager;
 

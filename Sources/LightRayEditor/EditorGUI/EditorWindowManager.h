@@ -7,6 +7,7 @@
 #include <vector>
 
 #include "EditorWindow.h"
+#include "Layout/EditorLayout.h"
 
 namespace LightRayEngine {
     class EditorConfigurationSettings;
@@ -15,6 +16,9 @@ namespace LightRayEngine {
     public:
         EditorWindowManager();
         ~EditorWindowManager();
+
+        void CloseAllWindows();
+        static void CreateWindows(const std::vector<WindowData>& windowDataList);
 
         template<typename T>
         static EditorWindow *CreateBasicEditorWindow(std::string title);

@@ -35,6 +35,6 @@ namespace LightRayEngine {
 
     void LayoutSaver::SaveLayout(EditorLayout &editorLayout, EditorConfigurationSettings *editorConfigurationSettings) {
         auto json = JsonLibrary::JsonLibrary::ToJsonObject(editorLayout);
-        editorConfigurationSettings->SetField("currentLayout", json);
+        editorConfigurationSettings->SetField("savedLayout", json);
     }
 } // LightRayEngine

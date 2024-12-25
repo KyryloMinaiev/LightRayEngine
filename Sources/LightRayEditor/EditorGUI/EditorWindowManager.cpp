@@ -16,9 +16,15 @@ namespace LightRayEngine {
 
     EditorWindowManager::~EditorWindowManager() = default;
 
-    void EditorWindowManager::DrawEditorWindows() const {
-        for (auto &editorWindow: m_editorWindows) {
-            EditorWindow *windowPtr = editorWindow.get();
+    void EditorWindowManager::DrawEditorWindows() {
+        for (auto &editorWindowData: m_editorWindows) {
+            EditorWindow *windowPtr = editorWindowData.windowPtr.get();
+
+            if(editorWindowData.isInitialized){
+                InitializeEditorWindow(windowPtr);
+                editorWindowData.isInitialized = true;
+            }
+
             DrawEditorWindow(windowPtr);
         }
     }
@@ -27,13 +33,8 @@ namespace LightRayEngine {
         ImGui::SetNextWindowSize(ImVec2(window->width, window->height), ImGuiCond_FirstUseEver);
 
         if(window->dockId){
-            //ImGui::SetNextWindowDockID(window->dockId);
+            ImGui::SetNextWindowDockID(window->dockId);
         }
-
-//        if(window->isCentered){
-//            ImGuiIO& io = ImGui::GetIO();
-//            ImGui::SetNextWindowPos(ImVec2(io.DisplaySize.x * 0.5f, io.DisplaySize.y * 0.5f), ImGuiCond_Always, ImVec2(0.5f,0.5f));
-//        }
 
         int windowFlags = ImGuiWindowFlags_NoCollapse;// | ImGuiWindowFlags_NoSavedSettings;
         if(!window->canBeMoved) {
@@ -77,7 +78,7 @@ namespace LightRayEngine {
         auto it = m_editorWindows.begin();
 
         for (;it < m_editorWindows.end(); it++) {
-            if(window == it->get()) {
+            if(window == it->windowPtr.get()) {
                 m_editorWindows.erase(it);
                 break;
             }
@@ -86,8 +87,8 @@ namespace LightRayEngine {
 
     std::vector<EditorWindow *> EditorWindowManager::GetOpenedWindows() const {
         std::vector<EditorWindow*> openedWindows;
-        for(auto& windowPtr : m_editorWindows){
-            openedWindows.push_back(windowPtr.get());
+        for(auto& windowData : m_editorWindows){
+            openedWindows.push_back(windowData.windowPtr.get());
         }
 
         return openedWindows;
@@ -102,5 +103,9 @@ namespace LightRayEngine {
              EditorWindow* window = availableWindows[windowData.className](windowData.title);
              windowData.SetupWindow(window);
         }
+    }
+
+    void EditorWindowManager::InitializeEditorWindow(EditorWindow *window) const {
+
     }
 }

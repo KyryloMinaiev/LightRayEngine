@@ -9,6 +9,7 @@
 
 namespace LightRayEngine {
     class DockingData;
+    class DockingNode;
 
     class DockSpaceBuilder {
     public:
@@ -21,6 +22,8 @@ namespace LightRayEngine {
         void CleanDockSpace();
         void RebuildDockSpace(DockingData& dockingData);
     private:
+        void AddDockingNode(DockingNode& dockingNode, ImGuiDockNodeFlags flags);
+
         ImGuiID m_dockSpaceID;
     };
 

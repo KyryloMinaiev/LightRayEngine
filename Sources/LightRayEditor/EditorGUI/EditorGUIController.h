@@ -35,6 +35,7 @@ namespace LightRayEngine {
             bool InitializeMenuToolbar();
             bool InitializeLayoutManager();
 
+            bool m_layoutApplied;
             std::unique_ptr<DockSpaceBuilder> m_dockSpaceBuilder;
             std::unique_ptr<LayoutManager> m_layoutManager;
             std::unique_ptr<MenuToolbar> m_menuToolbar;

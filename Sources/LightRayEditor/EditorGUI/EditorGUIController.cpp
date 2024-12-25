@@ -22,6 +22,11 @@ namespace LightRayEngine {
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
 
+        if (!m_layoutApplied) {
+            m_layoutManager->ApplySavedLayout(configurationSettings);
+            m_layoutApplied = true;
+        }
+
         m_dockSpaceBuilder->BuildDockSpace();
         m_menuToolbar->ShowToolbar();
         m_editorWindowManager->DrawEditorWindows();
@@ -81,7 +86,6 @@ namespace LightRayEngine {
     bool EditorGUIController::InitializeLayoutManager() {
         try {
             m_layoutManager->LoadLayouts(configurationSettings);
-            m_layoutManager->ApplySavedLayout(configurationSettings);
             LightRayLog::Log("Successfully loaded editor window manager.");
             return true;
         } catch (...) {

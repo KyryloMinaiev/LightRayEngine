@@ -16,15 +16,19 @@ namespace LightRayEngine {
         DockSpaceBuilder() = default;
         ~DockSpaceBuilder() = default;
 
-        void BuildDockSpace();
+        void BuildDockSpace() const;
         [[nodiscard]] ImGuiID GetDockSpaceID() const;
 
         void CleanDockSpace();
         void RebuildDockSpace(DockingData& dockingData);
     private:
-        void AddDockingNode(DockingNode& dockingNode, ImGuiDockNodeFlags flags);
 
         ImGuiID m_dockSpaceID;
+
+        static constexpr int k_dockSpaceDefaultID = 1;
+
+        ImGuiID AddDockingNode(const DockingNode &dockingNode, ImGuiID id, ImGuiDockNodeFlags flags);
+        static ImGuiID ConstructNode(const DockingNode &dockingNode, ImGuiID id, ImGuiDockNodeFlags flags);
     };
 
 } // LightRayEditor

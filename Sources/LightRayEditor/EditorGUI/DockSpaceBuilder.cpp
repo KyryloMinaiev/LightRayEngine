@@ -7,7 +7,7 @@
 #include "imgui_internal.h"
 
 namespace LightRayEngine {
-    void DockSpaceBuilder::BuildDockSpace() {
+    void DockSpaceBuilder::BuildDockSpace() const {
         ImGui::DockSpaceOverViewport(m_dockSpaceID, ImGui::GetMainViewport());
     }
 
@@ -20,18 +20,25 @@ namespace LightRayEngine {
     }
 
     void DockSpaceBuilder::RebuildDockSpace(DockingData &dockingData) {
-        m_dockSpaceID = dockingData.dockSpaceNode.id;
-        AddDockingNode(dockingData.dockSpaceNode, ImGuiDockNodeFlags_DockSpace);
+        m_dockSpaceID = AddDockingNode(dockingData.dockSpaceNode, k_dockSpaceDefaultID, ImGuiDockNodeFlags_DockSpace);
         ImGui::DockBuilderFinish(m_dockSpaceID);
     }
 
-    void DockSpaceBuilder::AddDockingNode(DockingNode &dockingNode, ImGuiDockNodeFlags flags) {
-        ImGui::DockBuilderAddNode(dockingNode.id, flags);
-        ImGui::DockBuilderSetNodePos(dockingNode.id, ImVec2(dockingNode.relativeXPos, dockingNode.relativeYPos));
-        ImGui::DockBuilderSetNodeSize(dockingNode.id, ImVec2(dockingNode.relativeXSize, dockingNode.relativeYSize));
+    ImGuiID DockSpaceBuilder::AddDockingNode(const DockingNode &dockingNode, ImGuiID id, ImGuiDockNodeFlags flags) {
+        ImGuiID nodeID = ConstructNode(dockingNode, id, flags);
 
-        for (auto childNode: dockingNode.childNodes) {
-            AddDockingNode(childNode, 0);
+        for (const auto& childNode: dockingNode.childNodes) {
+            AddDockingNode(childNode, childNode.id, ImGuiDockNodeFlags_None);
         }
+
+        return nodeID;
+    }
+
+    ImGuiID DockSpaceBuilder::ConstructNode(const DockingNode &dockingNode, ImGuiID id, ImGuiDockNodeFlags flags) {
+        ImGuiID nodeID = ImGui::DockBuilderAddNode(id, flags);
+        ImGui::DockBuilderSetNodePos(nodeID, ImVec2(dockingNode.relativeXPos, dockingNode.relativeYPos));
+        ImGui::DockBuilderSetNodeSize(nodeID, ImVec2(dockingNode.relativeXSize, dockingNode.relativeYSize));
+
+        return nodeID;
     }
 } // LightRayEditor

@@ -82,4 +82,8 @@ namespace LightRayEngine {
 //
 //        m_sceneViewCameraTransform->Translate(cameraMovement);
     }
+
+    std::string SceneView::GetDefaultWindowName() {
+        return "Scene";
+    }
 }

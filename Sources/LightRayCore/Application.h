@@ -10,7 +10,7 @@
 #include "platform-defines.h"
 #include <glm.hpp>
 
-#include "ConfigurationSettings/ConfigurationSettingsUtils.h"
+#include "EditorConfigurationSettings/EditorConfigurationSettingsUtils.h"
 #include "EditorLoop/EditorLoop.h"
 #include "ConsoleLogImpl.h"
 #include "FileLog/FileLog.h"
@@ -28,7 +28,7 @@ namespace LightRayEngine {
         bool TryOpenWindow(glm::ivec2& outGlVersion);
         bool TryOpenWindowWithGLVersion(glm::ivec2 version);
         void SaveEditorConfiguration();
-        static ConfigurationSettings* TryOpenEditorConfiguration();
+        static EditorConfigurationSettings* TryOpenEditorConfiguration();
 
         std::unique_ptr<ApplicationWindow> m_mainWindow;
         std::vector<glm::ivec2> availableGLVersions =
@@ -39,7 +39,7 @@ namespace LightRayEngine {
             {3, 0}
         };
 
-        ConfigurationSettings* m_editorConfigurationSettings;
+        EditorConfigurationSettings* m_editorConfigurationSettings;
         std::unique_ptr<EditorLoop> m_editorLoop = nullptr;
         std::unique_ptr<ConsoleLogImpl> m_consoleLog;
         std::unique_ptr<FileLog> m_fileLog;

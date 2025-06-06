@@ -16,7 +16,7 @@ namespace LightRayEngine {
 
         ~ProjectSettings() override = default;
         void FromJson(JsonLibrary::JsonObject &jsonObject) override;
-        void ToJson(JsonLibrary::JsonObject &jsonObject) const override;
+        void ToJson(JsonLibrary::JsonObject &jsonObject) override;
     };
 
 } // LightRayEngine

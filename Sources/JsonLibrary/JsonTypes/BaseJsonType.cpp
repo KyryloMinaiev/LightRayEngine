@@ -152,4 +152,11 @@ namespace JsonLibrary {
     bool BaseJsonType::TypeCheck(JsonType jsonType) {
         return jsonType == _jsonType;
     }
+
+    void BaseJsonType::EncodeObject(JsonSerialized &json_serialized) {
+        _jsonType = JsonType::JsonObject;
+        JsonObject jsonObject;
+        json_serialized.ToJson(jsonObject);
+        _jsonObjectValue = jsonObject;
+    }
 }

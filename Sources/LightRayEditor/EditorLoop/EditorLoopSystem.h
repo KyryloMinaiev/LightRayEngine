@@ -5,21 +5,20 @@
 #ifndef LIGHTRAYENGINE_EDITORLOOPSYSTEM_H
 #define LIGHTRAYENGINE_EDITORLOOPSYSTEM_H
 
+#include "EditorConfigurationSettings/EditorConfigurationSettingsUtils.h"
 
 namespace LightRayEngine {
-    class ConfigurationSettings;
-
     class EditorLoopSystem {
         public:
-            EditorLoopSystem(ConfigurationSettings* editorSettings){
-                configurationSettings = editorSettings;
-            }
+            EditorLoopSystem(){
+                configurationSettings = EditorConfigurationSettingsUtils::GetSettings();
+            };
 
             virtual void OnLoopStop() {}
 
             virtual ~EditorLoopSystem() = default;
         protected:
-            ConfigurationSettings* configurationSettings;
+            EditorConfigurationSettings* configurationSettings;
     };
 }
 

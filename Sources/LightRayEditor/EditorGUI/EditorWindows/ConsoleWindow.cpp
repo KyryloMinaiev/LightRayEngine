@@ -11,4 +11,8 @@ namespace LightRayEngine {
 
     void ConsoleWindow::OnGui() {
     }
+
+    std::string ConsoleWindow::GetDefaultWindowName() {
+        return "Console";
+    }
 }

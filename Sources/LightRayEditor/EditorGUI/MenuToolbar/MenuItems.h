@@ -31,6 +31,6 @@ namespace LightRayEngine {
         MenuItem("Windows/Console", ConsoleWindow::Create),
         MenuItem("Windows/Scene View", SceneView::Create),
         MenuItem("Windows/Hierarchy", Hierarchy::Create),
-        MenuItem("Windows/Project", ProjectView::Create)
+        MenuItem("Windows/Project", ProjectView::Create),
     };
 }

@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "../EditorWindow.h"
+#include "IEngineDefaultEditorWindow.h"
 #include <glm.hpp>
 
 namespace LightRayEngine {
@@ -9,7 +10,7 @@ namespace LightRayEngine {
 
     class GameObject;
 
-    class SceneView : public EditorWindow {
+    class SceneView : public EditorWindow, public IEngineDefaultEditorWindow {
     public:
         ~SceneView() override;
 
@@ -20,6 +21,8 @@ namespace LightRayEngine {
         void OnCreate() override;
 
         void OnGui() override;
+
+        std::string GetDefaultWindowName() override;
 
     private:
         static constexpr float k_cameraMoveSpeed = 3.0f;

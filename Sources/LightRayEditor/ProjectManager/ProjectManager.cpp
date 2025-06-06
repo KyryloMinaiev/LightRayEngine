@@ -4,25 +4,26 @@
 
 #include "ProjectManager.h"
 #include "ProjectSettings.h"
-#include "ConfigurationSettings/ConfigurationSettingsUtils.h"
+#include "EditorConfigurationSettings/EditorConfigurationSettingsUtils.h"
 #include "FileUtils.h"
 #include <filesystem>
 #include <algorithm>
 
 namespace LightRayEngine {
-    ConfigurationSettings *ProjectManager::m_settings;
+    EditorConfigurationSettings *ProjectManager::m_settings;
     std::vector<ProjectData> ProjectManager::m_savedProjectsPathList;
     ProjectData ProjectManager::m_currentProject;
     ProjectOpenCallback ProjectManager::m_projectOpenCallback;
 
-    std::vector<ProjectData> ProjectManager::GetSavedProjects() {
-        return m_savedProjectsPathList;
+    ProjectManager::ProjectManager(ProjectOpenCallback projectOpenCallback) {
+        m_projectOpenCallback = std::move(projectOpenCallback);
+
+        m_settings = EditorConfigurationSettingsUtils::GetSettings();
+        ReadSavedProjectsPathList();
     }
 
-    void ProjectManager::Init(ConfigurationSettings *settings, ProjectOpenCallback projectOpenCallback) {
-        m_settings = settings;
-        m_projectOpenCallback = projectOpenCallback;
-        ReadSavedProjectsPathList();
+    std::vector<ProjectData> ProjectManager::GetSavedProjects() {
+        return m_savedProjectsPathList;
     }
 
     void ProjectManager::ReadSavedProjectsPathList() {
@@ -188,13 +189,13 @@ namespace LightRayEngine {
         name = static_cast<std::string>(jsonObject["name"]);
         path = static_cast<std::string>(jsonObject["path"]);
         isFavourite = jsonObject["isFavourite"];
-        JsonLibrary::JsonLibrary::DecodeJsonObjectField(jsonObject, "changeTime", changeTime);
+        jsonObject["changeTime"].DecodeObject(changeTime);
     }
 
-    void ProjectData::ToJson(JsonLibrary::JsonObject &jsonObject) const {
+    void ProjectData::ToJson(JsonLibrary::JsonObject &jsonObject) {
         jsonObject["name"] = name;
         jsonObject["path"] = path;
         jsonObject["isFavourite"] = isFavourite;
-        jsonObject["changeTime"] = JsonLibrary::JsonLibrary::ToJsonObject(changeTime);
+        jsonObject["changeTime"].EncodeObject(changeTime);
     }
 } // LightRayEngine

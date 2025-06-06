@@ -18,9 +18,10 @@ namespace LightRayEngine {
 
     class EditorGUIController : public EditorLoopSystem{
         public:
-            explicit EditorGUIController(ConfigurationSettings *editorSettings);
+            explicit EditorGUIController();
 
             bool Initialize(IWindow* window);
+            void ConstructGUI();
             void StartFrame();
             void Render();
 
@@ -31,7 +32,7 @@ namespace LightRayEngine {
         private:
             static bool InitializeImGUI(IWindow* window);
             bool InitializeMenuToolbar();
-            bool InitializeEditorWindowManager();
+            bool InitializeLayoutManager();
 
             std::unique_ptr<MenuToolbar> m_menuToolbar;
             std::unique_ptr<EditorWindowManager> m_editorWindowManager;

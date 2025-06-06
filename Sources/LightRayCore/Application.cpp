@@ -13,7 +13,7 @@ namespace LightRayEngine {
     }
 
     void Application::Run() {
-        m_editorLoop = std::make_unique<EditorLoop>(m_editorConfigurationSettings);
+        m_editorLoop = std::make_unique<EditorLoop>();
         if (!m_editorLoop->Initialize(m_mainWindow.get())) {
             LightRayLog::LogError("Cannot initialize editor loop. Quitting application!");
             return;
@@ -109,8 +109,8 @@ namespace LightRayEngine {
         return true;
     }
 
-    ConfigurationSettings *Application::TryOpenEditorConfiguration() {
-        return ConfigurationSettingsUtils::LoadOrCreateDefaultEditorConfig();
+    EditorConfigurationSettings *Application::TryOpenEditorConfiguration() {
+        return EditorConfigurationSettingsUtils::GetSettings();
     }
 
     void Application::SaveEditorConfiguration() {
@@ -121,6 +121,6 @@ namespace LightRayEngine {
         int maximized = glfwGetWindowAttrib(m_mainWindow->GetGLFWWindow(), GLFW_MAXIMIZED);
         m_editorConfigurationSettings->SetField("editorMaximised", maximized);
 
-        ConfigurationSettingsUtils::SaveEditorConfigurationSettings();
+        EditorConfigurationSettingsUtils::SaveEditorConfigurationSettings();
     }
 } // LightRayEngine

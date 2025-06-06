@@ -7,43 +7,64 @@
 #include <vector>
 
 #include "EditorWindow.h"
+#include "EditorGUI/EditorWindows/IEngineDefaultEditorWindow.h"
 
 namespace LightRayEngine {
-    class ConfigurationSettings;
+    class EditorConfigurationSettings;
 
     class EditorWindowManager {
     public:
         EditorWindowManager();
+
         ~EditorWindowManager();
 
+        void CloseAllWindows();
+
         template<typename T>
-        static EditorWindow *CreateBasicEditorWindow(std::string title);
+        static EditorWindow *CreateBasicEditorWindow();
+
         template<typename T>
         static T *CreateEditorWindow();
+
         template<typename T>
         static T *CreateEditorWindow(std::string title);
 
+        template<typename T>
+        static T *CreateEditorWindow(std::string title, WindowAnchor anchor);
+
         static void CloseWindow(EditorWindow *window);
 
-        void DrawEditorWindows() const;
-        void LoadLayout(ConfigurationSettings *editorConfigurationSettings);
-        void SaveLayout(ConfigurationSettings *editorConfigurationSettings) const;
+        void DrawEditorWindows();
+        static void ConstructDefaultEditorWindows();
+
+        [[nodiscard]] std::vector<EditorWindow *> GetOpenedWindows() const;
 
     private:
         static EditorWindowManager *s_instance;
 
         void DrawEditorWindow(EditorWindow *window) const;
+        void InitializeEditorWindow(EditorWindow *window) const;
         void CloseWindowInternal(EditorWindow *window);
 
-        std::vector<std::unique_ptr<EditorWindow>> m_editorWindows;
+        struct WindowInternalData {
+            std::unique_ptr<EditorWindow> windowPtr;
+            bool isInitialized = false;
+        };
+
+        std::vector<WindowInternalData> m_editorWindows;
 
         static constexpr int k_defaultWindowWidth = 400;
         static constexpr int k_defaultWindowHeight = 200;
     };
 
     template<typename T>
-    EditorWindow *EditorWindowManager::CreateBasicEditorWindow(std::string title) {
-        return CreateEditorWindow<T>(title);
+    EditorWindow *EditorWindowManager::CreateBasicEditorWindow() {
+        static_assert(std::is_base_of<IEngineDefaultEditorWindow, T>::value,
+                      "EditorWindowManager::CreateBasicEditorWindow works only with IEngineDefaultEditorWindow!");
+        T* window = CreateEditorWindow<T>();
+        auto* defaultWindow = dynamic_cast<IEngineDefaultEditorWindow*>(window);
+        window->title = defaultWindow->GetDefaultWindowName();
+        return window;
     }
 
     template<typename T>
@@ -53,13 +74,18 @@ namespace LightRayEngine {
 
     template<typename T>
     T *EditorWindowManager::CreateEditorWindow(std::string title) {
+        return CreateEditorWindow<T>(title, WindowAnchor::TopLeft);
+    }
+
+    template<typename T>
+    T *EditorWindowManager::CreateEditorWindow(std::string title, WindowAnchor anchor) {
         static_assert(std::is_base_of<EditorWindow, T>::value,
                       "EditorWindowManager::CreateEditorWindow works only with EditorWindows!");
         assert(s_instance != nullptr);
 
         size_t currentIndex = s_instance->m_editorWindows.size();
-        s_instance->m_editorWindows.push_back(std::make_unique<T>());
-        EditorWindow *editor_window = s_instance->m_editorWindows[currentIndex].get();
+        s_instance->m_editorWindows.emplace_back(std::make_unique<T>());
+        EditorWindow *editor_window = s_instance->m_editorWindows[currentIndex].windowPtr.get();
         editor_window->title = std::move(title);
         editor_window->width = k_defaultWindowWidth;
         editor_window->height = k_defaultWindowHeight;

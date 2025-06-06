@@ -1,11 +1,7 @@
 ﻿#include "EditorWindowManager.h"
 
 #include <imgui.h>
-#include <LightRayLog.h>
-
-#include "ConfigurationSettings/ConfigurationSettings.h"
 #include "EditorWindows/AvailableWindows.h"
-#include "EditorWindowLayoutData.h"
 
 namespace LightRayEngine {
     EditorWindowManager *EditorWindowManager::s_instance;
@@ -16,38 +12,21 @@ namespace LightRayEngine {
 
     EditorWindowManager::~EditorWindowManager() = default;
 
-    void EditorWindowManager::DrawEditorWindows() const {
-        for (auto &editorWindow: m_editorWindows) {
-            EditorWindow *windowPtr = editorWindow.get();
+    void EditorWindowManager::DrawEditorWindows() {
+        for (auto &editorWindowData: m_editorWindows) {
+            EditorWindow *windowPtr = editorWindowData.windowPtr.get();
+
+            if(editorWindowData.isInitialized){
+                InitializeEditorWindow(windowPtr);
+                editorWindowData.isInitialized = true;
+            }
+
             DrawEditorWindow(windowPtr);
         }
     }
 
-    void EditorWindowManager::LoadLayout(ConfigurationSettings* editorConfigurationSettings) {
-        std::vector<EditorWindowLayoutData> openedWindows;
-        editorConfigurationSettings->GetValue("openedWindows", std::vector<JsonLibrary::JsonObject>()).DecodeArray(openedWindows);
-
-        for (const auto &openedWindow: openedWindows) {
-            if (availableWindows.find(openedWindow.className) != availableWindows.cend()) {
-                auto window = availableWindows[openedWindow.className](openedWindow.title);
-                openedWindow.SetupEditorWindow(window);
-            }
-        }
-    }
-
-    void EditorWindowManager::SaveLayout(ConfigurationSettings* editorConfigurationSettings) const {
-        std::vector<EditorWindowLayoutData> openedWindows;
-        for (const auto &window: m_editorWindows) {
-            EditorWindow *ptr = window.get();
-            openedWindows.emplace_back(ptr);
-        }
-
-        editorConfigurationSettings->GetField("openedWindows").EncodeArray(openedWindows);
-    }
-
     void EditorWindowManager::DrawEditorWindow(EditorWindow *window) const {
-        ImGui::SetNextWindowSize(ImVec2(window->width, window->height), ImGuiCond_FirstUseEver);
-        int windowFlags = ImGuiWindowFlags_NoCollapse;
+        int windowFlags = ImGuiWindowFlags_NoCollapse;// | ImGuiWindowFlags_NoSavedSettings;
         if(!window->canBeMoved) {
             windowFlags |= ImGuiWindowFlags_NoMove;
         }
@@ -89,10 +68,33 @@ namespace LightRayEngine {
         auto it = m_editorWindows.begin();
 
         for (;it < m_editorWindows.end(); it++) {
-            if(window == it->get()) {
+            if(window == it->windowPtr.get()) {
                 m_editorWindows.erase(it);
                 break;
             }
+        }
+    }
+
+    std::vector<EditorWindow *> EditorWindowManager::GetOpenedWindows() const {
+        std::vector<EditorWindow*> openedWindows;
+        for(auto& windowData : m_editorWindows){
+            openedWindows.push_back(windowData.windowPtr.get());
+        }
+
+        return openedWindows;
+    }
+
+    void EditorWindowManager::CloseAllWindows() {
+        m_editorWindows.clear();
+    }
+
+    void EditorWindowManager::InitializeEditorWindow(EditorWindow *window) const {
+
+    }
+
+    void EditorWindowManager::ConstructDefaultEditorWindows() {
+        for(auto& window : availableWindows){
+            window.second();
         }
     }
 }

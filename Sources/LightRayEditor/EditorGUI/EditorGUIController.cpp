@@ -10,8 +10,9 @@
 
 namespace LightRayEngine {
 
-    bool EditorGUIController::Initialize(IWindow* window) {
-        return InitializeImGUI(window) && InitializeMenuToolbar() && InitializeEditorWindowManager();
+    bool EditorGUIController::Initialize(IWindow *window) {
+        return InitializeImGUI(window) && InitializeMenuToolbar() &&
+               InitializeLayoutManager();
     }
 
     void EditorGUIController::StartFrame() {
@@ -19,8 +20,8 @@ namespace LightRayEngine {
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
 
-        ImGui::DockSpaceOverViewport(0, ImGui::GetMainViewport());
         m_menuToolbar->ShowToolbar();
+        ImGui::DockSpaceOverViewport(0, ImGui::GetMainViewport());
         m_editorWindowManager->DrawEditorWindows();
     }
 
@@ -29,10 +30,9 @@ namespace LightRayEngine {
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
     }
 
-    EditorGUIController::~EditorGUIController()  = default;
+    EditorGUIController::~EditorGUIController() = default;
 
-    EditorGUIController::EditorGUIController(ConfigurationSettings *editorSettings) : EditorLoopSystem(
-            editorSettings) {
+    EditorGUIController::EditorGUIController() : EditorLoopSystem() {
         m_menuToolbar = std::make_unique<MenuToolbar>();
         m_editorWindowManager = std::make_unique<EditorWindowManager>();
     }
@@ -70,9 +70,11 @@ namespace LightRayEngine {
         return false;
     }
 
-    bool EditorGUIController::InitializeEditorWindowManager() {
+    void EditorGUIController::OnLoopStop() {
+    }
+
+    bool EditorGUIController::InitializeLayoutManager() {
         try {
-            m_editorWindowManager->LoadLayout(configurationSettings);
             LightRayLog::Log("Successfully loaded editor window manager.");
             return true;
         } catch (...) {
@@ -82,7 +84,7 @@ namespace LightRayEngine {
         return false;
     }
 
-    void EditorGUIController::OnLoopStop() {
-        m_editorWindowManager->SaveLayout(configurationSettings);
+    void EditorGUIController::ConstructGUI() {
+        m_editorWindowManager->ConstructDefaultEditorWindows();
     }
 }

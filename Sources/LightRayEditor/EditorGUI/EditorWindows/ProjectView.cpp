@@ -11,4 +11,8 @@ namespace LightRayEngine {
         window->width = 500;
         window->height = 300;
     }
+
+    std::string ProjectView::GetDefaultWindowName() {
+        return "Project";
+    }
 }

@@ -14,7 +14,7 @@ namespace LightRayEngine {
         SerializedTime(std::tm& other);
         ~SerializedTime() override = default;
         void FromJson(JsonLibrary::JsonObject &jsonObject) override;
-        void ToJson(JsonLibrary::JsonObject &jsonObject) const override;
+        void ToJson(JsonLibrary::JsonObject &jsonObject) override;
     };
 }
 

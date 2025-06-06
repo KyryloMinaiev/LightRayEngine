@@ -3,6 +3,18 @@
 #include <string>
 
 namespace LightRayEngine {
+    enum class WindowAnchor {
+        Center,
+        TopCenter,
+        BottomCenter,
+        CenterLeft,
+        CenterRight,
+        TopLeft,
+        TopRight,
+        BottomLeft,
+        BottomRight
+    };
+
     class EditorWindow {
     public:
         virtual ~EditorWindow() = default;

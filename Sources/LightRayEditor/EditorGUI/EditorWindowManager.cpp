@@ -1,11 +1,7 @@
 ﻿#include "EditorWindowManager.h"
 
 #include <imgui.h>
-#include <LightRayLog.h>
-
-#include "EditorConfigurationSettings/EditorConfigurationSettings.h"
 #include "EditorWindows/AvailableWindows.h"
-#include "EditorWindowLayoutData.h"
 
 namespace LightRayEngine {
     EditorWindowManager *EditorWindowManager::s_instance;
@@ -30,12 +26,6 @@ namespace LightRayEngine {
     }
 
     void EditorWindowManager::DrawEditorWindow(EditorWindow *window) const {
-        ImGui::SetNextWindowSize(ImVec2(window->width, window->height), ImGuiCond_FirstUseEver);
-
-        if(window->dockId){
-            ImGui::SetNextWindowDockID(window->dockId);
-        }
-
         int windowFlags = ImGuiWindowFlags_NoCollapse;// | ImGuiWindowFlags_NoSavedSettings;
         if(!window->canBeMoved) {
             windowFlags |= ImGuiWindowFlags_NoMove;
@@ -98,14 +88,13 @@ namespace LightRayEngine {
         m_editorWindows.clear();
     }
 
-    void EditorWindowManager::CreateWindows(const std::vector<WindowData>& windowDataList) {
-        for (const WindowData& windowData : windowDataList) {
-             EditorWindow* window = availableWindows[windowData.className](windowData.title);
-             windowData.SetupWindow(window);
-        }
-    }
-
     void EditorWindowManager::InitializeEditorWindow(EditorWindow *window) const {
 
+    }
+
+    void EditorWindowManager::ConstructDefaultEditorWindows() {
+        for(auto& window : availableWindows){
+            window.second();
+        }
     }
 }

@@ -7,7 +7,7 @@
 #include <vector>
 
 #include "EditorWindow.h"
-#include "Layout/EditorLayout.h"
+#include "EditorGUI/EditorWindows/IEngineDefaultEditorWindow.h"
 
 namespace LightRayEngine {
     class EditorConfigurationSettings;
@@ -20,10 +20,8 @@ namespace LightRayEngine {
 
         void CloseAllWindows();
 
-        static void CreateWindows(const std::vector<WindowData> &windowDataList);
-
         template<typename T>
-        static EditorWindow *CreateBasicEditorWindow(std::string title);
+        static EditorWindow *CreateBasicEditorWindow();
 
         template<typename T>
         static T *CreateEditorWindow();
@@ -37,6 +35,7 @@ namespace LightRayEngine {
         static void CloseWindow(EditorWindow *window);
 
         void DrawEditorWindows();
+        static void ConstructDefaultEditorWindows();
 
         [[nodiscard]] std::vector<EditorWindow *> GetOpenedWindows() const;
 
@@ -59,8 +58,13 @@ namespace LightRayEngine {
     };
 
     template<typename T>
-    EditorWindow *EditorWindowManager::CreateBasicEditorWindow(std::string title) {
-        return CreateEditorWindow<T>(title);
+    EditorWindow *EditorWindowManager::CreateBasicEditorWindow() {
+        static_assert(std::is_base_of<IEngineDefaultEditorWindow, T>::value,
+                      "EditorWindowManager::CreateBasicEditorWindow works only with IEngineDefaultEditorWindow!");
+        T* window = CreateEditorWindow<T>();
+        auto* defaultWindow = dynamic_cast<IEngineDefaultEditorWindow*>(window);
+        window->title = defaultWindow->GetDefaultWindowName();
+        return window;
     }
 
     template<typename T>

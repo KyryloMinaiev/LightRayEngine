@@ -11,4 +11,8 @@ namespace LightRayEngine {
         window->width = 500;
         window->height = 300;
     }
+
+    std::string InspectorWindow::GetDefaultWindowName() {
+        return "Inspector";
+    }
 }

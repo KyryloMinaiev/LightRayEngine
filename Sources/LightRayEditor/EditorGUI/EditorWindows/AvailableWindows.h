@@ -11,7 +11,7 @@
 #include "SceneView.h"
 
 namespace LightRayEngine {
-    std::map<std::string, std::function<EditorWindow *(std::string)>> availableWindows =
+    std::map<std::string, std::function<EditorWindow *()>> availableWindows =
     {
         {typeid(ConsoleWindow).name(),   EditorWindowManager::CreateBasicEditorWindow<ConsoleWindow>},
         {typeid(Hierarchy).name(),       EditorWindowManager::CreateBasicEditorWindow<Hierarchy>},

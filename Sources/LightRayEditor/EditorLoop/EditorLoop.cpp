@@ -32,6 +32,7 @@ namespace LightRayEngine {
     }
 
     void EditorLoop::Start() {
+        m_editorGuiController->ConstructGUI();
         //ProjectWizardWindow::Create();
     }
 }

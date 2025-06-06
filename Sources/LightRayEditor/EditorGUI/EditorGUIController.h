@@ -15,14 +15,13 @@
 namespace LightRayEngine {
     class MenuToolbar;
     class EditorWindowManager;
-    class LayoutManager;
-    class DockSpaceBuilder;
 
     class EditorGUIController : public EditorLoopSystem{
         public:
             explicit EditorGUIController();
 
             bool Initialize(IWindow* window);
+            void ConstructGUI();
             void StartFrame();
             void Render();
 
@@ -35,9 +34,6 @@ namespace LightRayEngine {
             bool InitializeMenuToolbar();
             bool InitializeLayoutManager();
 
-            bool m_layoutApplied;
-            std::unique_ptr<DockSpaceBuilder> m_dockSpaceBuilder;
-            std::unique_ptr<LayoutManager> m_layoutManager;
             std::unique_ptr<MenuToolbar> m_menuToolbar;
             std::unique_ptr<EditorWindowManager> m_editorWindowManager;
     };

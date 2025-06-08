@@ -6,11 +6,13 @@
 #include "EditorConfigurationSettings/EditorConfigurationSettings.h"
 #include "../EditorGUI/EditorGUIController.h"
 #include "../EditorGUI/EditorWindows/ProjectWizardWindow.h"
+#include "AssetDatabase/AssetDatabase.h"
 
 namespace LightRayEngine {
     EditorLoop::EditorLoop() {
         m_editorGuiController = std::make_unique<EditorGUIController>();
         m_projectManager = std::make_unique<ProjectManager>(nullptr);
+        m_assetDatabase = std::make_unique<AssetDatabase>();
     }
 
     EditorLoop::~EditorLoop() = default;
@@ -33,6 +35,6 @@ namespace LightRayEngine {
 
     void EditorLoop::Start() {
         m_editorGuiController->ConstructGUI();
-        //ProjectWizardWindow::Create();
+        ProjectWizardWindow::Create();
     }
 }

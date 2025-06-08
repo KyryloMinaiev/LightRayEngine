@@ -11,6 +11,7 @@
 namespace LightRayEngine {
     class EditorGUIController;
     class ProjectManager;
+    class AssetDatabase;
 
     class EditorLoop {
     public:
@@ -24,6 +25,7 @@ namespace LightRayEngine {
     private:
         std::unique_ptr<EditorGUIController> m_editorGuiController;
         std::unique_ptr<ProjectManager> m_projectManager;
+        std::unique_ptr<AssetDatabase> m_assetDatabase;
     };
 }
 

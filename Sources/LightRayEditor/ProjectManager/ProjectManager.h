@@ -31,27 +31,27 @@ namespace LightRayEngine {
     class ProjectManager {
 
     public:
-        ProjectManager(ProjectOpenCallback projectOpenCallback);
+        explicit ProjectManager(const ProjectOpenCallback& projectOpenCallback);
 
-        static std::vector<ProjectData> GetSavedProjects();
-        static bool TryAddProjectByPath(const std::string& path);
-        static bool ValidatePathForProjectCreating(const std::string& path);
-        static bool TryCreateProjectByPath(const std::string& path, const std::string& projectName);
-        static bool TryOpenProjectByPath(const std::string& path);
-        static void RemoveProjectFromList(const std::string& path);
-        static ProjectData GetCurrentOpenProject();
+        std::vector<ProjectData> GetSavedProjects();
+        bool TryAddProjectByPath(const std::string& path);
+        bool ValidatePathForProjectCreating(const std::string& path);
+        bool TryCreateProjectByPath(const std::string& path, const std::string& projectName);
+        bool TryOpenProjectByPath(const std::string& path);
+        void RemoveProjectFromList(const std::string& path);
+        ProjectData GetCurrentOpenProject();
 
     private:
-        static bool TryAddProjectToList(const std::string& path, const std::string& projectName);
-        static bool IsProjectAdded(const std::string& path);
-        static bool TryGetProjectDataFromList(const std::string& path, ProjectData& projectData);
-        static void ReadSavedProjectsPathList();
-        static std::string CombinePath(const std::string& path1, const std::string& path2);
+        bool TryAddProjectToList(const std::string& path, const std::string& projectName);
+        bool IsProjectAdded(const std::string& path);
+        bool TryGetProjectDataFromList(const std::string& path, ProjectData& projectData);
+        void ReadSavedProjectsPathList();
+        std::string CombinePath(const std::string& path1, const std::string& path2);
 
-        static EditorConfigurationSettings *m_settings;
-        static std::vector<ProjectData> m_savedProjectsPathList;
-        static ProjectData m_currentProject;
-        static ProjectOpenCallback m_projectOpenCallback;
+        EditorConfigurationSettings *m_settings;
+        std::vector<ProjectData> m_savedProjectsPathList;
+        ProjectData m_currentProject;
+        ProjectOpenCallback m_projectOpenCallback;
 
         static constexpr auto k_assetsFolderName = "Assets";
         static constexpr auto k_projectSettingsFolderName = "ProjectSettings";

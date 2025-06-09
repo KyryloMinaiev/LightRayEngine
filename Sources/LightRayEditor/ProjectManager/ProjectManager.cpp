@@ -10,13 +10,8 @@
 #include <algorithm>
 
 namespace LightRayEngine {
-    EditorConfigurationSettings *ProjectManager::m_settings;
-    std::vector<ProjectData> ProjectManager::m_savedProjectsPathList;
-    ProjectData ProjectManager::m_currentProject;
-    ProjectOpenCallback ProjectManager::m_projectOpenCallback;
-
-    ProjectManager::ProjectManager(ProjectOpenCallback projectOpenCallback) {
-        m_projectOpenCallback = std::move(projectOpenCallback);
+    ProjectManager::ProjectManager(const ProjectOpenCallback& projectOpenCallback) {
+        m_projectOpenCallback = projectOpenCallback;
 
         m_settings = EditorConfigurationSettingsUtils::GetSettings();
         ReadSavedProjectsPathList();

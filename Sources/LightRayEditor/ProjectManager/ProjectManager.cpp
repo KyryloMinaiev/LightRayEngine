@@ -8,170 +8,153 @@
 #include "FileUtils.h"
 #include <filesystem>
 #include <algorithm>
+#include "Const/Constants.h"
 
-namespace LightRayEngine {
-    ProjectManager::ProjectManager(const ProjectOpenCallback& projectOpenCallback) {
-        m_projectOpenCallback = projectOpenCallback;
-
+namespace LightRayEngine
+{
+    ProjectManager::ProjectManager()
+    {
         m_settings = EditorConfigurationSettingsUtils::GetSettings();
         ReadSavedProjectsPathList();
     }
 
-    std::vector<ProjectData> ProjectManager::GetSavedProjects() {
+    std::vector<ProjectData> ProjectManager::GetSavedProjects()
+    {
         return m_savedProjectsPathList;
     }
 
-    void ProjectManager::ReadSavedProjectsPathList() {
+    void ProjectManager::ReadSavedProjectsPathList()
+    {
         auto array = m_settings->GetValue("savedProjects", std::vector<JsonLibrary::JsonObject>());
         array.DecodeArray(m_savedProjectsPathList);
     }
 
-    bool ProjectManager::ValidatePathForProjectCreating(const std::string &path) {
-        return std::filesystem::exists(path) && std::filesystem::is_empty(path);
-    }
+    bool ProjectManager::TryAddProjectByPath(const std::string &path)
+    {
+        std::string assetsFolderPath = CombinePath(path, AssetsFolderName);
+        std::string projectSettingsFolderPath = CombinePath(path, ProjectSettingsFolderName);
+        std::string projectSettingsFilePath = CombinePath(projectSettingsFolderPath, ProjectSettingsFileName);
 
-    bool ProjectManager::TryAddProjectByPath(const std::string &path) {
-        std::string assetsFolderPath = CombinePath(path, k_assetsFolderName);
-        std::string projectSettingsFolderPath = CombinePath(path, k_projectSettingsFolderName);
-        std::string projectSettingsFilePath = CombinePath(projectSettingsFolderPath, k_projectSettingsFileName);
-
-        if (!std::filesystem::exists(assetsFolderPath)) {
+        if (!std::filesystem::exists(assetsFolderPath))
+        {
             return false;
         }
 
-        if (!std::filesystem::exists(projectSettingsFolderPath)) {
+        if (!std::filesystem::exists(projectSettingsFolderPath))
+        {
             return false;
         }
 
-        if (!std::filesystem::exists(projectSettingsFilePath)) {
+        if (!std::filesystem::exists(projectSettingsFilePath))
+        {
             return false;
         }
 
         std::string projectSettingsStr;
-        if (!FileUtils::TryLoadFile(projectSettingsFilePath, projectSettingsStr)) {
+        if (!FileUtils::TryLoadFile(projectSettingsFilePath, projectSettingsStr))
+        {
             return false;
         }
 
         ProjectSettings projectSettings;
-        if (!JsonLibrary::JsonLibrary::FromJsonString(projectSettingsStr, projectSettings)) {
+        if (!JsonLibrary::JsonLibrary::FromJsonString(projectSettingsStr, projectSettings))
+        {
             return false;
         }
 
         std::string projectName = projectSettings.projectName;
-        if (!TryAddProjectToList(path, projectName)) {
+        if (!TryAddProjectToList(path, projectName))
+        {
             return false;
         }
 
         return true;
     }
 
-    bool ProjectManager::TryCreateProjectByPath(const std::string &path, const std::string &projectName) {
-        if (!ValidatePathForProjectCreating(path)) {
-            return false;
-        }
-
-        if (!TryAddProjectToList(path, projectName)) {
-            return false;
-        }
-
-        if (!FileUtils::TryCreateFolder(path, k_assetsFolderName)) {
-            return false;
-        }
-
-        if (!FileUtils::TryCreateFolder(path, k_projectSettingsFolderName)) {
-            return false;
-        }
-
-        std::string projectSettingsFilePath = CombinePath(CombinePath(path, k_projectSettingsFolderName),
-                                                          k_projectSettingsFileName);
-        ProjectSettings settings;
-        settings.projectName = projectName;
-        std::string json = JsonLibrary::JsonLibrary::ToJson(settings);
-        if (!FileUtils::TrySaveFile(projectSettingsFilePath, json)) {
-            return false;
-        }
-
-        return true;
-    }
-
-    std::string ProjectManager::CombinePath(const std::string &path1, const std::string &path2) {
+    std::string ProjectManager::CombinePath(const std::string &path1, const std::string &path2)
+    {
         return path1 + "/" + path2;
     }
 
-    bool ProjectManager::TryAddProjectToList(const std::string &path, const std::string &projectName) {
-        if (IsProjectAdded(path)) {
+    bool ProjectManager::TryAddProjectToList(const std::string &path, const std::string &projectName)
+    {
+        if (ProjectExists(path))
+        {
             return false;
         }
 
-        std::time_t now = std::time(nullptr);
-        ProjectData data;
-        data.path = path;
-        data.name = projectName;
-        data.changeTime = SerializedTime(*std::localtime(&now));
+        ProjectData data(projectName, path, SerializedTime::Now());
         m_savedProjectsPathList.push_back(data);
         m_settings->GetField("savedProjects").EncodeArray(m_savedProjectsPathList);
 
         return true;
     }
 
-    bool ProjectManager::IsProjectAdded(const std::string &path) {
+    bool ProjectManager::ProjectExists(const std::string &path)
+    {
         ProjectData data;
         return TryGetProjectDataFromList(path, data);
     }
 
-    bool ProjectManager::TryOpenProjectByPath(const std::string &path) {
+    bool ProjectManager::TryOpenProjectByPath(const std::string &path)
+    {
         ProjectData projectData;
-        if (!TryGetProjectDataFromList(path, projectData)) {
+        if (!TryGetProjectDataFromList(path, projectData))
+        {
             return false;
         }
 
-        std::string assetsFolderPath = CombinePath(path, k_assetsFolderName);
-        std::string projectSettingsFolderPath = CombinePath(path, k_projectSettingsFolderName);
-        std::string projectSettingsFilePath = CombinePath(projectSettingsFolderPath, k_projectSettingsFileName);
+        std::string assetsFolderPath = CombinePath(path, AssetsFolderName);
+        std::string projectSettingsFolderPath = CombinePath(path, ProjectSettingsFolderName);
+        std::string projectSettingsFilePath = CombinePath(projectSettingsFolderPath, ProjectSettingsFileName);
 
-        if (!std::filesystem::exists(assetsFolderPath)) {
+        if (!std::filesystem::exists(assetsFolderPath))
+        {
             return false;
         }
 
-        if (!std::filesystem::exists(projectSettingsFolderPath)) {
+        if (!std::filesystem::exists(projectSettingsFolderPath))
+        {
             return false;
         }
 
-        if (!std::filesystem::exists(projectSettingsFilePath)) {
+        if (!std::filesystem::exists(projectSettingsFilePath))
+        {
             return false;
         }
 
         std::string projectSettingsStr;
-        if (!FileUtils::TryLoadFile(projectSettingsFilePath, projectSettingsStr)) {
+        if (!FileUtils::TryLoadFile(projectSettingsFilePath, projectSettingsStr))
+        {
             return false;
         }
 
-        bool result = true;
-        if (m_projectOpenCallback) {
-            result = m_projectOpenCallback(path);
-        }
+        m_currentProject = projectData;
+        m_settings->SetField("lastProject", m_currentProject.path);
 
-        if (result) {
-            m_currentProject = projectData;
-        }
-
-        return result;
+        return true;
     }
 
-    ProjectData ProjectManager::GetCurrentOpenProject() {
+    ProjectData ProjectManager::GetCurrentOpenProject()
+    {
         return m_currentProject;
     }
 
-    void ProjectManager::RemoveProjectFromList(const std::string &path) {
+    void ProjectManager::RemoveProjectFromList(const std::string &path)
+    {
         m_savedProjectsPathList.erase(std::remove_if(m_savedProjectsPathList.begin(), m_savedProjectsPathList.end(),
-                                                     [&path](const ProjectData &data) { return data.path == path; }),
+                                                     [&path](const ProjectData &data)
+                                                     { return data.path == path; }),
                                       m_savedProjectsPathList.end());
         m_settings->GetField("savedProjects").EncodeArray(m_savedProjectsPathList);
     }
 
-    bool ProjectManager::TryGetProjectDataFromList(const std::string &path, ProjectData &projectData) {
-        for (const auto &pd: m_savedProjectsPathList) {
-            if (pd.path == path) {
+    bool ProjectManager::TryGetProjectDataFromList(const std::string &path, ProjectData &projectData) const
+    {
+        for (const auto &pd: m_savedProjectsPathList)
+        {
+            if (pd.path == path)
+            {
                 projectData = pd;
                 return true;
             }
@@ -180,17 +163,9 @@ namespace LightRayEngine {
         return false;
     }
 
-    void ProjectData::FromJson(JsonLibrary::JsonObject &jsonObject) {
-        name = static_cast<std::string>(jsonObject["name"]);
-        path = static_cast<std::string>(jsonObject["path"]);
-        isFavourite = jsonObject["isFavourite"];
-        jsonObject["changeTime"].DecodeObject(changeTime);
-    }
-
-    void ProjectData::ToJson(JsonLibrary::JsonObject &jsonObject) {
-        jsonObject["name"] = name;
-        jsonObject["path"] = path;
-        jsonObject["isFavourite"] = isFavourite;
-        jsonObject["changeTime"].EncodeObject(changeTime);
+    bool ProjectManager::TryGetLastOpenedProject(ProjectData &projectData) const
+    {
+        std::string lastProjectPath = m_settings->GetField("lastProject");
+        return TryGetProjectDataFromList(lastProjectPath, projectData);;
     }
 } // LightRayEngine

@@ -15,4 +15,7 @@ namespace LightRayEngine {
     std::string InspectorWindow::GetDefaultWindowName() {
         return "Inspector";
     }
+
+    InspectorWindow::InspectorWindow(EditorWindowManager *editorWindowManager) : EditorWindow(editorWindowManager)
+    {}
 }

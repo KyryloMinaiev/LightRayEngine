@@ -4,9 +4,12 @@
 
 #include "JsonTypes.h"
 
-namespace JsonLibrary {
-    std::string toString(JsonType jsonType){
-        switch (jsonType) {
+namespace JsonLibrary
+{
+    std::string toString(JsonType jsonType)
+    {
+        switch (jsonType)
+        {
             case JsonType::JsonFloat:
                 return "JsonFloat";
             case JsonType::JsonBool:

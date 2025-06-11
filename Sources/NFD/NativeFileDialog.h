@@ -7,13 +7,15 @@
 
 #include "WinNativeFileDialogImpl.h"
 
-namespace LightRayEngine {
-    class NativeFileDialog{
-    public:
-        static bool OpenFileDialog(const std::string& filter, const std::string& defaultPath, std::string& outPath);
-        static bool OpenFolderDialog(const std::string& defaultPath, std::string& outPath);
-    private:
-        static INativeFileDialogImpl* GetPlatformImpl();
+namespace LightRayEngine
+{
+    class NativeFileDialog
+    {
+        public:
+            static bool OpenFileDialog(const std::string &filter, const std::string &defaultPath, std::string &outPath);
+            static bool OpenFolderDialog(const std::string &defaultPath, std::string &outPath);
+        private:
+            static INativeFileDialogImpl *GetPlatformImpl();
     };
 
 } // LightRayEngine

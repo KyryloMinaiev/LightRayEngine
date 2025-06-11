@@ -4,73 +4,91 @@
 #include "../JsonSerialized.h"
 #include "../Exceptions/EmptyTypeException.h"
 
-namespace JsonLibrary {
+namespace JsonLibrary
+{
     BaseJsonType::BaseJsonType() = default;
 
     BaseJsonType::BaseJsonType(const BaseJsonType &other) : _jsonType(other._jsonType), _floatValue(other._floatValue),
                                                             _stringValue(other._stringValue),
                                                             _jsonObjectValue(other._jsonObjectValue),
-                                                            _jsonArrayValue(other._jsonArrayValue) {
+                                                            _jsonArrayValue(other._jsonArrayValue)
+    {
     }
 
-    BaseJsonType::BaseJsonType(int value) : _jsonType(JsonType::JsonFloat), _floatValue(value) {
+    BaseJsonType::BaseJsonType(int value) : _jsonType(JsonType::JsonFloat), _floatValue(value)
+    {
     }
 
-    BaseJsonType::BaseJsonType(bool value) : _jsonType(JsonType::JsonBool), _boolValue(value) {
+    BaseJsonType::BaseJsonType(bool value) : _jsonType(JsonType::JsonBool), _boolValue(value)
+    {
     }
 
-    BaseJsonType::BaseJsonType(float value) : _jsonType(JsonType::JsonFloat), _floatValue(value) {
+    BaseJsonType::BaseJsonType(float value) : _jsonType(JsonType::JsonFloat), _floatValue(value)
+    {
     }
 
-    BaseJsonType::BaseJsonType(std::string value) : _jsonType(JsonType::JsonString), _stringValue(std::move(value)) {
+    BaseJsonType::BaseJsonType(std::string value) : _jsonType(JsonType::JsonString), _stringValue(std::move(value))
+    {
     }
 
-    BaseJsonType::BaseJsonType(const JsonObject &value) : _jsonType(JsonType::JsonObject), _jsonObjectValue(value) {
+    BaseJsonType::BaseJsonType(const JsonObject &value) : _jsonType(JsonType::JsonObject), _jsonObjectValue(value)
+    {
     }
 
 
-    BaseJsonType::BaseJsonType(const JsonArray &value) : _jsonType(JsonType::JsonArray), _jsonArrayValue(value) {
+    BaseJsonType::BaseJsonType(const JsonArray &value) : _jsonType(JsonType::JsonArray), _jsonArrayValue(value)
+    {
     }
 
-    BaseJsonType::BaseJsonType(const std::vector<int> &value) : _jsonType(JsonType::JsonArray), _jsonArrayValue(value) {
+    BaseJsonType::BaseJsonType(const std::vector<int> &value) : _jsonType(JsonType::JsonArray), _jsonArrayValue(value)
+    {
     }
 
     BaseJsonType::BaseJsonType(const std::vector<JsonObject> &value) : _jsonType(JsonType::JsonArray),
-                                                                       _jsonArrayValue(value) {
+                                                                       _jsonArrayValue(value)
+    {
     }
 
     BaseJsonType::BaseJsonType(const std::vector<std::string> &value) : _jsonType(JsonType::JsonArray),
-                                                                        _jsonArrayValue(value) {
+                                                                        _jsonArrayValue(value)
+    {
     }
 
     BaseJsonType::BaseJsonType(const std::vector<float> &value) : _jsonType(JsonType::JsonArray),
-                                                                  _jsonArrayValue(value) {
+                                                                  _jsonArrayValue(value)
+    {
     }
 
     BaseJsonType::~BaseJsonType() = default;
 
-    bool BaseJsonType::TryDecodeJsonType(const std::string &json, int startIndex, int &endIndex) {
-        if (_jsonObjectValue.TryDecodeJsonType(json, startIndex, endIndex)) {
+    bool BaseJsonType::TryDecodeJsonType(const std::string &json, int startIndex, int &endIndex)
+    {
+        if (_jsonObjectValue.TryDecodeJsonType(json, startIndex, endIndex))
+        {
             _jsonType = JsonType::JsonObject;
             return true;
         }
 
-        if (_jsonArrayValue.TryDecodeJsonType(json, startIndex, endIndex)) {
+        if (_jsonArrayValue.TryDecodeJsonType(json, startIndex, endIndex))
+        {
             _jsonType = JsonType::JsonArray;
             return true;
         }
 
-        if (_boolValue.TryDecodeJsonType(json, startIndex, endIndex)) {
+        if (_boolValue.TryDecodeJsonType(json, startIndex, endIndex))
+        {
             _jsonType = JsonType::JsonBool;
             return true;
         }
 
-        if (_floatValue.TryDecodeJsonType(json, startIndex, endIndex)) {
+        if (_floatValue.TryDecodeJsonType(json, startIndex, endIndex))
+        {
             _jsonType = JsonType::JsonFloat;
             return true;
         }
 
-        if (_stringValue.TryDecodeJsonType(json, startIndex, endIndex)) {
+        if (_stringValue.TryDecodeJsonType(json, startIndex, endIndex))
+        {
             _jsonType = JsonType::JsonString;
             return true;
         }
@@ -78,8 +96,10 @@ namespace JsonLibrary {
         return false;
     }
 
-    std::string BaseJsonType::EncodeJsonType() const {
-        switch (_jsonType) {
+    std::string BaseJsonType::EncodeJsonType() const
+    {
+        switch (_jsonType)
+        {
             case JsonType::JsonBool:
                 return _boolValue.EncodeJsonType();
             case JsonType::JsonFloat:
@@ -97,63 +117,78 @@ namespace JsonLibrary {
         return {};
     }
 
-    JsonType BaseJsonType::GetType() const {
+    JsonType BaseJsonType::GetType() const
+    {
         return _jsonType;
     }
 
-    BaseJsonType::operator bool() {
+    BaseJsonType::operator bool()
+    {
         return GetJsonType<bool, JsonBool>(JsonType::JsonBool, _boolValue);
     }
 
-    BaseJsonType::operator int() {
+    BaseJsonType::operator int()
+    {
         return GetJsonType<int, JsonFloat>(JsonType::JsonFloat, _floatValue);
     }
 
-    BaseJsonType::operator float() {
+    BaseJsonType::operator float()
+    {
         return GetJsonType<float, JsonFloat>(JsonType::JsonFloat, _floatValue);
     }
 
-    BaseJsonType::operator std::string() {
+    BaseJsonType::operator std::string()
+    {
         return GetJsonType<std::string, JsonString>(JsonType::JsonString, _stringValue);
     }
 
-    BaseJsonType::operator std::vector<bool>() {
+    BaseJsonType::operator std::vector<bool>()
+    {
         return GetJsonType<std::vector<bool>, JsonArray>(JsonType::JsonArray, _jsonArrayValue);
     }
 
-    void BaseJsonType::DecodeObject(JsonSerialized &json_serialized) {
-        if (_jsonType != JsonType::JsonObject) {
+    void BaseJsonType::DecodeObject(JsonSerialized &json_serialized)
+    {
+        if (_jsonType != JsonType::JsonObject)
+        {
             throw InvalidCastTypeException(JsonType::JsonObject, _jsonType);
         }
 
         json_serialized.FromJson(_jsonObjectValue);
     }
 
-    BaseJsonType::operator JsonObject() {
+    BaseJsonType::operator JsonObject()
+    {
         return GetJsonType<JsonObject, JsonObject>(JsonType::JsonObject, _jsonObjectValue);
     }
 
-    BaseJsonType::operator std::vector<float>() {
+    BaseJsonType::operator std::vector<float>()
+    {
         return GetJsonType<std::vector<float>, JsonArray>(JsonType::JsonArray, _jsonArrayValue);
     }
 
-    BaseJsonType::operator std::vector<int>() {
+    BaseJsonType::operator std::vector<int>()
+    {
         return GetJsonType<std::vector<int>, JsonArray>(JsonType::JsonArray, _jsonArrayValue);
     }
 
-    BaseJsonType::operator std::vector<std::string>() {
+    BaseJsonType::operator std::vector<std::string>()
+    {
         return GetJsonType<std::vector<std::string>, JsonArray>(JsonType::JsonArray, _jsonArrayValue);
     }
 
-    BaseJsonType::operator std::vector<JsonObject>() {
+    BaseJsonType::operator std::vector<JsonObject>()
+    {
         return GetJsonType<std::vector<JsonObject>, JsonArray>(JsonType::JsonArray, _jsonArrayValue);
     }
 
-    bool BaseJsonType::TypeCheck(JsonType jsonType) {
+    bool BaseJsonType::TypeCheck(JsonType jsonType)
+    {
         return jsonType == _jsonType;
     }
 
-    void BaseJsonType::EncodeObject(JsonSerialized &json_serialized) {
+    void BaseJsonType::EncodeObject(JsonSerialized &json_serialized)
+    {
         _jsonType = JsonType::JsonObject;
         JsonObject jsonObject;
         json_serialized.ToJson(jsonObject);

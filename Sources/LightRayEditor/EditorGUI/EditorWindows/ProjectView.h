@@ -5,7 +5,8 @@
 namespace LightRayEngine {
     class ProjectView : public EditorWindow, public IEngineDefaultEditorWindow {
     public:
-        void OnGui() override;
+            explicit ProjectView(EditorWindowManager *editorWindowManager);
+            void OnGui() override;
 
         static void Create();
 

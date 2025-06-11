@@ -1,7 +1,9 @@
 ﻿#pragma once
 
-namespace JsonLibrary {
-    enum class JsonLiterals {
+namespace JsonLibrary
+{
+    enum class JsonLiterals
+    {
         ObjectStart = 0,
         ObjectEnd = 1,
         String = 2,
@@ -16,24 +18,25 @@ namespace JsonLibrary {
         Max = 10
     };
 
-    class JsonLiteralsUtils {
-    public:
-        static bool IsJsonLiteral(char ch, JsonLiterals jsonLiteral);
+    class JsonLiteralsUtils
+    {
+        public:
+            static bool IsJsonLiteral(char ch, JsonLiterals jsonLiteral);
 
-        static char GetLiteral(JsonLiterals jsonLiteral);
+            static char GetLiteral(JsonLiterals jsonLiteral);
 
-    private:
-        static constexpr char k_objectStartLiteral = '{';
-        static constexpr char k_objectEndLiteral = '}';
-        static constexpr char k_stringLiteral = '\"';
-        static constexpr char k_arrayStartLiteral = '[';
-        static constexpr char k_arrayEndLiteral = ']';
-        static constexpr char k_fieldStartLiteral = ':';
-        static constexpr char k_commaLiteral = ',';
-        static constexpr char k_dotLiteral = '.';
-        static constexpr char k_spaceLiteral = ' ';
-        static constexpr char k_newLineLiteral = '\n';
+        private:
+            static constexpr char k_objectStartLiteral = '{';
+            static constexpr char k_objectEndLiteral = '}';
+            static constexpr char k_stringLiteral = '\"';
+            static constexpr char k_arrayStartLiteral = '[';
+            static constexpr char k_arrayEndLiteral = ']';
+            static constexpr char k_fieldStartLiteral = ':';
+            static constexpr char k_commaLiteral = ',';
+            static constexpr char k_dotLiteral = '.';
+            static constexpr char k_spaceLiteral = ' ';
+            static constexpr char k_newLineLiteral = '\n';
 
-        static char _literals[static_cast<int>(JsonLiterals::Max)];
+            static char _literals[static_cast<int>(JsonLiterals::Max)];
     };
 }

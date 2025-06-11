@@ -4,30 +4,30 @@
 #include "IJsonType.h"
 #include "JsonObjectData.h"
 
-namespace JsonLibrary {
+namespace JsonLibrary
+{
     class JsonSerialized;
+
     class JsonString;
 
-    class JsonObject : public IJsonType {
-    public:
-        JsonObject(const JsonObject &other) : _data(other._data) {}
+    class JsonObject : public IJsonType
+    {
+        public:
+            JsonObject(const JsonObject &other) : _data(other._data)
+            {}
 
-        JsonObject();
+            JsonObject();
+            std::string EncodeJsonType() const override;
+            bool TryDecodeJsonType(const std::string &json, int startIndex, int &endIndex) override;
+            bool Contains(const std::string &fieldName) const;
+            BaseJsonType &GetField(const std::string &fieldName);
+            void SetField(const std::string &fieldName, const BaseJsonType &value);
+            BaseJsonType &operator[](const std::string &fieldName);
 
-        std::string EncodeJsonType() const override;
+        private:
+            bool
+            TryDecodeJsonTypes(const std::string &json, int startIndex, int &endIndex, const JsonString &fieldName);
 
-        bool TryDecodeJsonType(const std::string &json, int startIndex, int &endIndex) override;
-
-        bool Contains(const std::string &fieldName) const;
-
-        BaseJsonType &GetField(const std::string &fieldName);
-        void SetField(const std::string &fieldName, const BaseJsonType& value);
-
-        BaseJsonType &operator[](const std::string &fieldName);
-
-    private:
-        bool TryDecodeJsonTypes(const std::string &json, int startIndex, int &endIndex, const JsonString &fieldName);
-
-        JsonObjectData _data;
+            JsonObjectData _data;
     };
 }

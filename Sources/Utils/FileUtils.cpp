@@ -7,12 +7,15 @@
 #include <sstream>
 #include <filesystem>
 
-namespace LightRayEngine {
-    bool FileUtils::TryLoadFile(const std::string &path, std::string &output) {
+namespace LightRayEngine
+{
+    bool FileUtils::TryLoadFile(const std::string &path, std::string &output)
+    {
         std::ifstream inputFileStream;
         inputFileStream.open(path);
 
-        if (!inputFileStream.is_open() || inputFileStream.fail()) {
+        if (!inputFileStream.is_open() || inputFileStream.fail())
+        {
             return false;
         }
 
@@ -24,11 +27,13 @@ namespace LightRayEngine {
         return true;
     }
 
-    bool FileUtils::TryLoadFile(const std::string &path, std::vector<char> &output, int &dataLength) {
+    bool FileUtils::TryLoadFile(const std::string &path, std::vector<char> &output, int &dataLength)
+    {
         std::ifstream inputFileStream;
         inputFileStream.open(path, std::ios::binary);
 
-        if (!inputFileStream.is_open() || inputFileStream.fail()) {
+        if (!inputFileStream.is_open() || inputFileStream.fail())
+        {
             return false;
         }
 
@@ -40,7 +45,8 @@ namespace LightRayEngine {
         inputFileStream.close();
 
         output.clear();
-        for (int i = 0; i < dataLength; ++i) {
+        for (int i = 0; i < dataLength; ++i)
+        {
             output.push_back(outputArray[i]);
         }
 
@@ -49,11 +55,13 @@ namespace LightRayEngine {
         return true;
     }
 
-    bool FileUtils::TrySaveFile(const std::string &path, const std::string &input) {
+    bool FileUtils::TrySaveFile(const std::string &path, const std::string &input)
+    {
         std::ofstream outputFileStream;
         outputFileStream.open(path, std::ios::trunc);
 
-        if (!outputFileStream.is_open() || outputFileStream.fail()) {
+        if (!outputFileStream.is_open() || outputFileStream.fail())
+        {
             return false;
         }
 
@@ -63,11 +71,13 @@ namespace LightRayEngine {
         return true;
     }
 
-    bool FileUtils::TrySaveFile(const std::string &path, const std::vector<char> &input, int dataLength) {
+    bool FileUtils::TrySaveFile(const std::string &path, const std::vector<char> &input, int dataLength)
+    {
         std::ofstream outputFileStream;
         outputFileStream.open(path, std::ios::trunc);
 
-        if (!outputFileStream.is_open() || outputFileStream.fail()) {
+        if (!outputFileStream.is_open() || outputFileStream.fail())
+        {
             return false;
         }
 
@@ -77,15 +87,18 @@ namespace LightRayEngine {
         return true;
     }
 
-    float FileUtils::GetLastFileChangeTime(const std::string &path) {
+    float FileUtils::GetLastFileChangeTime(const std::string &path)
+    {
         return 0;
     }
 
-    bool FileUtils::TryAppendFile(const std::string &path, const std::string &input) {
+    bool FileUtils::TryAppendFile(const std::string &path, const std::string &input)
+    {
         std::ofstream outputFileStream;
         outputFileStream.open(path, std::ios::app);
 
-        if (!outputFileStream.is_open() || outputFileStream.fail()) {
+        if (!outputFileStream.is_open() || outputFileStream.fail())
+        {
             return false;
         }
 
@@ -95,8 +108,10 @@ namespace LightRayEngine {
         return true;
     }
 
-    bool FileUtils::TryCreateFolder(const std::string &path, const std::string &folderName) {
-        if(!std::filesystem::exists(path)){
+    bool FileUtils::TryCreateFolder(const std::string &path, const std::string &folderName)
+    {
+        if (!std::filesystem::exists(path))
+        {
             return false;
         }
 

@@ -5,7 +5,8 @@
 namespace LightRayEngine {
     class ConsoleWindow : public EditorWindow, public IEngineDefaultEditorWindow {
     public:
-        static void Create();
+            explicit ConsoleWindow(EditorWindowManager *editorWindowManager);
+            static void Create();
 
         void OnGui() override;
 

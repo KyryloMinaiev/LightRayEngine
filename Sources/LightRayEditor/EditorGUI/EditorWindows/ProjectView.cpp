@@ -15,4 +15,7 @@ namespace LightRayEngine {
     std::string ProjectView::GetDefaultWindowName() {
         return "Project";
     }
+
+    ProjectView::ProjectView(EditorWindowManager *editorWindowManager) : EditorWindow(editorWindowManager)
+    {}
 }

@@ -5,8 +5,6 @@
 namespace LightRayEngine {
     SceneView::~SceneView() = default;
 
-    SceneView::SceneView() = default;
-
     void SceneView::Create() {
         auto window = EditorWindowManager::CreateEditorWindow<SceneView>("Scene View");
         window->width = 500;
@@ -86,4 +84,7 @@ namespace LightRayEngine {
     std::string SceneView::GetDefaultWindowName() {
         return "Scene";
     }
+
+    SceneView::SceneView(EditorWindowManager *editorWindowManager) : EditorWindow(editorWindowManager)
+    {}
 }

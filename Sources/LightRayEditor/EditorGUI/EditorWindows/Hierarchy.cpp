@@ -15,4 +15,7 @@ namespace LightRayEngine {
     std::string Hierarchy::GetDefaultWindowName() {
         return "Hierarchy";
     }
+
+    Hierarchy::Hierarchy(EditorWindowManager *editorWindowManager) : EditorWindow(editorWindowManager)
+    {}
 }

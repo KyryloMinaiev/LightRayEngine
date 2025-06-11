@@ -8,21 +8,33 @@
 #include "../EditorWindow.h"
 #include <functional>
 #include <string>
+#include "Generic/Delegates/Action.h"
 
-#define ProjectCreationCallback std::function<void(std::string, std::string)>
+namespace LightRayEngine
+{
+    class ProjectCreationCallbackAction : public Action<const std::string &, const std::string &>
+    {
+    };
 
-namespace LightRayEngine {
-    class ProjectCreatingWindow : public EditorWindow {
-    public:
-        static void Create(ProjectCreationCallback projectCreationCallback);
-        void OnGui() override;
-    private:
-        bool IsNameValid();
-        bool IsPathValid();
+    class ProjectPathCheckCallback : public Delegate<bool(const std::string &)>
+    {
+    };
 
-        ProjectCreationCallback m_projectCreationCallback;
-        std::string m_projectName;
-        std::string m_projectPath;
+    class ProjectCreatingWindow : public EditorWindow
+    {
+        public:
+            explicit ProjectCreatingWindow(EditorWindowManager *editorWindowManager);
+            static void Create(const ProjectCreationCallbackAction &projectCreationCallback,
+                               const ProjectPathCheckCallback &projectPathCheckCallback);
+            void OnGui() override;
+        private:
+            bool IsNameValid();
+            bool IsPathValid();
+
+            std::string m_projectName;
+            std::string m_projectPath;
+            ProjectCreationCallbackAction m_projectCreationCallback;
+            ProjectPathCheckCallback m_projectPathCheckCallback;
     };
 
 } // LightRayEngine

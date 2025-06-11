@@ -25,7 +25,7 @@ namespace LightRayEngine {
 
     std::vector<MenuItem> menuItems =
     {
-        MenuItem("File/Open Project...", ProjectWizardWindow::Create),
+        //MenuItem("File/Open Project...", ProjectWizardWindow::Create),
         MenuItem("File/Save Project", nullptr),
         MenuItem("Windows/Inspector", InspectorWindow::Create),
         MenuItem("Windows/Console", ConsoleWindow::Create),

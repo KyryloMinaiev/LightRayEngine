@@ -11,24 +11,22 @@
 
 namespace LightRayEngine {
     void ProjectWizardWindow::OnCreate() {
-        LoadLastProjects();
+        UpdateProjectsLastChangeTime();
     }
 
     void ProjectWizardWindow::OnGui() {
-        ImGui::ShowDemoWindow();
+        //ImGui::ShowDemoWindow();
+        UpdateProjectsLastChangeTime();
+
         ImGui::Text("Projects:");
         ImGui::SameLine();
         if(ImGui::Button("Add", ImVec2(100, 30))){
-            std::string selectedProjectPath;
-            NativeFileDialog::OpenFolderDialog("", selectedProjectPath);
-            ProjectManager::TryAddProjectByPath(selectedProjectPath);
-            LoadLastProjects();
+            m_windowData.OnProjectAddButtonClick.Invoke();
         }
 
         ImGui::SameLine();
         if(ImGui::Button("Create", ImVec2(100, 30))){
-            auto callback = std::bind(&ProjectWizardWindow::OnProjectCreated, this, std::placeholders::_1, std::placeholders::_2);
-            ProjectCreatingWindow::Create(callback);
+            m_windowData.OnCreateProjectButtonClick.Invoke();
         }
 
         for (const auto& project : m_lastProjectsPathList) {
@@ -38,18 +36,12 @@ namespace LightRayEngine {
             ImGui::Text(GetChangeTimeString(project.changeTime));
             ImGui::SameLine();
             if(ImGui::Button("Open", ImVec2(100, 30))){
-                if(!ProjectManager::TryOpenProjectByPath(project.path)){
-
-                } else{
-                    Close();
-                    return;
-                }
+                m_windowData.OnOpenProjectButtonClick.Invoke(project.path);
             }
 
             ImGui::SameLine();
             if(ImGui::Button("Remove", ImVec2(100, 30))){
-                ProjectManager::RemoveProjectFromList(project.path);
-                LoadLastProjects();
+                m_windowData.OnRemoveProjectButtonClick.Invoke(project.path);
             }
         }
 
@@ -58,24 +50,19 @@ namespace LightRayEngine {
         }
     }
 
-    void ProjectWizardWindow::Create() {
+    void ProjectWizardWindow::Create(const ProjectWizardWindowData& windowData) {
         auto window = EditorWindowManager::CreateEditorWindow<ProjectWizardWindow>("Project Wizard");
         window->width = 600;
         window->height = 400;
         window->resizable = false;
         window->canBeDocked = false;
+        window->m_windowData = windowData;
         ImGui::SetNextWindowFocus();
     }
 
-    void ProjectWizardWindow::LoadLastProjects() {
-        m_lastProjectsPathList = ProjectManager::GetSavedProjects();
+    void ProjectWizardWindow::UpdateProjectsLastChangeTime() {
         std::time_t now = std::time(nullptr);
         m_currentTime = SerializedTime(*std::localtime(&now));
-    }
-
-    void ProjectWizardWindow::OnProjectCreated(const std::string& projectName, const std::string& projectPath) {
-        ProjectManager::TryCreateProjectByPath(projectPath, projectName);
-        LoadLastProjects();
     }
 
     const char* ProjectWizardWindow::GetChangeTimeString(const SerializedTime &changeTime) {
@@ -83,7 +70,7 @@ namespace LightRayEngine {
             return "More than a year ago";
         }
 
-        if(m_currentTime.tm_mon - changeTime.tm_year > 1){
+        if(m_currentTime.tm_mon - changeTime.tm_mon > 1){
             return "Less than a year ago";
         }
 
@@ -101,4 +88,13 @@ namespace LightRayEngine {
 
         return "A moment ago";
     }
+
+    void ProjectWizardWindow::UpdateProjectList(const std::vector<ProjectData> &projectList)
+    {
+        m_lastProjectsPathList = projectList;
+    }
+
+    ProjectWizardWindow::ProjectWizardWindow(EditorWindowManager *editorWindowManager) : EditorWindow(
+            editorWindowManager)
+    {}
 }

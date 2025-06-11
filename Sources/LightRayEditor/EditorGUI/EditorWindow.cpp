@@ -6,6 +6,11 @@ namespace LightRayEngine {
     }
 
     void EditorWindow::Close() {
-        EditorWindowManager::CloseWindow(this);
+        m_editorWindowManager->CloseWindow(this);
+    }
+
+    EditorWindow::EditorWindow(EditorWindowManager *editorWindowManager) : m_editorWindowManager(editorWindowManager)
+    {
+
     }
 }

@@ -8,19 +8,23 @@
 #include <exception>
 #include <string>
 
-namespace JsonLibrary {
-    class JsonLibraryException : public std::exception {
-    public:
-        explicit JsonLibraryException (const std::string &message) : exception() {
-            m_message = message;
-        }
+namespace JsonLibrary
+{
+    class JsonLibraryException : public std::exception
+    {
+        public:
+            explicit JsonLibraryException(const std::string &message) : exception()
+            {
+                m_message = message;
+            }
 
-        [[nodiscard]] const char *what() const noexcept override {
-            return m_message.c_str();
-        }
+            [[nodiscard]] const char *what() const noexcept override
+            {
+                return m_message.c_str();
+            }
 
-    protected:
-        std::string m_message;
+        protected:
+            std::string m_message;
     };
 }
 

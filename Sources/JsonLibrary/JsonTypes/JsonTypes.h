@@ -2,8 +2,10 @@
 
 #include <string>
 
-namespace JsonLibrary {
-    enum class JsonType {
+namespace JsonLibrary
+{
+    enum class JsonType
+    {
         JsonFloat,
         JsonBool,
         JsonString,

@@ -15,4 +15,7 @@ namespace LightRayEngine {
     std::string ConsoleWindow::GetDefaultWindowName() {
         return "Console";
     }
+
+    ConsoleWindow::ConsoleWindow(EditorWindowManager *editorWindowManager) : EditorWindow(editorWindowManager)
+    {}
 }

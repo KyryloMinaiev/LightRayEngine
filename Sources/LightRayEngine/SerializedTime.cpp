@@ -32,4 +32,10 @@ namespace LightRayEngine {
     SerializedTime::SerializedTime(tm &other) : tm(other) {
 
     }
+
+    SerializedTime SerializedTime::Now()
+    {
+        std::time_t now = std::time(nullptr);
+        return SerializedTime(*std::localtime(&now));
+    }
 }

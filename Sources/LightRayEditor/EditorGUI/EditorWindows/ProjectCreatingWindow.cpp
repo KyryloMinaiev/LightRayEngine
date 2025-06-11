@@ -8,10 +8,11 @@
 #include <ImGUI.h>
 #include <misc/cpp/imgui_stdlib.h>
 #include "NativeFileDialog.h"
-#include <utility>
 
-namespace LightRayEngine {
-    void ProjectCreatingWindow::OnGui() {
+namespace LightRayEngine
+{
+    void ProjectCreatingWindow::OnGui()
+    {
         ImGui::Text("Project Name");
         ImGui::SameLine();
         ImGui::InputText("##projectName", &m_projectName);
@@ -19,45 +20,59 @@ namespace LightRayEngine {
         ImGui::SameLine();
         ImGui::InputText("##projectPath", &m_projectPath);
         ImGui::SameLine();
-        if (ImGui::Button("...", ImVec2(18, 18))) {
+        if (ImGui::Button("...", ImVec2(18, 18)))
+        {
             NativeFileDialog::OpenFolderDialog("", m_projectPath);
         }
 
         bool isDisabled = !(IsNameValid() && IsPathValid());
-        if (isDisabled) {
+        if (isDisabled)
+        {
             ImGui::BeginDisabled();
         }
-        if (ImGui::Button("Create", ImVec2(100, 30))) {
-            if (m_projectCreationCallback) {
-                m_projectCreationCallback(m_projectName, m_projectPath);
-                Close();
-            }
+
+        if (ImGui::Button("Create", ImVec2(100, 30)))
+        {
+            m_projectCreationCallback.Invoke(m_projectName, m_projectPath);
+            Close();
         }
-        if (isDisabled) {
+
+        if (isDisabled)
+        {
             ImGui::EndDisabled();
         }
 
         ImGui::SameLine();
-        if (ImGui::Button("Cancel", ImVec2(100, 30))) {
+        if (ImGui::Button("Cancel", ImVec2(100, 30)))
+        {
             Close();
         }
     }
 
-    void ProjectCreatingWindow::Create(ProjectCreationCallback projectCreationCallback) {
+    void ProjectCreatingWindow::Create(const ProjectCreationCallbackAction &projectCreationCallback,
+                                       const ProjectPathCheckCallback &projectPathCheckCallback)
+    {
         auto window = EditorWindowManager::CreateEditorWindow<ProjectCreatingWindow>("Create Project");
         window->width = 600;
         window->height = 400;
         window->resizable = false;
         window->canBeDocked = false;
-        window->m_projectCreationCallback = std::move(projectCreationCallback);
+        window->m_projectCreationCallback = projectCreationCallback;
+        window->m_projectPathCheckCallback = projectPathCheckCallback;
         ImGui::SetNextWindowFocus();
     }
 
-    bool ProjectCreatingWindow::IsNameValid() {
+    bool ProjectCreatingWindow::IsNameValid()
+    {
         return !m_projectName.empty();
     }
 
-    bool ProjectCreatingWindow::IsPathValid() {
-        return !m_projectPath.empty() && ProjectManager::ValidatePathForProjectCreating(m_projectPath);
+    bool ProjectCreatingWindow::IsPathValid()
+    {
+        return !m_projectPath.empty() && m_projectPathCheckCallback(m_projectPath);
     }
+
+    ProjectCreatingWindow::ProjectCreatingWindow(EditorWindowManager *editorWindowManager) : EditorWindow(
+            editorWindowManager)
+    {}
 } // LightRayEngine

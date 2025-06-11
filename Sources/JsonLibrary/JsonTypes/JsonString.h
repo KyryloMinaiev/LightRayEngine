@@ -3,24 +3,25 @@
 #include <string>
 #include "IJsonType.h"
 
-namespace JsonLibrary {
-    class JsonString : public IJsonType {
-    public:
-        JsonString() = default;
+namespace JsonLibrary
+{
+    class JsonString : public IJsonType
+    {
+        public:
+            JsonString() = default;
 
-        JsonString(std::string str) : _value(std::move(str)) {}
+            JsonString(std::string str) : _value(std::move(str))
+            {}
 
-        JsonString(const JsonString &other) : _value(other._value) {}
+            JsonString(const JsonString &other) : _value(other._value)
+            {}
 
-        bool TryDecodeJsonType(const std::string &json, int startIndex, int &endIndex) override;
+            bool TryDecodeJsonType(const std::string &json, int startIndex, int &endIndex) override;
+            std::string EncodeJsonType() const override;
+            std::string &GetStr();
+            operator std::string() const;
 
-        std::string EncodeJsonType() const override;
-
-        std::string &GetStr();
-
-        operator std::string() const;
-
-    private:
-        std::string _value;
+        private:
+            std::string _value;
     };
 }

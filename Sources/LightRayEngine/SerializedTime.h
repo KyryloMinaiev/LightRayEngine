@@ -12,6 +12,8 @@ namespace LightRayEngine {
     struct SerializedTime : public std::tm, JsonLibrary::JsonSerialized {
         SerializedTime() = default;
         SerializedTime(std::tm& other);
+        static SerializedTime Now();
+
         ~SerializedTime() override = default;
         void FromJson(JsonLibrary::JsonObject &jsonObject) override;
         void ToJson(JsonLibrary::JsonObject &jsonObject) override;

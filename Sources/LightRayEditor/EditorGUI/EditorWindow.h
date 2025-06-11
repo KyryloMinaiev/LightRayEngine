@@ -2,8 +2,12 @@
 
 #include <string>
 
-namespace LightRayEngine {
-    enum class WindowAnchor {
+namespace LightRayEngine
+{
+    class EditorWindowManager;
+
+    enum class WindowAnchor
+    {
         Center,
         TopCenter,
         BottomCenter,
@@ -15,29 +19,33 @@ namespace LightRayEngine {
         BottomRight
     };
 
-    class EditorWindow {
-    public:
-        virtual ~EditorWindow() = default;
+    class EditorWindow
+    {
+        public:
+            EditorWindow(EditorWindowManager* editorWindowManager);
+            virtual ~EditorWindow() = default;
 
-        virtual void OnCreate();
+            virtual void OnCreate();
 
-        virtual void OnGui() = 0;
+            virtual void OnGui() = 0;
 
-        float width = 0;
-        float height = 0;
+            float width = 0;
+            float height = 0;
 
-        int positionX = 0;
-        int positionY = 0;
+            int positionX = 0;
+            int positionY = 0;
 
-        bool canBeMoved = true;
-        bool canBeDocked = true;
-        bool resizable = true;
-        bool isDocked;
-        unsigned int dockId;
-        bool isFocused;
+            bool canBeMoved = true;
+            bool canBeDocked = true;
+            bool resizable = true;
+            bool isDocked;
+            unsigned int dockId;
+            bool isFocused;
 
-        std::string title;
+            std::string title;
 
-        void Close();
+            void Close();
+        private:
+            EditorWindowManager* m_editorWindowManager;
     };
 }

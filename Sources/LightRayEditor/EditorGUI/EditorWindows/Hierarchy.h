@@ -5,7 +5,8 @@
 namespace LightRayEngine {
     class Hierarchy : public EditorWindow, public IEngineDefaultEditorWindow {
     public:
-        void OnGui() override;
+            explicit Hierarchy(EditorWindowManager *editorWindowManager);
+            void OnGui() override;
 
         static void Create();
 

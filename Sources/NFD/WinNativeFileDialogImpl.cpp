@@ -4,45 +4,54 @@
 
 #include "WinNativeFileDialogImpl.h"
 
-namespace LightRayEngine {
+namespace LightRayEngine
+{
     WinNativeFileDialogImpl::~WinNativeFileDialogImpl() = default;
 
     bool WinNativeFileDialogImpl::OpenFileDialog(const std::string &filter, const std::string &defaultPath,
-                                                 std::string &outPath) {
+                                                 std::string &outPath)
+    {
         return OpenDialogWindow(filter, defaultPath, outPath);
     }
 
-    bool WinNativeFileDialogImpl::OpenFolderDialog(const std::string &defaultPath, std::string &outPath) {
+    bool WinNativeFileDialogImpl::OpenFolderDialog(const std::string &defaultPath, std::string &outPath)
+    {
         return OpenDialogWindow("", defaultPath, outPath, FOS_PICKFOLDERS);
     }
 
     bool
     WinNativeFileDialogImpl::OpenDialogWindow(const std::string &filter, const std::string &defaultPath,
-                                              std::string &outPath, DWORD options) {
+                                              std::string &outPath, DWORD options)
+    {
         //  CREATE FILE OBJECT INSTANCE
         HRESULT systemHR = CoInitializeEx(NULL, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE);
         if (FAILED(systemHR))
+        {
             return FALSE;
+        }
 
         // CREATE FileOpenDialog OBJECT
         IFileOpenDialog *fileOpenDialog;
         systemHR = CoCreateInstance(CLSID_FileOpenDialog, NULL, CLSCTX_ALL, IID_IFileOpenDialog,
                                     reinterpret_cast<void **>(&fileOpenDialog));
-        if (FAILED(systemHR)) {
+        if (FAILED(systemHR))
+        {
             CoUninitialize();
             return FALSE;
         }
 
         DWORD dwFlags;
         systemHR = fileOpenDialog->GetOptions(&dwFlags);
-        if (FAILED(systemHR)) {
+        if (FAILED(systemHR))
+        {
             fileOpenDialog->Release();
             CoUninitialize();
             return FALSE;
         }
 
         systemHR = fileOpenDialog->SetOptions(dwFlags | options);
-        if (FAILED(systemHR)) {
+        if (FAILED(systemHR))
+        {
             fileOpenDialog->Release();
             CoUninitialize();
             return FALSE;
@@ -50,7 +59,8 @@ namespace LightRayEngine {
 
         //  SHOW OPEN FILE DIALOG WINDOW
         systemHR = fileOpenDialog->Show(NULL);
-        if (FAILED(systemHR)) {
+        if (FAILED(systemHR))
+        {
             fileOpenDialog->Release();
             CoUninitialize();
             return FALSE;
@@ -59,7 +69,8 @@ namespace LightRayEngine {
         //  RETRIEVE FILE NAME FROM THE SELECTED ITEM
         IShellItem *files;
         systemHR = fileOpenDialog->GetResult(&files);
-        if (FAILED(systemHR)) {
+        if (FAILED(systemHR))
+        {
             fileOpenDialog->Release();
             CoUninitialize();
             return FALSE;
@@ -68,7 +79,8 @@ namespace LightRayEngine {
         //  STORE AND CONVERT THE FILE NAME
         PWSTR fileSystemPath;
         systemHR = files->GetDisplayName(SIGDN_FILESYSPATH, &fileSystemPath);
-        if (FAILED(systemHR)) {
+        if (FAILED(systemHR))
+        {
             files->Release();
             fileOpenDialog->Release();
             CoUninitialize();

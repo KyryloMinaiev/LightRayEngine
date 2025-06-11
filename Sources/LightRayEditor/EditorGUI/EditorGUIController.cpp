@@ -28,6 +28,7 @@ namespace LightRayEngine {
     void EditorGUIController::Render() {
         ImGui::Render();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+        m_editorWindowManager->FinalizeWindowDrawing();
     }
 
     EditorGUIController::~EditorGUIController() = default;

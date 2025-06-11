@@ -5,7 +5,8 @@
 namespace LightRayEngine {
     class InspectorWindow : public EditorWindow, public IEngineDefaultEditorWindow {
     public:
-        void OnGui() override;
+            explicit InspectorWindow(EditorWindowManager *editorWindowManager);
+            void OnGui() override;
 
         static void Create();
 

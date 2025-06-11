@@ -1,6 +1,7 @@
 ﻿#include "JsonLiteralsUtils.h"
 
-namespace JsonLibrary {
+namespace JsonLibrary
+{
     char JsonLiteralsUtils::_literals[static_cast<int>(JsonLiterals::Max)] =
             {
                     k_objectStartLiteral,
@@ -15,8 +16,10 @@ namespace JsonLibrary {
                     k_newLineLiteral
             };
 
-    bool JsonLiteralsUtils::IsJsonLiteral(char ch, JsonLiterals jsonLiteral) {
-        if (jsonLiteral >= JsonLiterals::Max) {
+    bool JsonLiteralsUtils::IsJsonLiteral(char ch, JsonLiterals jsonLiteral)
+    {
+        if (jsonLiteral >= JsonLiterals::Max)
+        {
             return false;
         }
 
@@ -24,8 +27,10 @@ namespace JsonLibrary {
         return literal == ch;
     }
 
-    char JsonLiteralsUtils::GetLiteral(JsonLiterals jsonLiteral) {
-        if (jsonLiteral >= JsonLiterals::Max) {
+    char JsonLiteralsUtils::GetLiteral(JsonLiterals jsonLiteral)
+    {
+        if (jsonLiteral >= JsonLiterals::Max)
+        {
             return -1;
         }
 

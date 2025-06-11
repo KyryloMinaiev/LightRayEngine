@@ -1,9 +1,10 @@
 #include <memory>
 #include "LightRayCore/Application.h"
 
-int main() {
+int main()
+{
     auto app = std::make_unique<LightRayEngine::Application>();
-    if(app->Open())
+    if (app->Open())
     {
         app->Run();
     }

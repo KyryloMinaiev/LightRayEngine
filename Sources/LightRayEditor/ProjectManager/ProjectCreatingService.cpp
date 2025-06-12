@@ -48,7 +48,7 @@ namespace LightRayEngine
             return false;
         }
 
-        return true;
+        return m_projectManager->TryAddProjectByPath(path);
     }
 
     bool ProjectCreatingService::ValidatePathForProjectCreating(const std::string &path)

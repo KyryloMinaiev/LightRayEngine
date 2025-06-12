@@ -12,19 +12,14 @@
 
 namespace LightRayEngine
 {
-    class ProjectCreationCallbackAction : public Action<const std::string &, const std::string &>
-    {
-    };
-
-    class ProjectPathCheckCallback : public Delegate<bool(const std::string &)>
-    {
-    };
+    using ProjectCreationCallbackAction = Action<const std::string &, const std::string &>;
+    using ProjectPathCheckCallback = Delegate<bool(const std::string &)>;
 
     class ProjectCreatingWindow : public EditorWindow
     {
         public:
             explicit ProjectCreatingWindow(EditorWindowManager *editorWindowManager);
-            static void Create(const ProjectCreationCallbackAction &projectCreationCallback,
+            static ProjectCreatingWindow* Create(const ProjectCreationCallbackAction &projectCreationCallback,
                                const ProjectPathCheckCallback &projectPathCheckCallback);
             void OnGui() override;
         private:

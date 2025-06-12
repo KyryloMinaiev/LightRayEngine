@@ -33,7 +33,7 @@ namespace LightRayEngine
 
         if (ImGui::Button("Create", ImVec2(100, 30)))
         {
-            m_projectCreationCallback.Invoke(m_projectName, m_projectPath);
+            m_projectCreationCallback.Invoke(m_projectPath, m_projectName);
             Close();
         }
 
@@ -49,7 +49,7 @@ namespace LightRayEngine
         }
     }
 
-    void ProjectCreatingWindow::Create(const ProjectCreationCallbackAction &projectCreationCallback,
+    ProjectCreatingWindow* ProjectCreatingWindow::Create(const ProjectCreationCallbackAction &projectCreationCallback,
                                        const ProjectPathCheckCallback &projectPathCheckCallback)
     {
         auto window = EditorWindowManager::CreateEditorWindow<ProjectCreatingWindow>("Create Project");
@@ -61,6 +61,8 @@ namespace LightRayEngine
         window->m_projectPathCheckCallback = projectPathCheckCallback;
         window->saveWindowData = false;
         ImGui::SetNextWindowFocus();
+
+        return window;
     }
 
     bool ProjectCreatingWindow::IsNameValid()

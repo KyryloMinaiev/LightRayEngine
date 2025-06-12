@@ -16,9 +16,8 @@ namespace LightRayEngine
         public:
             explicit ProjectCreatingService(ProjectManager* projectManager);
             bool TryCreateProjectByPath(const std::string &path, const std::string &projectName);
-        private:
             bool ValidatePathForProjectCreating(const std::string &path);
-
+        private:
             ProjectManager* m_projectManager;
             std::string CombinePath(const std::string &path1, const std::string &path2);
     };

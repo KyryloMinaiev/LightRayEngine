@@ -7,11 +7,13 @@
 #include "EditorGUI/EditorWindows/ProjectWizardWindow.h"
 #include "EditorGUI/EditorWindows/ProjectCreatingWindow.h"
 #include "NativeFileDialog.h"
+#include "ProjectCreatingService.h"
 
 namespace LightRayEngine
 {
     OpenProjectSequence::OpenProjectSequence(ProjectManager *projectManager)
-            : m_projectManager(projectManager), m_projectWizardWindow(nullptr)
+            : m_projectManager(projectManager), m_projectWizardWindow(nullptr), m_projectCreatingWindow(nullptr),
+              m_projectCreatingService(projectManager)
     {
 
     }
@@ -35,32 +37,54 @@ namespace LightRayEngine
         std::string selectedProjectPath;
         NativeFileDialog::OpenFolderDialog("", selectedProjectPath);
         m_projectManager->TryAddProjectByPath(selectedProjectPath);
-        m_projectWizardWindow->UpdateProjectList(m_projectManager->GetSavedProjects());
+        ReloadProjectWizardWindow();
     }
 
     void OpenProjectSequence::OpenProjectWizardWindow()
     {
         m_projectWizardWindow = ProjectWizardWindow::Create({
-                                            CreateAction(this, &OpenProjectSequence::OnAddProjectButtonPressed),
-                                            CreateAction(this, &OpenProjectSequence::OnOpenProjectButtonPressed),
-                                            CreateAction(this, &OpenProjectSequence::OnRemovedProjectButtonPressed),
-                                            CreateAction(this, &OpenProjectSequence::OpenProjectCreatingWindow),
-                                    });
-        m_projectWizardWindow->UpdateProjectList(m_projectManager->GetSavedProjects());
+                                                                    CreateAction(this,
+                                                                                 &OpenProjectSequence::OnAddProjectButtonPressed),
+                                                                    CreateAction(this,
+                                                                                 &OpenProjectSequence::OnOpenProjectButtonPressed),
+                                                                    CreateAction(this,
+                                                                                 &OpenProjectSequence::OnRemovedProjectButtonPressed),
+                                                                    CreateAction(this,
+                                                                                 &OpenProjectSequence::OpenProjectCreatingWindow),
+                                                            });
+        ReloadProjectWizardWindow();
     }
 
     void OpenProjectSequence::OpenProjectCreatingWindow()
     {
-
+        m_projectCreatingWindow = ProjectCreatingWindow::Create(
+                CreateAction(this, &OpenProjectSequence::OnCreateProjectButtonPressed),
+                CreateDelegate(&m_projectCreatingService, &ProjectCreatingService::ValidatePathForProjectCreating));
     }
 
     void OpenProjectSequence::OnOpenProjectButtonPressed(const std::string &path)
     {
-
+        m_projectWizardWindow->Close();
     }
 
     void OpenProjectSequence::OnRemovedProjectButtonPressed(const std::string &path)
     {
+        m_projectManager->RemoveProjectFromList(path);
+        ReloadProjectWizardWindow();
+    }
 
+    void OpenProjectSequence::ReloadProjectWizardWindow()
+    {
+        m_projectWizardWindow->UpdateProjectList(m_projectManager->GetSavedProjects());
+    }
+
+    void OpenProjectSequence::OnCreateProjectButtonPressed(const std::string &path, const std::string &name)
+    {
+        if (m_projectCreatingService.TryCreateProjectByPath(path, name))
+        {
+            m_projectCreatingWindow->Close();
+            ReloadProjectWizardWindow();
+            return;
+        }
     }
 }

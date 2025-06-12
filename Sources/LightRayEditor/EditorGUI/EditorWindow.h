@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include <string>
+#include <limits>
 
 namespace LightRayEngine
 {
@@ -31,6 +32,11 @@ namespace LightRayEngine
 
             float width = 0;
             float height = 0;
+
+            float minWidth = 0;
+            float minHeight = 0;
+            float maxWidth = std::numeric_limits<float>::max();
+            float maxHeight = std::numeric_limits<float>::max();
 
             int positionX = 0;
             int positionY = 0;

@@ -1,6 +1,7 @@
 ﻿#include "EditorWindowManager.h"
 
 #include <imgui.h>
+#include <algorithm>
 #include "EditorWindows/AvailableWindows.h"
 
 namespace LightRayEngine
@@ -41,6 +42,10 @@ namespace LightRayEngine
         if (!window->resizable)
         {
             windowFlags |= ImGuiWindowFlags_NoResize;
+        }
+        else
+        {
+            ImGui::SetNextWindowSizeConstraints(ImVec2(window->minWidth, window->minHeight), ImVec2(window->maxWidth, window->maxHeight));
         }
 
         if (!window->canBeDocked)

@@ -26,7 +26,7 @@ namespace LightRayEngine
             void Update();
             void Stop();
         private:
-            void OnProjectOpened(bool success, const std::string& path);
+            void OnProjectOpened(bool success, const std::string &path);
 
             std::unique_ptr<EditorGUIController> m_editorGuiController;
             std::unique_ptr<ProjectManager> m_projectManager;

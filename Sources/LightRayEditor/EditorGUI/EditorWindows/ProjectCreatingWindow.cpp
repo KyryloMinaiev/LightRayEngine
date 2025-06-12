@@ -59,6 +59,7 @@ namespace LightRayEngine
         window->canBeDocked = false;
         window->m_projectCreationCallback = projectCreationCallback;
         window->m_projectPathCheckCallback = projectPathCheckCallback;
+        window->saveWindowData = false;
         ImGui::SetNextWindowFocus();
     }
 

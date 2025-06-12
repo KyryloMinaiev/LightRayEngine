@@ -41,6 +41,7 @@ namespace LightRayEngine
             bool isDocked;
             unsigned int dockId;
             bool isFocused;
+            bool saveWindowData = true;
 
             std::string title;
 

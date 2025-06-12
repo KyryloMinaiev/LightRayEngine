@@ -7,18 +7,22 @@
 
 #include "EditorConfigurationSettings/EditorConfigurationSettingsUtils.h"
 
-namespace LightRayEngine {
-    class EditorLoopSystem {
+namespace LightRayEngine
+{
+    class EditorLoopSystem
+    {
         public:
-            EditorLoopSystem(){
+            EditorLoopSystem()
+            {
                 configurationSettings = EditorConfigurationSettingsUtils::GetSettings();
             };
 
-            virtual void OnLoopStop() {}
+            virtual void OnLoopStop()
+            {}
 
             virtual ~EditorLoopSystem() = default;
         protected:
-            EditorConfigurationSettings* configurationSettings;
+            EditorConfigurationSettings *configurationSettings;
     };
 }
 

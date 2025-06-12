@@ -11,7 +11,7 @@
 namespace LightRayEngine
 {
     OpenProjectSequence::OpenProjectSequence(ProjectManager *projectManager)
-            : m_projectManager(projectManager)
+            : m_projectManager(projectManager), m_projectWizardWindow(nullptr)
     {
 
     }
@@ -40,12 +40,13 @@ namespace LightRayEngine
 
     void OpenProjectSequence::OpenProjectWizardWindow()
     {
-        ProjectWizardWindow::Create({
+        m_projectWizardWindow = ProjectWizardWindow::Create({
                                             CreateAction(this, &OpenProjectSequence::OnAddProjectButtonPressed),
                                             CreateAction(this, &OpenProjectSequence::OnOpenProjectButtonPressed),
                                             CreateAction(this, &OpenProjectSequence::OnRemovedProjectButtonPressed),
                                             CreateAction(this, &OpenProjectSequence::OpenProjectCreatingWindow),
                                     });
+        m_projectWizardWindow->UpdateProjectList(m_projectManager->GetSavedProjects());
     }
 
     void OpenProjectSequence::OpenProjectCreatingWindow()

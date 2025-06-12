@@ -20,7 +20,7 @@ namespace LightRayEngine
         {
             EditorWindow *windowPtr = editorWindowData.windowPtr.get();
 
-            if (editorWindowData.isInitialized)
+            if (!editorWindowData.isInitialized)
             {
                 InitializeEditorWindow(windowPtr);
                 editorWindowData.isInitialized = true;
@@ -32,7 +32,7 @@ namespace LightRayEngine
 
     void EditorWindowManager::DrawEditorWindow(EditorWindow *window) const
     {
-        int windowFlags = ImGuiWindowFlags_NoCollapse;// | ImGuiWindowFlags_NoSavedSettings;
+        int windowFlags = ImGuiWindowFlags_NoCollapse;
         if (!window->canBeMoved)
         {
             windowFlags |= ImGuiWindowFlags_NoMove;
@@ -46,6 +46,11 @@ namespace LightRayEngine
         if (!window->canBeDocked)
         {
             windowFlags |= ImGuiWindowFlags_NoDocking;
+        }
+
+        if (!window->saveWindowData)
+        {
+            windowFlags |= ImGuiWindowFlags_NoSavedSettings;
         }
 
         if (!ImGui::Begin(window->title.c_str(), nullptr, windowFlags))
@@ -101,7 +106,8 @@ namespace LightRayEngine
 
     void EditorWindowManager::InitializeEditorWindow(EditorWindow *window) const
     {
-
+        ImGui::SetNextWindowSize(ImVec2(window->width, window->height), ImGuiCond_FirstUseEver);
+        ImGui::SetNextWindowPos(ImVec2(window->positionX, window->positionY), ImGuiCond_FirstUseEver);
     }
 
     void EditorWindowManager::ConstructDefaultEditorWindows()

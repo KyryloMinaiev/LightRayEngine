@@ -26,8 +26,8 @@ namespace LightRayEngine
             explicit ProjectWizardWindow(EditorWindowManager *editorWindowManager);
             void OnCreate() override;
             void OnGui() override;
-            void UpdateProjectList(const std::vector<ProjectData>& projectList);
-            static void Create(const ProjectWizardWindowData& windowData);
+            void UpdateProjectList(std::vector<ProjectData> projectList);
+            static ProjectWizardWindow* Create(const ProjectWizardWindowData& windowData);
         private:
             void UpdateProjectsLastChangeTime();
             const char *GetChangeTimeString(const SerializedTime &changeTime);
